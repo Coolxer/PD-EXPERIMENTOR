@@ -21,6 +21,8 @@ Najważniejsze cechy środowiska:
 - pełna automatyzacja procesu badawczego
 - prosta obsługa
 
+System pozwala m.in. na porównanie zbieżności poszczególnych metod iteracyjnych względem badanego układu równań. Możliwość generowania szerokiego spektrum macierzy wejściowych, a co za tym idzie układów, pozwala na przetestowanie skuteczności metod względem różnych typów macierzy wejściowych.
+
 ---
 
 ## Wymagania
@@ -152,7 +154,7 @@ Wyniki można podzielić na tekstowe i graficzne.
 W przypadku wyników tekstowych powstaje folder ***txt***, a wewnątrz niego tworzone są następujące elementy:
 - plik ***iterations.txt*** zawierający liczbę wykonanych iteracji przez poszczególne metody niezbędnych do rozwiązania danego układu
 - plik ***times.txt*** zawierający czas obliczeń poszczególnych metod
-- katalog ***solution*** wewnątrz, którego zostały utworzone pliki tekstowe zawierające wektor rozwiązań układu, osobno dla każdej z metod
+- katalog ***solution*** wewnątrz, którego zostały utworzone pliki tekstowe zawierające wektor rozwiązań układu, osobno dla każdej z metod (jacobi.txt, gauss_seidel.txt, sor.txt)
 
 W przypadku wyników graficznych powstaje folder ***img***, a wewnątrz niego tworzone są następujące elementy:
 - ***iterations.png*** - wykres porównujący liczbę wykonanych iteracji przez poszczególne metody dla danego układu
@@ -161,7 +163,5 @@ W przypadku wyników graficznych powstaje folder ***img***, a wewnątrz niego tw
 ---
 
 ## Dodatkowe informacje
-
-System pozwala m.in. na porównanie zbieżności poszczególnych metod iteracyjnych względem badanego układu równań. Możliwość generowania szerokiego spektrum macierzy wejściowych, a co za tym idzie układów, pozwala na przetestowanie skuteczności metod względem różnych typów macierzy wejściowych.
 
 W przypadku metody SOR badane jest kilka wartości parametru relaksacji, a wynik biorący udział w porównaniu z metodą Jacobiego i metodą Gaussa-Seidela jest najlepszym wynikiem uzyskanym przy pomocy metody SOR. Przyjęto najlepszy rezultat (zamiast najgorszego lub średniej), ponieważ pozostałe metody również dążą do najlepszego rezultatu.
