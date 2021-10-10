@@ -15,7 +15,7 @@
 
 Najważniejsze cechy środowiska:
 - umożliwia generowanie różnego typu macierzy i wektorów o różnej wielkości
-- automatycznie rozwiązuje układ równań kilkoma metodami iteracyjnymi
+- automatycznie rozwiązuje układ równań stacjonarnymi metodami iteracyjnymi
 - tworzy pliki wynikowe w postaci tekstowej
 - tworzy wykresy graficzne porównujące zbieżność według wskaźnika liczby wykonanych iteracji i czasu obliczeń
 - pełna automatyzacja procesu badawczego
@@ -124,7 +124,7 @@ Dla podanego przykładu wewnątrz katalogu ***exp_results*** powstał katalog **
 
 #### Konfiguracja
 
-Odpowiednia macierz zostanie wygenerowana, a wektor wyrazów wolnych, o ile już nie istnieje (plik może istnieć w katalogu ***exp_results*** o nazwie ***b_[matrix_size]***). Wektor wyrazów wolnych może być dzielony pomiędzy różne eksperymenty, w celu zbadania innych zależności. Wszelkie dane konfiguracyjne zostaną zapisane wewnątrz katalogu doświadczenia, ale w specjalnie przygotowanym katalogu config, czyli:
+Odpowiednia macierz zostanie wygenerowana, a wektor wyrazów wolnych, o ile nie istnieje (plik może istnieć w katalogu ***exp_results*** o nazwie ***b_[matrix_size]***). Wektor wyrazów wolnych może być dzielony pomiędzy różne eksperymenty, w celu zbadania innych zależności. Wszelkie dane konfiguracyjne zostaną zapisane wewnątrz katalogu doświadczenia, ale w specjalnie przygotowanym katalogu config, czyli:
 
 ```console
       experimentor/exp_results/[matrix_type]/[name]/config
@@ -158,4 +158,10 @@ W przypadku wyników graficznych powstaje folder ***img***, a wewnątrz niego tw
 - ***iterations.png*** - wykres porównujący liczbę wykonanych iteracji przez poszczególne metody dla danego układu
 - ***times.png*** - wykres porównujący czas obliczeń poszczególnych metod dla danego układu
 
+---
 
+## Dodatkowe informacje
+
+System pozwala m.in. na porównanie zbieżności poszczególnych metod iteracyjnych względem badanego układu równań. Możliwość generowania szerokiego spektrum macierzy wejściowych, a co za tym idzie układów, pozwala na przetestowanie skuteczności metod względem różnych typów macierzy wejściowych.
+
+W przypadku metody SOR badane jest kilka wartości parametru relaksacji, a wynik biorący udział w porównaniu z metodą Jacobiego i metodą Gaussa-Seidela jest najlepszym wynikiem uzyskanym przy pomocy metody SOR. Przyjęto najlepszy rezultat (zamiast najgorszego lub średniej), ponieważ pozostałe metody również dążą do najlepszego rezultatu.
