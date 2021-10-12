@@ -34,6 +34,6 @@ def get_matrix(matrix_type, n):
     elif matrix_type == "upper_triangular":
         A = upper_triangular_matrix(n)
     elif matrix_type == "external":
-        A = external_matrix(file)
+        A = external_matrix()
 
     return A

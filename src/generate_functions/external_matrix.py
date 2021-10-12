@@ -6,8 +6,7 @@ from .diagonal_amplifier import strengthen_diagonal
 
 # metoda służy do wykorzystania macierzy rzadkiej pobranej z kolekcji https://sparse.tamu.edu/
 # macierz jest dodatkowo wzmocniona, aby warunek zbieżności konieczny dla przybliżonych metod stacjonarnych był spełniony
-def external_matrix(file):
-
+def external_matrix():
     file = askopenfilename(
         filetypes=(("Matlab files", "mat"),),
         title="Wybierz macierz pobraną z kolekcji macierzy rzadkich",
