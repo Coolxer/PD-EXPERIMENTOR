@@ -26,25 +26,20 @@ from ..equiter.src.sor.method import sor
 def experiment(name, matrix_type, matrix_size):
     # ############################################### SEKCJA KONFIGURACJI ##########################################
 
-    # generalne informacje (podawane przez użytkownika)
-    LAB_NAME = name  # nazwa eksperymentu i katalogu wynikowego
-    MATRIX_TYPE = matrix_type  # typ wykorzystywanej macierzy wejściowej
-    MATRIX_SIZE = matrix_size  # rozmiar macierzy wejściowej
-
     # uzyskanie katalogu wykonawczego
     DIR = os.path.dirname(os.path.dirname(__file__))
 
     # układ równań (generowany lub pobrany z zewnątrz)
 
     # macierz wejściowa układu
-    A = get_matrix(MATRIX_TYPE, MATRIX_SIZE)
+    A = get_matrix(matrix_type, matrix_size)
 
     # ustawienie wektora wyrazów wolnych
     b = None
-    b_file = f"{DIR}/exp_results/b_{MATRIX_SIZE}.txt"
+    b_file = f"{DIR}/exp_results/b_{matrix_size}.txt"
 
     if not os.path.exists(b_file):
-        b = random_vector(MATRIX_SIZE)
+        b = random_vector(matrix_size)
     else:
         b = np.loadtxt(b_file, dtype=float)
 
@@ -56,12 +51,12 @@ def experiment(name, matrix_type, matrix_size):
     # ############################################ SEKCJA TWORZENIA KATALOGÓW ######################################
 
     # stworzenie katalogu głównego dla danego typu macierzy
-    main_dir = f"{DIR}/exp_results/{MATRIX_TYPE}"
+    main_dir = f"{DIR}/exp_results/{matrix_type}"
     if not os.path.exists(main_dir):
         os.mkdir(main_dir)
 
     # stworzenie katalogu głównego dla konkretnego badania
-    dir = f"{DIR}/exp_results/{MATRIX_TYPE}/{LAB_NAME}"
+    dir = f"{DIR}/exp_results/{matrix_type}/{name}"
     if os.path.exists(dir):
         shutil.rmtree(dir)
     os.mkdir(dir)
@@ -94,7 +89,7 @@ def experiment(name, matrix_type, matrix_size):
     saveNormalDataToFile(
         config_dir,
         "general",
-        f"name = {LAB_NAME}\ntype = {MATRIX_TYPE}\nsize = {MATRIX_SIZE}",
+        f"name = {name}\ntype = {matrix_type}\nsize = {matrix_size}",
     )
 
     # ################################################ SEKCJA ROZWIĄZYWANIA ########################################

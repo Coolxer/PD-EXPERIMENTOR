@@ -1,3 +1,0 @@
-name = 1000x1000
-type = random
-size = 1000
