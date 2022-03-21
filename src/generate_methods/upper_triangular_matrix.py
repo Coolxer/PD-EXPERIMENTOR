@@ -5,7 +5,7 @@
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
-# Import niezbędnych zależności
+# Import zależności
 import numpy as np
 from .random_matrix import random_matrix
 
@@ -13,19 +13,19 @@ from .random_matrix import random_matrix
 
 """
     Wejście:
-        - n - rozmiar macierzy (liczba wierszy / kolumn)
+        - size (int) - rozmiar macierzy (liczba wierszy / kolumn)
 
     Wyjście:
-        - m - macierz górnotrójkątna
+        - matrix (np.array) - macierz górnotrójkątna
 """
 
 
-def upper_triangular_matrix(n):
+def upper_triangular_matrix(size: int) -> np.array:
     # Wygenerowanie losowej macierzy kwadratowej o rozmiarze 'n x n'
-    m = random_matrix(n)
+    matrix = random_matrix(size)
 
     # Utworzenie macierzy górnotrójkątnej na podstawie wcześniej wygenerowanej macierzy
-    m = np.triu(m)
+    matrix = np.triu(matrix)
 
     # Zwrócenie macierzy górnotrójkątnej
-    return m
+    return matrix

@@ -5,28 +5,42 @@
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
-# Import niezbędnych zależności
+# Import zależności
+import imp
+from typing import NoReturn
 import matplotlib.pyplot as plt
 
-
-# Metoda rysuje wykres porównujący zbieżność metod na podstawie liczby iteracji / czasu (indicator)
+# Metoda rysuje wykres porównujący zbieżność metod na podstawie liczby iteracji / czasu
 
 """
     Wejście:
-        - path - ścieżka zapisu
-        - title - tytuł wyświetlanego wykresu
-        - indicator - oznaczenie osi y
-        - indicator_en - nazwa pliku wykresu
-        - jacobi - wyniki doświadczeń metodą Jacobiego
-        - gauss_seidel - wyniki doświadczeń metodą Gaussa-Seidela
-        - sor - wyniki doświadczeń metodą SOR
-        - show_signatures [default = False] - ewentualne wyświetlanie wartości poszczególnych kolumn
+        - dir (str) - katalog zapisu wykresu
+        - name (str) - nazwa pliku wykresu
+        - title (str) - tytuł wyświetlanego wykresu
+        - indicator (str) - oznaczenie osi y (czas / liczba iteracji)
+
+        - jacobi (float) - wyniki doświadczeń metodą Jacobiego
+        - gauss_seidel (float) - wyniki doświadczeń metodą Gaussa-Seidela
+        - sor (float) - wyniki doświadczeń metodą SOR
+
+        - show_signatures (bool) [default = True] - ewentualne wyświetlanie wartości poszczególnych kolumn
 """
 
+from .matrix import types
 
-def draw(path, title, indicator, indicator_en, jacobi, gauss_seidel, sor, show_signatures=False):
 
-    # Utworzenie tablic metod i ich rezultatów
+def draw_chart(
+    dir: str,
+    name: str,
+    title: str,
+    indicator: str,
+    jacobi: float,
+    gauss_seidel: float,
+    sor: float,
+    show_signatures: bool = True,
+) -> NoReturn:
+
+    # Utworzenie tablic nazw metod i ich rezultatów
     methods = ["Jacobi", "Gauss-Seidel", "SOR"]
     results = [jacobi, gauss_seidel, sor]
 
@@ -43,11 +57,11 @@ def draw(path, title, indicator, indicator_en, jacobi, gauss_seidel, sor, show_s
     bars[1].set_color("#7DC481")
     bars[2].set_color("#2C84C7")
 
-    # Jeśli użytkownik chce pokazać sygnatury wartośći poszczególnych kolumn
+    # Jeśli użytkownik chce pokazać sygnatury wartości poszczególnych kolumn
     if show_signatures:
         # Pętla dla każdego z wyników, w której ustawiane są sygnatury wartości
         for i in range(3):
             plt.text(i, results[i], results[i], fontsize="10", ha="center", va="bottom")
 
     # Zapisanie pliku wykresu pod wskazanym adresem
-    plt.savefig(f"{path}/{indicator_en}.png")
+    plt.savefig(f"{dir}/{name}.png")

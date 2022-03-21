@@ -5,7 +5,7 @@
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
-# Import niezbędnych zależności
+# Import zależności
 import numpy as np
 from .diagonal_amplifier import strengthen_diagonal
 
@@ -14,19 +14,19 @@ from .diagonal_amplifier import strengthen_diagonal
 
 """
     Wejście:
-        - n - rozmiar macierzy (liczba wierszy / kolumn)
+        - size (int) - rozmiar macierzy (liczba wierszy / kolumn)
 
     Wyjście:
-        - m - macierz losowa
+        - matrix (np.array) - macierz losowa
 """
 
 
-def random_matrix(n):
+def random_matrix(size: int) -> np.array:
     # Wygenerowanie losowej macierzy kwadratowej o rozmiarze 'n x n'
-    m = np.random.rand(n, n)
+    matrix = np.random.rand(size, size)
 
     # Wzmocnienie głównej przekątnej macierzy
-    m = strengthen_diagonal(m, 0.1)
+    matrix = strengthen_diagonal(matrix, 0.1)
 
-    # Zwrócenie macierzy o losowych wartościach elementów
-    return m
+    # Zwrócenie macierzy o losowych wartościach
+    return matrix

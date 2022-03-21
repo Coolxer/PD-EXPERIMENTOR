@@ -1,25 +1,24 @@
 # PD-EXPERIMENTOR
 
-Środowisko badawcze przybliżonych metod stacjonarnych rozwiązywania układów równań liniowych wykorzystujące bibliotekę [equiter](https://github.com/Coolxer/PD-EQUITER-LIBRARY).
+## Środowisko badawcze przybliżonych metod stacjonarnych rozwiązywania układów równań liniowych wykorzystujące bibliotekę [equiter](https://github.com/Coolxer/PD-EQUITER-LIBRARY).
+
+_Realizacja w ramach pracy dyplomowej "Analiza i realizacja wybranych algorytmów przybliżonego rozwiązywania układów równań liniowych" KRK/13/4028_
+
+**\*Autor:** Łukasz Miłoś 161883\*
+
 ---
 
-*Realizacja w ramach pracy dyplomowej "Analiza i realizacja wybranych algorytmów przybliżonego rozwiązywania układów równań liniowych" KRK/13/4028*
+## Zawartość
 
-***Autor:** Łukasz Miłoś 161883*
-
----
- 
-## Zawartość 
-
-Środowisko badwacze powstało w celu przetestowania biblioteki [equiter](https://github.com/Coolxer/PD-EQUITER-LIBRARY).
+Środowisko badawcze powstało w celu przetestowania biblioteki [equiter](https://github.com/Coolxer/PD-EQUITER-LIBRARY).
 
 Najważniejsze cechy środowiska:
+
 - umożliwia generowanie różnego typu macierzy i wektorów o różnej wielkości
 - automatycznie rozwiązuje układ równań stacjonarnymi metodami iteracyjnymi
 - tworzy pliki wynikowe w postaci tekstowej
 - tworzy wykresy graficzne porównujące zbieżność według wskaźnika liczby wykonanych iteracji i czasu obliczeń
-- pełna automatyzacja procesu badawczego
-- prosta obsługa
+- zapewnia pełną automatyzację procesu badawczego i prostą obsługę
 
 System pozwala m.in. na porównanie zbieżności poszczególnych metod iteracyjnych względem badanego układu równań. Możliwość generowania szerokiego spektrum macierzy wejściowych, a co za tym idzie układów, pozwala na przetestowanie skuteczności metod względem różnych typów macierzy wejściowych.
 
@@ -28,7 +27,8 @@ System pozwala m.in. na porównanie zbieżności poszczególnych metod iteracyjn
 ## Wymagania
 
 Oprócz samej biblioteki niezbędne są dodatkowe narzędzia:
-- interpreter [Python](https://www.python.org/downloads/) (zalecana wersja 3.*)
+
+- interpreter [Python](https://www.python.org/downloads/) (zalecana wersja 3.\*)
 - biblioteka [NumPy](https://numpy.org/install/) (niekiedy instalowana razem z Python'em)
 - biblioteka [SciPy](https://www.scipy.org/install.html)
 - biblioteka [tkinter](https://docs.python.org/3/library/tkinter.html) (zazwyczaj instalowana razem z interpreterem, o ile nie odznaczono tej opcji podczas instalacji)
@@ -42,20 +42,22 @@ Oprócz samej biblioteki niezbędne są dodatkowe narzędzia:
 Repozytorium należy pobrać przy pomocy systemu kontroli wersji [git](https://git-scm.com/) albo "ręcznie" w formacie .zip, a następnie wypakować.
 
 Repozytorium zawiera podmoduł o nazwie [PD-EQUITER-LIBRARY](https://github.com/Coolxer/PD-EQUITER-LIBRARY) stanowiący bibliotekę implementującą metody iteracyjne. W związku z tym proces pobierania środowiska badawczego jest nieco bardziej skomplikowany:
+
 - w przypadku korzystania z systemu kontroli wersji git należy pobrać również zależności dotyczące podmodułu. W tym celu do polecenia git clone należy dodać argument --recurse-submodules, tak jak poniżej
+
 ```console
 git clone --recurse-submodules https://github.com/Coolxer/PD-EXPERIMENTOR
 ```
 
 - w przypadku "ręcznego" pobierania środowiska katalog PD-EQUITER-LIBRARY zawierający podmoduł będzie pusty. Należy zatem pobrać ten podmoduł samodzielnie [tutaj](https://github.com/Coolxer/PD-EQUITER-LIBRARY), a następnie przenieść go do tego katalogu.
 
-***UWAGA:*** Warto zmienić nazwę katalogu PD-EQUITER-LIBRARY na ***equiter***. Jest to zalecane podejście ze względu na prostotę i możliwość podążania za tym samouczkiem.
+**_UWAGA:_** Warto zmienić nazwę katalogu PD-EQUITER-LIBRARY na **_equiter_**. Jest to zalecane podejście ze względu na prostotę i możliwość podążania za tym samouczkiem.
 
-***UWAGA:*** Środowisko badawcze powinno być podkatalogiem bieżącego projektu, a więc skrypty wykorzystujące środowisko powinny być wyżej w hierarchii katalogów. Innymi słowy nie należy umieszczać własnych skryptów wewnątrz katalogu środowiska!
+**_UWAGA:_** Środowisko badawcze powinno być podkatalogiem bieżącego projektu, a więc skrypty wykorzystujące środowisko powinny być wyżej w hierarchii katalogów. Innymi słowy nie należy umieszczać własnych skryptów wewnątrz katalogu środowiska!
 
-***UWAGA:*** Po ściągnięciu środowiska zalecana jest zmiana nazwy głównego katalogu na ***experimentor*** Jest to skrótowa nazwa ułatwiająca korzystanie z biblioteki. Jeśli chcesz podążać dalej za poradnikiem zmiana nazwy jest niezbędna!
+**_UWAGA:_** Po ściągnięciu środowiska zalecana jest zmiana nazwy głównego katalogu na **_experimentor_** Jest to skrótowa nazwa ułatwiająca korzystanie z biblioteki. Jeśli chcesz podążać dalej za poradnikiem zmiana nazwy jest niezbędna!
 
-Po przygotowaniu biblioteki, we własnym pliku Python (z rozszerzeniem *.py) można przystąpić do importu biblioteki.
+Po przygotowaniu biblioteki, we własnym pliku Python (z rozszerzeniem \*.py) można przystąpić do importu biblioteki.
 
 ```python
 import experimentor as exp
@@ -72,11 +74,11 @@ W celu zapoznania się z biblioteką zalecane jest uruchomienie poniższego przy
 ```python
 import experimentor as exp
 
-name = "1000x1000"
-matrix_type = exp.types["random"]
+experiment_name = "my_experiment_001"
+matrix_type = exp.matrix_type.random
 matrix_size = 1000
 
-exp.experiment(name, matrix_type, matrix_size)
+exp.do_experiment(experiment_name, matrix_type, matrix_size)
 
 ```
 
@@ -107,9 +109,10 @@ A także wyświetlenie następujących wykresów:
 #### Wstęp
 
 Użytkownik podaje 3 parametry funkcji badawczej:
-- ***name*** -  nazwę eksperymentu (czyli nazwę katalogu głównego z konfiguracją i wynikami)
-  
-- ***matrix_type*** - typ macierzy wejściowej układu (wybór ze słownika ***types***), dostępne możliwości to:
+
+- **_experiment_name_** (str) - nazwę eksperymentu (czyli nazwę katalogu głównego z konfiguracją i wynikami)
+- **_matrix_type_** (wybór opcji) - typ macierzy wejściowej układu (wybór za pomocą obiektu **_matrix_type_**), dostępne możliwości to:
+
   - 'sparse': rzadka, wygenerowana przy pomocy zewnętrznej biblioteki
   - 'random': pełna wygenerowana w sposób losowy
   - 'diagonal': diagonalna, wygenerowana w sposób losowy
@@ -118,50 +121,51 @@ Użytkownik podaje 3 parametry funkcji badawczej:
   - 'upper_triangular': górnotrójkątna
   - 'external': zewnętrzna, pobrana ze źródeł zewnętrznych
 
-- ***matrix_size*** - rozmiar macierzy wejściowej układu
+- **_matrix_size_** (int) - rozmiar macierzy wejściowej układu
 
-Z perspektywy użytkownika ważne jest to, że w katalogu ***exp_results***, wewnątrz środowiska utworzony zostanie katalog o grupujący typ macierzy wejściowej (np. random), a wewnątrz tego katalogu powstanie katalog o nazwie eksperymentu, czyli ***name***.
-
-Dla podanego przykładu wewnątrz katalogu ***exp_results*** powstał katalog ***random***, a w nim katalog ***1000x1000***.
+Z perspektywy użytkownika ważne jest to, że w katalogu **_exp_results_**, wewnątrz środowiska, zostanie utworzony katalog o nazwie eksperymentu, czyli **_name_**.
 
 #### Konfiguracja
 
-Odpowiednia macierz zostanie wygenerowana, a wektor wyrazów wolnych, o ile nie istnieje (plik może istnieć w katalogu ***exp_results*** o nazwie ***b_[matrix_size]***). Wektor wyrazów wolnych może być dzielony pomiędzy różne eksperymenty, w celu zbadania innych zależności. Wszelkie dane konfiguracyjne zostaną zapisane wewnątrz katalogu doświadczenia, ale w specjalnie przygotowanym katalogu config, czyli:
+Odpowiednia macierz zostanie wygenerowana, podobnie jak wektor wyrazów wolnych, o ile nie istnieje (plik może już istnieć w katalogu **_exp_results_** o nazwie **_b\_[matrix_size]_**). Wektor wyrazów wolnych może być bowiem dzielony pomiędzy różne eksperymenty, w celu zbadania innych zależności. Wszelkie dane konfiguracyjne zostaną zapisane wewnątrz katalogu doświadczenia, ale w specjalnie przygotowanym katalogu config, czyli:
 
 ```console
-      experimentor/exp_results/[matrix_type]/[name]/config
+      experimentor/exp_results/[experiment_name]/config
 ```
 
-Pliki konfiguracyjne tworzone w ramach katalogu ***config*** to:
-- ***A.txt*** - plik zawierający macierz wejściową układu
-- ***general.txt*** - plik zawierający nazwę eksperymentu, typ macierzy i rozmiar układu
-- ***parameters.txt*** - plik zawierający dane konfiguracyjne metod, takie jak dokładność obliczeń, maksymalna liczba iteracji, parametr relaksacji
+Pliki konfiguracyjne tworzone w ramach katalogu **_config_** to:
 
-#### Obliczanie
+- **_A.txt_** - plik zawierający macierz wejściową układu
+- **_general.txt_** - plik zawierający nazwę eksperymentu, typ macierzy i rozmiar układu
+- **_parameters.txt_** - plik zawierający dane konfiguracyjne metod, takie jak dokładność obliczeń, maksymalna liczba iteracji, parametr relaksacji
 
-Następnie wykonywane są obliczenia za pomocą stacjonarnych metod przybliżonych rozwiązywania URL przy pomocy biblioteki [equiter](https://github.com/Coolxer/PD-EQUITER-LIBRARY).
+#### Obliczenia
+
+Następnie wykonywane są obliczenia za pomocą stacjonarnych metod przybliżonych rozwiązywania URL, przy pomocy biblioteki [equiter](https://github.com/Coolxer/PD-EQUITER-LIBRARY).
 
 #### Wyniki
 
-Wyniki obliczeń zapisywane są wewnątrz katalogu ***results*** o ścieżce:
+Wyniki obliczeń zapisywane są wewnątrz katalogu **_results_** o ścieżce:
 
 ```console
-      experimentor/exp_results/[matrix_type]/[name]/results
+      experimentor/exp_results/[experiment_name]/results
 ```
 
 Wyniki można podzielić na tekstowe i graficzne.
 
-W przypadku wyników tekstowych powstaje folder ***txt***, a wewnątrz niego tworzone są następujące elementy:
-- plik ***iterations.txt*** zawierający liczbę wykonanych iteracji przez poszczególne metody niezbędnych do rozwiązania danego układu
-- plik ***times.txt*** zawierający czas obliczeń poszczególnych metod
-- katalog ***solution*** wewnątrz, którego zostały utworzone pliki tekstowe zawierające wektor rozwiązań układu, osobno dla każdej z metod (jacobi.txt, gauss_seidel.txt, sor.txt)
+W przypadku wyników tekstowych powstaje folder **_txt_**, a wewnątrz niego tworzone są następujące elementy:
 
-W przypadku wyników graficznych powstaje folder ***img***, a wewnątrz niego tworzone są następujące elementy:
-- ***iterations.png*** - wykres porównujący liczbę wykonanych iteracji przez poszczególne metody dla danego układu
-- ***times.png*** - wykres porównujący czas obliczeń poszczególnych metod dla danego układu
+- plik **_iterations.txt_** zawierający liczbę wykonanych iteracji niezbędnych do rozwiązania danego układu przez poszczególne metody
+- plik **_times.txt_** zawierający czas obliczeń poszczególnych metod
+- katalog **_solution_** wewnątrz, którego zostały utworzone pliki tekstowe zawierające wektor rozwiązań układu, osobno dla każdej z metod (jacobi.txt, gauss_seidel.txt, sor.txt)
+
+W przypadku wyników graficznych powstaje folder **_img_**, a wewnątrz niego tworzone są następujące elementy:
+
+- **_iterations.png_** - wykres porównujący liczbę wykonanych iteracji przez poszczególne metody dla danego układu
+- **_times.png_** - wykres porównujący czas obliczeń poszczególnych metod dla danego układu
 
 ---
 
 ## Dodatkowe informacje
 
-W przypadku metody SOR badane jest kilka wartości parametru relaksacji, a wynik biorący udział w porównaniu z metodą Jacobiego i metodą Gaussa-Seidela jest najlepszym wynikiem uzyskanym przy pomocy metody SOR. Przyjęto najlepszy rezultat (zamiast najgorszego lub średniej), ponieważ pozostałe metody również dążą do najlepszego rezultatu.
+W przypadku metody SOR badane jest kilka wartości parametru relaksacji, a wynik biorący udział w porównaniu z metodą Jacobiego i metodą Gaussa-Seidela jest najlepszym wynikiem uzyskanym przy pomocy metody SOR. Przyjęto najlepszy rezultat (zamiast najgorszego lub średniej), ponieważ pozostałe metody również dążą do najlepszego wyniku.

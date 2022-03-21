@@ -5,6 +5,6 @@
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
-# Import niezbędnych zależności
-from .src.help_functions.matrix_type import types
-from .src.experimentor import experiment
+# Import zależności
+from .src.help_methods.matrix import matrix_type
+from .src.experimentor import do_experiment

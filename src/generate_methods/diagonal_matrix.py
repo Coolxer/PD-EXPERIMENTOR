@@ -5,7 +5,7 @@
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
-# Import niezbędnych zależności
+# Import zależności
 import numpy as np
 from random import random
 
@@ -13,21 +13,21 @@ from random import random
 
 """
     Wejście:
-        - n - rozmiar macierzy (liczba wierszy / kolumn)
+        - size (int) - rozmiar macierzy (liczba wierszy / kolumn)
 
     Wyjście:
-        - m - macierz diagonalna
+        - matrix (np.array) - macierz diagonalna
 """
 
 
-def diagonal_matrix(n):
+def diagonal_matrix(size: int) -> np.array:
     # Wygenerowanie macierzy o rozmiarze 'n x n' składającej się z samych 0
-    m = np.zeros((n, n))
+    matrix = np.zeros((size, size))
 
     # Pętla iterująca po wierszach macierzy
-    for i in range(np.shape(m)[0]):
+    for i in range(np.shape(matrix)[0]):
         # Wylosowanie wartości elementów macierzy leżących na głównej przekątnej
-        m[i][i] = random()
+        matrix[i][i] = random()
 
     # Zwrócenie macierzy diagonalnej
-    return m
+    return matrix

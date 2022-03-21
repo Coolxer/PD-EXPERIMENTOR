@@ -5,7 +5,7 @@
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
-# Import niezbędnych zależności
+# Import zależności
 import numpy as np
 from .diagonal_amplifier import strengthen_diagonal
 
@@ -14,24 +14,23 @@ from .diagonal_amplifier import strengthen_diagonal
 
 """
     Wejście:
-         - n - rozmiar macierzy (liczba wierszy / kolumn)
+        - size (int) - rozmiar macierzy (liczba wierszy / kolumn)
 
     Wyjście:
-        - m - macierz wstęgowa
+        - matrix (np.array) - macierz wstęgowa
 """
 
 
-def band_matrix(n):
-
+def band_matrix(size: int) -> np.array:
     # Utworzenie macierzy wypełnionej zerami o rozmiarze 'n x n'
-    m = np.zeros((n, n))
+    matrix = np.zeros((size, size))
 
     # Utworzenie wstęgi wokół głównej przekątnej
-    m += np.diag(np.random.rand(n - 1), 1)
-    m += np.diag(np.random.rand(n - 1), -1)
+    matrix += np.diag(np.random.rand(size - 1), 1)
+    matrix += np.diag(np.random.rand(size - 1), -1)
 
     # Wzmocnienie przekątnej macierzy
-    m = strengthen_diagonal(m, 0.1)
+    matrix = strengthen_diagonal(matrix, 0.1)
 
     # Zwrócenie macierzy wstęgowej
-    return m
+    return matrix
