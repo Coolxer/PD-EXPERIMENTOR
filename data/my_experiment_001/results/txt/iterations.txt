@@ -1,3 +1,0 @@
-jacobi = 6842
-gauss_seidel = 10
-sor = 13

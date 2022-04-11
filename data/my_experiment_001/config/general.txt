@@ -1,3 +1,0 @@
-name = my_experiment_001
-type = random
-size = 100
