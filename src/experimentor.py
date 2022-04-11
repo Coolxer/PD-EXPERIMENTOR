@@ -153,7 +153,7 @@ def do_experiment(experiment_name: str, matrix_type: str, matrix_size: int) -> N
 
     # --------------------------------------------------- Sekcja tworzenia wykresów -------------------------------------------------- #
 
-    print("Generowanie wykresu zbieżnosci według wskaźnika liczby wyk. iteracji ...")
+    print("Generowanie wykresu zbieżności według wskaźnika liczby wyk. iteracji ...")
     draw_chart(
         results_dir_img,
         "iterations",
@@ -164,7 +164,7 @@ def do_experiment(experiment_name: str, matrix_type: str, matrix_size: int) -> N
         sor_iterations,
     )
 
-    print("Generowanie wykresu zbieżnosci według wskaźnika czasu obliczeń ...")
+    print("Generowanie wykresu zbieżności według wskaźnika czasu obliczeń ...")
     draw_chart(
         results_dir_img, "times", "Wykres czasu obliczeń", "czas obliczeń [s]", jacobi_time, gauss_seidel_time, sor_time
     )
