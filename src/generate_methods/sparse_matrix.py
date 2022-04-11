@@ -10,20 +10,19 @@ import numpy as np
 from scipy.sparse import random
 from .diagonal_amplifier import strengthen_diagonal
 
-# Metoda generuje macierz rzadką, korzystając z biblioteki scipy
-# Macierz jest dodatkowo wzmocniona, aby konieczny warunek zbieżności dla przybliżonych metod stacjonarnych był spełniony
-
 """
     Wejście:
         - size (int) - rozmiar macierzy (liczba wierszy / kolumn)
         - dens (float) - gęstość macierzy, przy czym 1 to macierz pełna, a 0 to macierz w pełni rzadka (zerowa)
 
     Wyjście:
-        - matrix (np.array) - macierz rzadka
+        - matrix (np.ndarray) - macierz rzadka
 """
 
+# Metoda generuje macierz rzadką, korzystając z biblioteki scipy
+# Macierz jest dodatkowo wzmocniona, aby konieczny warunek zbieżności dla przybliżonych metod stacjonarnych był spełniony
+def sparse_matrix(size: int, dens: float) -> np.ndarray:
 
-def sparse_matrix(size: int, dens: float) -> np.array:
     # Wygenerowanie rzadkiej macierzy kwadratowej o rozmiarze 'n x n'
     matrix = random(size, size, density=dens, format="csr").toarray()
 

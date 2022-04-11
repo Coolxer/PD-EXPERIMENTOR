@@ -8,20 +8,19 @@
 # Import zależności
 import numpy as np
 
-# Metoda służy do wzmacniania głównej przekątnej dowolnej macierzy,  aby był spełniony
-# konieczny  warunek zbieżności dla stacjonarnych metod prrzybliżonych rozwiązywania URL
-
 """
     Wejście:
-        - input_matrix (np.array) - macierz do wzmocnienia
+        - input_matrix (np.ndarray) - macierz do wzmocnienia
         - value (float)  - wartość wzmocnienia głównej przekątnej macierzy
 
     Wyjście:
-        - matrix (np.array) - wzmocniona przekątniowo macierz
+        - matrix (np.ndarray) - wzmocniona przekątniowo macierz
 """
 
+# Metoda służy do wzmacniania głównej przekątnej dowolnej macierzy,  aby był spełniony
+# konieczny  warunek zbieżności dla stacjonarnych metod prrzybliżonych rozwiązywania URL
+def strengthen_diagonal(input_matrix: np.ndarray, value: float) -> np.ndarray:
 
-def strengthen_diagonal(input_matrix: np.array, value: float) -> np.array:
     # Utworzenie kopii macierzy wejściowej
     matrix = input_matrix.copy()
 

@@ -9,19 +9,18 @@
 import numpy as np
 from .diagonal_amplifier import strengthen_diagonal
 
-# Metoda generuje macierz wstęgową o podanym rozmiarze i stałej szerokości pasma 3,
-# Macierz jest dodatkowo wzmocniona, aby konieczny warunek zbieżności dla przybliżonych metod stacjonarnych był spełniony.
-
 """
     Wejście:
         - size (int) - rozmiar macierzy (liczba wierszy / kolumn)
 
     Wyjście:
-        - matrix (np.array) - macierz wstęgowa
+        - matrix (np.ndarray) - macierz wstęgowa
 """
 
+# Metoda generuje macierz wstęgową o podanym rozmiarze i stałej szerokości pasma 3,
+# Macierz jest dodatkowo wzmocniona, aby konieczny warunek zbieżności dla przybliżonych metod stacjonarnych był spełniony.
+def band_matrix(size: int) -> np.ndarray:
 
-def band_matrix(size: int) -> np.array:
     # Utworzenie macierzy wypełnionej zerami o rozmiarze 'n x n'
     matrix = np.zeros((size, size))
 

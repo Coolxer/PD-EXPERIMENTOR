@@ -9,13 +9,9 @@
 import os
 import numpy as np
 
-from .file import save_matrix_to_file
 from ..generate_methods.random_vector import random_vector
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
-
-# Metoda sprawdza czy dla eksperymentu istnieje już wektor wyrazów wolnych
-# Jeśli wektor istnieje to jest on wczytywany. W przeciwnym wypadku jest on generowany
 
 """
     Wejście:
@@ -23,24 +19,26 @@ from ..generate_methods.random_vector import random_vector
         - size (int) - rozmiar wektora (liczba wierszy / kolumn)
 
     Wyjście:
-        - vector (np.array) - wektor wyrazów wolnych
+        - vector (np.ndarray) - wektor wyrazów wolnych
+        - loaded (bool) - informacja czy wektor wyrazów wolnych został wczytany czy wygenerowany
 """
 
+# Metoda sprawdza czy dla eksperymentu istnieje już wektor wyrazów wolnych
+# Jeśli wektor istnieje to jest on wczytywany. W przeciwnym wypadku jest on generowany
+def get_vector(file: str, size: int) -> np.ndarray:
 
-def get_vector(file: str, size: int) -> np.array:
-    # Deklaracja zmiennej przechowującej wektor
+    # Deklaracja zmiennej przechowującej wektor i zmiennej informującej czy wektor został wczytany czy wygenerowany
     vector = None
+    loaded = None
 
     # Jeśli plik z wektorem wyrazów wolnych nie istnieje to jest on generowany
     if not os.path.exists(file):
-        print("Generowanie wektora wyrazów wolnych ...")
         vector = random_vector(size)
-
-        print("Zapisywanie wektora wyrazów wolnych do pliku ...")
-        save_matrix_to_file(file.rpartition("/"), f"b_{size}", vector)
+        loaded = False
 
     else:  # Jeśli plik z wektorem wyrazów wolnych istnieje to jest on wczytywany
         vector = np.loadtxt(file, dtype=float)
+        loaded = True
 
-    # Zwrócenie wektora
-    return vector
+    # Zwrócenie wektora i zmiennej 'loaded'
+    return vector, loaded

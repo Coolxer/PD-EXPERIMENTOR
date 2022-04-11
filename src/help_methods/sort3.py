@@ -8,9 +8,6 @@
 # Import zależności
 from typing import Tuple
 
-
-# Metoda służy to sortowania 3 list równolegle, wedle klucza sortowania pierwszej listy
-
 """
     Wejście:
         - list1 (list) - najistotniejsza lista, według której sortowane są pozostałe listy
@@ -23,8 +20,9 @@ from typing import Tuple
         - l3 (list) - posortowana lista 'list3'
 """
 
-
+# Metoda służy to sortowania 3 list równolegle, wedle klucza sortowania pierwszej listy
 def sort3(list1: list, list2: list, list3: list) -> Tuple[list, list, list]:
+
     # Połączenie list w jedną krotkę
     zipped_lists = zip(list1, list2, list3)
 

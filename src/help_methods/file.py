@@ -27,6 +27,7 @@ import numpy as np
 
 
 def save_data_to_file(dir: str, name: str, data: str) -> NoReturn:
+
     # Otwarcie wskazanego pliku w trybie do zapisu
     file = open(f"{dir}/{name}.txt", "w")
 
@@ -45,26 +46,25 @@ def save_data_to_file(dir: str, name: str, data: str) -> NoReturn:
     Wejście:
         - dir (str) - nazwa katalogu
         - name (str) - nazwa pliku
-        - matrix (np.array) - macierz / wektor do zapisania
+        - matrix (np.ndarray) - macierz / wektor do zapisania
 """
 
 
-def save_matrix_to_file(dir: str, name: str, matrix: np.array) -> NoReturn:
+def save_matrix_to_file(dir: str, name: str, matrix: np.ndarray) -> NoReturn:
     # Zapisanie macierzy / wektora do pliku tekstowego
     np.savetxt(f"{dir}/{name}.txt", matrix)
 
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
-# Metoda wyświetla okno do wyboru pliku macierzy .mat (matlab)
-
 """
     Wyjście:
         - file (str) - wczytany plik .mat (matlab)
 """
 
-
+# Metoda wyświetla okno do wyboru pliku macierzy .mat (matlab)
 def choose_matlab_file() -> str:
+
     # Stworzenie instancji tk
     root = Tk()
 

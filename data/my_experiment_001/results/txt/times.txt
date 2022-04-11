@@ -1,0 +1,3 @@
+jacobi = 0.572486
+gauss_seidel = 0.002638
+sor = 0.00264

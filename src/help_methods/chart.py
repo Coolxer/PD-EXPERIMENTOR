@@ -6,11 +6,8 @@
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
 # Import zależności
-import imp
 from typing import NoReturn
 import matplotlib.pyplot as plt
-
-# Metoda rysuje wykres porównujący zbieżność metod na podstawie liczby iteracji / czasu
 
 """
     Wejście:
@@ -26,9 +23,7 @@ import matplotlib.pyplot as plt
         - show_signatures (bool) [default = True] - ewentualne wyświetlanie wartości poszczególnych kolumn
 """
 
-from .matrix import types
-
-
+# Metoda rysuje wykres porównujący zbieżność metod na podstawie liczby iteracji / czasu
 def draw_chart(
     dir: str,
     name: str,

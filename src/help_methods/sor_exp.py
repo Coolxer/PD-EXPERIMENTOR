@@ -14,44 +14,42 @@ from .sort3 import sort3
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
-# Metoda SOR wymaga większej uwagi, ponieważ posiada dodatkowy parametr w
-# Rozwiązanie poszukiwane jest z różną wartością tego parametru, a jako wynik przyjęty zostaje najlepszy rezultat
-
 """
     Wejście:
-        - A (np.array) - macierz główna układu
-        - b (np.array) - wektor wyrazów wolnych
+        - A (np.ndarray) - macierz główna układu
+        - b (np.ndarray) - wektor wyrazów wolnych
         - max_iterations (int) - maksymalna liczba iteracji
         - tolerance (float) - zadana dokładność wyniku
-        - w_vector (np.array) - wektor wartości parametru w
+        - w_vector (np.ndarray) - wektor wartości parametru 'w'
 
     Wyjście:
-        - solution (np.array) - przybliżony wektor rozwiązania
+        - solution (np.ndarray) - przybliżony wektor rozwiązania
         - iterations (int) - liczba wykonanych iteracji
         - time (float) - czas operacji
 
         Jeśli pojawi się błąd to metoda przerywa działanie i zwraca (None, None, None)
 """
 
-
+# Metoda SOR wymaga większej uwagi, ponieważ posiada dodatkowy parametr 'w'
+# Rozwiązanie poszukiwane jest z różną wartością tego parametru, a jako wynik przyjęty zostaje najlepszy rezultat
 def sor_exp(
-    A: np.array,
-    b: np.array,
+    A: np.ndarray,
+    b: np.ndarray,
     max_iterations: int,
     tolerance: float,
-    w_vector: np.array,
-) -> Tuple(np.array, int, float):
+    w_vector: np.ndarray,
+) -> Tuple[np.ndarray, int, float]:
 
     # Deklaracja list przechowujących wyniki cząstkowych eksperymentów metody SOR
     solutions = []
     iterations = []
     times = []
 
-    # Pętla iterująca po wartościach parametru w
+    # Pętla iterująca po wartościach parametru 'w'
     for w in w_vector:
         print(f"    SOR: w: {w}")
 
-        # Obliczenie rozwiązania metodą SOR z aktualną wartością parametru w
+        # Obliczenie rozwiązania metodą SOR z aktualną wartością parametru 'w'
         solution, iteration, time = sor(A, b, max_iterations, tolerance, w)
 
         # Jeśli rozwiązanie dało błąd to należy przerwać dalsze obliczenia,
@@ -64,7 +62,7 @@ def sor_exp(
         times.append(time)
 
     # Badania różnych wartości parametrów w mają na celu wyłonienie jednej konfiguracji
-    # Możliwe są 3 perspektywy do wyboru (najgorsza, średnia, najlepsza)
+    # Do wyboru możliwe były 3 perspektywy (najgorsza, średnia, najlepsza)
     # Zdecydowano się wybrać najlepszą perspektywę (najlepsza zbieżność według liczby iteracji)
     # Ta perspektywa wydaje się być najbardziej odpowiednia, ponieważ metody Jacobiego i Gaussa-Seidela również dążą do doskonałości
     iterations_sorted, times_sorted, solutions_sorted = sort3(iterations, times, solutions)

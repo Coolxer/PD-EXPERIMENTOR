@@ -9,18 +9,17 @@
 import numpy as np
 from random import random
 
-# Metoda generuje macierz diagonalną o podanym rozmiarze
-
 """
     Wejście:
         - size (int) - rozmiar macierzy (liczba wierszy / kolumn)
 
     Wyjście:
-        - matrix (np.array) - macierz diagonalna
+        - matrix (np.ndarray) - macierz diagonalna
 """
 
+# Metoda generuje macierz diagonalną o podanym rozmiarze
+def diagonal_matrix(size: int) -> np.ndarray:
 
-def diagonal_matrix(size: int) -> np.array:
     # Wygenerowanie macierzy o rozmiarze 'n x n' składającej się z samych 0
     matrix = np.zeros((size, size))
 

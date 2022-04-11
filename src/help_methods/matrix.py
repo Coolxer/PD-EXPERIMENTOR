@@ -48,10 +48,7 @@ class Matrix_Type:
 # Obiekt typu macierzy wejściowej
 matrix_type = Matrix_Type()
 
-
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
-
-# Metoda mapuje nazwy macierzy i  zwraca macierz o wybranym typie
 
 """
     Wejście:
@@ -59,11 +56,12 @@ matrix_type = Matrix_Type()
         - size (int) - rozmiar macierzy
 
     Wyjście:
-        - matrix (np.array) - macierz
+        - matrix (np.ndarray) - macierz
 """
 
+# Metoda mapuje nazwy macierzy i  zwraca macierz o wybranym typie
+def get_matrix(type: str, size: int) -> np.ndarray:
 
-def get_matrix(type: str, size: int) -> np.array:
     matrix = None
 
     if type == "sparse":

@@ -12,16 +12,15 @@ from .diagonal_amplifier import strengthen_diagonal
 
 from ..help_methods.file import choose_matlab_file
 
-# Metoda służy do konwersji macierzy rzadkiej pobranej z kolekcji https://sparse.tamu.edu/
-# Macierz jest dodatkowo wzmocniona, aby konieczny warunek zbieżności dla przybliżonych metod stacjonarnych był spełniony
-
 """
     Wyjście:
-        - matrix (np.array) - macierz pobrana ze źródeł zewnętrznych 
+        - matrix (np.ndarray) - macierz pobrana ze źródeł zewnętrznych 
 """
 
+# Metoda służy do konwersji macierzy rzadkiej pobranej z kolekcji https://sparse.tamu.edu/
+# Macierz jest dodatkowo wzmocniona, aby konieczny warunek zbieżności dla przybliżonych metod stacjonarnych był spełniony
+def external_matrix() -> np.ndarray:
 
-def external_matrix() -> np.array:
     # Utworzenie widoku wyboru pliku .mat (matlab)
     file = choose_matlab_file()
 

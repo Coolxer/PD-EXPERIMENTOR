@@ -55,7 +55,7 @@ git clone --recurse-submodules https://github.com/Coolxer/PD-EXPERIMENTOR
 
 **_UWAGA:_** Środowisko badawcze powinno być podkatalogiem bieżącego projektu, a więc skrypty wykorzystujące środowisko powinny być wyżej w hierarchii katalogów. Innymi słowy nie należy umieszczać własnych skryptów wewnątrz katalogu środowiska!
 
-**_UWAGA:_** Po ściągnięciu środowiska zalecana jest zmiana nazwy głównego katalogu na **_experimentor_** Jest to skrótowa nazwa ułatwiająca korzystanie z biblioteki. Jeśli chcesz podążać dalej za poradnikiem zmiana nazwy jest niezbędna!
+**_UWAGA:_** Po ściągnięciu środowiska zalecana jest zmiana nazwy głównego katalogu na **_experimentor_**. Jest to skrótowa nazwa ułatwiająca korzystanie z biblioteki. Jeśli chcesz podążać dalej za poradnikiem zmiana nazwy jest niezbędna!
 
 Po przygotowaniu biblioteki, we własnym pliku Python (z rozszerzeniem \*.py) można przystąpić do importu biblioteki.
 
@@ -117,20 +117,20 @@ Użytkownik podaje 3 parametry funkcji badawczej:
   - 'random': pełna wygenerowana w sposób losowy
   - 'diagonal': diagonalna, wygenerowana w sposób losowy
   - 'band': wstęgowa (pasmowa) o szerokości 3
-  - 'lower_triangular': dolnotrójkątna
-  - 'upper_triangular': górnotrójkątna
+  - 'lower_triangular': dolno-trójkątna
+  - 'upper_triangular': górno-trójkątna
   - 'external': zewnętrzna, pobrana ze źródeł zewnętrznych
 
 - **_matrix_size_** (int) - rozmiar macierzy wejściowej układu
 
-Z perspektywy użytkownika ważne jest to, że w katalogu **_exp_results_**, wewnątrz środowiska, zostanie utworzony katalog o nazwie eksperymentu, czyli **_name_**.
+Z perspektywy użytkownika ważne jest to, że w katalogu **_data_**, wewnątrz środowiska, zostanie utworzony katalog o nazwie eksperymentu, czyli **_name_**.
 
 #### Konfiguracja
 
-Odpowiednia macierz zostanie wygenerowana, podobnie jak wektor wyrazów wolnych, o ile nie istnieje (plik może już istnieć w katalogu **_exp_results_** o nazwie **_b\_[matrix_size]_**). Wektor wyrazów wolnych może być bowiem dzielony pomiędzy różne eksperymenty, w celu zbadania innych zależności. Wszelkie dane konfiguracyjne zostaną zapisane wewnątrz katalogu doświadczenia, ale w specjalnie przygotowanym katalogu config, czyli:
+Odpowiednia macierz zostanie wygenerowana, podobnie jak wektor wyrazów wolnych, o ile nie istnieje (plik może już istnieć w katalogu **_exp_data_** o nazwie **_b\_[matrix_size]_**). Wektor wyrazów wolnych może być bowiem dzielony pomiędzy różne eksperymenty, w celu zbadania innych zależności. Wszelkie dane konfiguracyjne zostaną zapisane wewnątrz katalogu doświadczenia, ale w specjalnie przygotowanym katalogu config, czyli:
 
 ```console
-      experimentor/exp_results/[experiment_name]/config
+      experimentor/data/[experiment_name]/config
 ```
 
 Pliki konfiguracyjne tworzone w ramach katalogu **_config_** to:
@@ -148,7 +148,7 @@ Następnie wykonywane są obliczenia za pomocą stacjonarnych metod przybliżony
 Wyniki obliczeń zapisywane są wewnątrz katalogu **_results_** o ścieżce:
 
 ```console
-      experimentor/exp_results/[experiment_name]/results
+      experimentor/data/[experiment_name]/results
 ```
 
 Wyniki można podzielić na tekstowe i graficzne.

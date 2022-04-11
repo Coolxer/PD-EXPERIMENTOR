@@ -9,23 +9,22 @@
 import numpy as np
 from .random_matrix import random_matrix
 
-# Metoda generuje macierz dolnotrókątną na podstawie macierzy wygenerowanej w sposób losowy
-
 """
     Wejście:
         - size (int) - rozmiar macierzy (liczba wierszy / kolumn)
 
     Wyjście:
-        - matrix (np.array) - macierz dolnotrójkątna
+        - matrix (np.ndarray) - macierz dolno-trójkątna
 """
 
+# Metoda generuje macierz dolnotrókątną na podstawie macierzy wygenerowanej w sposób losowy
+def lower_triangular_matrix(size: int) -> np.ndarray:
 
-def lower_triangular_matrix(size: int) -> np.array:
     # Wygenerowanie losowej macierzy kwadratowej o rozmiarze 'n x n'
     matrix = random_matrix(size)
 
-    # Utworzenie macierzy dolnotrójkątnej na podstawie wcześniej wygenerowanej macierzy
+    # Utworzenie macierzy dolno-trójkątnej na podstawie wcześniej wygenerowanej macierzy
     matrix = np.tril(matrix)
 
-    # Zwrócenie macierzy dolnotrójkątnej
+    # Zwrócenie macierzy dolno-trójkątnej
     return matrix

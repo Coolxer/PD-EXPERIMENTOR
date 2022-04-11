@@ -17,11 +17,12 @@ from .diagonal_amplifier import strengthen_diagonal
         - size (int) - rozmiar macierzy (liczba wierszy / kolumn)
 
     Wyjście:
-        - matrix (np.array) - macierz losowa
+        - matrix (np.ndarray) - macierz losowa
 """
 
 
-def random_matrix(size: int) -> np.array:
+def random_matrix(size: int) -> np.ndarray:
+    
     # Wygenerowanie losowej macierzy kwadratowej o rozmiarze 'n x n'
     matrix = np.random.rand(size, size)
 

@@ -9,6 +9,7 @@
 import os
 import shutil
 from typing import NoReturn
+from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -28,7 +29,9 @@ from .help_methods.vector import get_vector
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
-# Metoda służąca do prowadzenia eksperymentów z biblioteką equiter
+# Uzyskanie katalogu głównego repozytorium
+main_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 """
     Wejście (Parametry):
         - experiment_name (str) - nazwa eksperymentu
@@ -36,19 +39,18 @@ from .help_methods.vector import get_vector
         - matrix_size (int) - rozmiar macierzy głównej (liczba wierszy / kolumn)
 """
 
-
+# Metoda służąca do prowadzenia eksperymentów z biblioteką equiter
 def do_experiment(experiment_name: str, matrix_type: str, matrix_size: int) -> NoReturn:
-
-    # Uzyskanie katalogu wykonawczego
-    exec_dir = os.path.dirname(os.path.abspath(__file__))
 
     # --------------------------------------------------------- Sekcja konfiguracji -------------------------------------------------------- #
 
     # Pobranie macierzy wejściowej układu
+    print("Generowanie macierzy A ...")
     A = get_matrix(matrix_type, matrix_size)
 
     # Ustawienie wektora wyrazów wolnych
-    b = get_vector(f"{exec_dir}/exp_results/b_{matrix_size}.txt", matrix_size)
+    print("Generowanie / Wczytywanie wektora wyrazów wolnych ...")
+    b, was_b_loaded = get_vector(f"{main_dir}/data/b_{matrix_size}.txt", matrix_size)
 
     # Pozostałe parametry metod (w używane tylko w metodzie SOR)
     # Przyjęto kilka wartości w, ostatecznie zostanie przyjęta tylko wartość, dla której uzyskano najlepszy rezultat
@@ -58,19 +60,19 @@ def do_experiment(experiment_name: str, matrix_type: str, matrix_size: int) -> N
 
     # ------------------------------------------------------- Sekcja rozwiązywania ------------------------------------------------------- #
 
-    print("Trwa rozwiazywanie ukladu metoda Jacobiego ...")
+    print("Rozwiązywanie układu metodą Jacobiego ...")
     jacobi_solution, jacobi_iterations, jacobi_time = jacobi(A, b, max_iterations, tolerance)
 
     if jacobi_solution is None:
         return
 
-    print("Trwa rozwiazywanie ukladu metoda Gaussa-Seidela ...")
+    print("Rozwiązywanie układu metodą Gaussa-Seidela ...")
     gauss_seidel_solution, gauss_seidel_iterations, gauss_seidel_time = gauss_seidel(A, b, max_iterations, tolerance)
 
     if gauss_seidel_solution is None:
         return
 
-    print("Trwa rozwiazywanie ukladu metoda SOR ...")
+    print("Rozwiązywanie układu metodą SOR ...")
     sor_solution, sor_iterations, sor_time = sor_exp(A, b, max_iterations, tolerance, w_vector)
 
     if sor_solution is None:
@@ -79,7 +81,7 @@ def do_experiment(experiment_name: str, matrix_type: str, matrix_size: int) -> N
     # -------------------------------------------------- Sekcja tworzenia katalogów -------------------------------------------------- #
 
     # Sprawdzenie czy istnieje katalog dla eksperymentów => jeśli nie to zostanie utworzony (exp_results)
-    general_exp_dir = f"{exec_dir}/exp_results"
+    general_exp_dir = f"{main_dir}/data"
     if not os.path.exists(general_exp_dir):
         os.mkdir(general_exp_dir)
 
@@ -117,23 +119,27 @@ def do_experiment(experiment_name: str, matrix_type: str, matrix_size: int) -> N
     print("Zapisywanie macierzy A ...")
     save_matrix_to_file(config_dir, "A", A)
 
-    # wektor b został juz zapisany w pliku b.txt
+    # Sprawdzenie czy wektor b został wczytany czy wygenerowany
+    # Jeśli wektor został wygenerowany to należy go zapisać do pliku
+    if not was_b_loaded:
+        print("Zapisywanie wektora b ...")
+        save_matrix_to_file(general_exp_dir, "b", b)
 
-    print("Zapisywanie pozostalych parametrow (tolerancji, maks. liczby iteracji) ...")
+    print("Zapisywanie pozostałych parametrów (tolerancji, maks. liczby iteracji) ...")
     save_data_to_file(
         config_dir, "parameters", f"tolerance = {tolerance}\nmax_iterations = {max_iterations}\nw = {w_vector}"
     )
 
     # ------------------------------------------------------- Sekcja zapisu wyników ------------------------------------------------------ #
 
-    print("Zapisywanie rezultatow według wskaznika liczby wyk. iteracji ...")
+    print("Zapisywanie rezultatów według wskaźnika liczby wyk. iteracji ...")
     save_data_to_file(
         results_dir_txt,
         "iterations",
         f"jacobi = {jacobi_iterations}\ngauss_seidel = {gauss_seidel_iterations}\nsor = {sor_iterations}",
     )
 
-    print("Zapisywanie rezultatow według wskaznika czasu obliczeń ...")
+    print("Zapisywanie rezultatów według wskaźnika czasu obliczeń ...")
     save_data_to_file(
         results_dir_txt,
         "times",
@@ -147,26 +153,20 @@ def do_experiment(experiment_name: str, matrix_type: str, matrix_size: int) -> N
 
     # --------------------------------------------------- Sekcja tworzenia wykresów -------------------------------------------------- #
 
-    print("Generowanie wykresu zbieznosci wedlug wskaznika liczby wyk. iteracji ...")
+    print("Generowanie wykresu zbieżnosci według wskaźnika liczby wyk. iteracji ...")
     draw_chart(
         results_dir_img,
         "iterations",
         "Wykres liczby wykonanych iteracji",
-        "liczba iteracji",
+        "liczba iteracji [szt.]",
         jacobi_iterations,
         gauss_seidel_iterations,
         sor_iterations,
     )
 
-    print("Generowanie wykresu zbieznosci wedlug wskaznika czasu obliczen ...")
+    print("Generowanie wykresu zbieżnosci według wskaźnika czasu obliczeń ...")
     draw_chart(
-        results_dir_img,
-        "czas obliczeń [s]",
-        "Wykres czasu obliczeń",
-        "times",
-        np.around(jacobi_time, 4),
-        np.around(gauss_seidel_time, 4),
-        np.around(sor_time, 4),
+        results_dir_img, "times", "Wykres czasu obliczeń", "czas obliczeń [s]", jacobi_time, gauss_seidel_time, sor_time
     )
 
     # Wyświetlenie wykresów

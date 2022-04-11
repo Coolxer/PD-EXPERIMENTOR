@@ -9,23 +9,24 @@
 import numpy as np
 from .random_matrix import random_matrix
 
-# Metoda generuje macierz górnotrójkątną na podstawie macierzy wygenerowanej w sposób losowy
-
 """
     Wejście:
         - size (int) - rozmiar macierzy (liczba wierszy / kolumn)
 
     Wyjście:
-        - matrix (np.array) - macierz górnotrójkątna
+        - matrix (np.ndarray) - macierz górno-trójkątna
 """
 
+# Metoda generuje macierz górno-trójkątną na podstawie macierzy wygenerowanej w sposób losowy
 
-def upper_triangular_matrix(size: int) -> np.array:
+
+def upper_triangular_matrix(size: int) -> np.ndarray:
+
     # Wygenerowanie losowej macierzy kwadratowej o rozmiarze 'n x n'
     matrix = random_matrix(size)
 
-    # Utworzenie macierzy górnotrójkątnej na podstawie wcześniej wygenerowanej macierzy
+    # Utworzenie macierzy górno-trójkątnej na podstawie wcześniej wygenerowanej macierzy
     matrix = np.triu(matrix)
 
-    # Zwrócenie macierzy górnotrójkątnej
+    # Zwrócenie macierzy górno-trójkątnej
     return matrix
