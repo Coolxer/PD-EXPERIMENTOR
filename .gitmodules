@@ -1,3 +1,4 @@
 [submodule "PD-EQUITER-LIBRARY"]
 	path = equiter
 	url = https://github.com/Coolxer/PD-EQUITER-LIBRARY
+	branch=main
