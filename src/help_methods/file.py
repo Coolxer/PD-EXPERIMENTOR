@@ -14,9 +14,6 @@ from tkinter import *
 from tkinter.filedialog import askopenfilename
 import numpy as np
 
-# -------------------------------------------------------------------------------------------------------------------------------------------------- #
-
-# Metoda zapisuje dane tekstowe do pliku tekstowego
 
 """
     Wejście:
@@ -25,22 +22,23 @@ import numpy as np
         - data (str) - zawartość do zapisania
 """
 
-
+# Metoda zapisuje dane tekstowe do pliku tekstowego
 def save_data_to_file(dir: str, name: str, data: str) -> NoReturn:
 
-    # Otwarcie wskazanego pliku w trybie do zapisu
-    file = open(f"{dir}/{name}.txt", "w")
+    try:
+        # Otwarcie wskazanego pliku w trybie do zapisu
+        file = open(f"{dir}/{name}.txt", "w")
 
-    # Zapisanie zawartości do pliku
-    file.write(str(data))
+        # Zapisanie zawartości do pliku
+        file.write(str(data))
 
-    # Zamknięcie pliku
-    file.close()
+        # Zamknięcie pliku
+        file.close()
+    except:
+        print("Wskazany plik nie istnieje")
 
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
-
-# Metoda zapisuje macierz / wektor NumPy do pliku tekstowego
 
 """
     Wejście:
@@ -49,7 +47,7 @@ def save_data_to_file(dir: str, name: str, data: str) -> NoReturn:
         - matrix (np.ndarray) - macierz / wektor do zapisania
 """
 
-
+# Metoda zapisuje macierz / wektor NumPy do pliku tekstowego
 def save_matrix_to_file(dir: str, name: str, matrix: np.ndarray) -> NoReturn:
     # Zapisanie macierzy / wektora do pliku tekstowego
     np.savetxt(f"{dir}/{name}.txt", matrix)

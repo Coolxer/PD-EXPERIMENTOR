@@ -1,7 +1,7 @@
 # Autor: Łukasz Miłoś
 # Data: 2021 - 2022
 
-# Plik zawierający metodę ułatwiającą ustawienie wektora wyrazów wolnych
+# Plik zawiera metodę ułatwiającą ustawienie wektora wyrazów wolnych
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
@@ -10,8 +10,6 @@ import os
 import numpy as np
 
 from ..generate_methods.random_vector import random_vector
-
-# -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
 """
     Wejście:

@@ -1,7 +1,7 @@
 # Autor: Łukasz Miłoś
 # Data: 2021 - 2022
 
-# Plik zawierający metodę generującą macierz górnotrójkątną
+# Plik zawiera metodę generującą macierz górnotrójkątną
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
@@ -18,8 +18,6 @@ from .random_matrix import random_matrix
 """
 
 # Metoda generuje macierz górno-trójkątną na podstawie macierzy wygenerowanej w sposób losowy
-
-
 def upper_triangular_matrix(size: int) -> np.ndarray:
 
     # Wygenerowanie losowej macierzy kwadratowej o rozmiarze 'n x n'

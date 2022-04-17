@@ -1,7 +1,7 @@
 # Autor: Łukasz Miłoś
 # Data: 2021 - 2022
 
-# Plik zawierający metodę rysującą wykres porównujący zbieżność metod
+# Plik zawiera metodę rysującą wykres porównujący zbieżność metod
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
@@ -11,52 +11,87 @@ import matplotlib.pyplot as plt
 
 """
     Wejście:
-        - dir (str) - katalog zapisu wykresu
-        - name (str) - nazwa pliku wykresu
+        - type (str) - typ wykresu (bar / linear)
         - title (str) - tytuł wyświetlanego wykresu
-        - indicator (str) - oznaczenie osi y (czas / liczba iteracji)
+        - x_label (str) - oznaczenie osi x
+        - y_label (str) - oznaczenie osi y (czas / liczba iteracji)
 
-        - jacobi (float) - wyniki doświadczeń metodą Jacobiego
-        - gauss_seidel (float) - wyniki doświadczeń metodą Gaussa-Seidela
-        - sor (float) - wyniki doświadczeń metodą SOR
+        - jacobi_data (list) - wyniki doświadczeń metodą Jacobiego
+        - gauss_seidel_data (list) - wyniki doświadczeń metodą Gaussa-Seidela
+        - sor_data (list) - wyniki doświadczeń metodą SOR
+        - data_precision (int) - dokładność wyświetlanych danych na wykresie
 
-        - show_signatures (bool) [default = True] - ewentualne wyświetlanie wartości poszczególnych kolumn
+        - x_values (list) [None] - wartości na osi x na wykresie liniowym
+        - data_labels (list) ["Jacobi", "Gauss-Seidel", "SOR"] - opisy poszczególnych kolumn w wykresie kolumnowym lub serii w wykresie liniowym
+        - colors (list) [default = "#D14960", "#7DC481", "#2C84C7"] - lista 3 kolorów serii wykresu
+        - show_grid (bool) [default = False] - ewentualne wyświetlanie siatki wykresu
+        - show_signatures (bool) [default = True] - ewentualne wyświetlanie wartości poszczególnych kolumn w wykresie kolumnowym
 """
 
 # Metoda rysuje wykres porównujący zbieżność metod na podstawie liczby iteracji / czasu
 def draw_chart(
-    dir: str,
-    name: str,
+    type: str,
     title: str,
-    indicator: str,
-    jacobi: float,
-    gauss_seidel: float,
-    sor: float,
+    x_label: str,
+    y_label: str,
+    jacobi_data: float,
+    gauss_seidel_data: float,
+    sor_data: float,
+    data_precision: int = 6,
+    x_values: list = None,
+    data_labels: list = ["Jacobi", "Gauss-Seidel", "SOR"],
+    colors: list = ["#D14960", "#7DC481", "#2C84C7"],
+    show_grid: bool = False,
     show_signatures: bool = True,
 ) -> NoReturn:
-
-    # Utworzenie tablic nazw metod i ich rezultatów
-    methods = ["Jacobi", "Gauss-Seidel", "SOR"]
-    results = [jacobi, gauss_seidel, sor]
 
     # Utworzenie wykresu o podanym tytule i opisach osi
     plt.figure(title)
     plt.title(title, weight="bold")
-    plt.xlabel("metoda", weight="bold")
-    plt.ylabel(indicator, weight="bold")
-    # plt.grid(True)
+    plt.xlabel(x_label, weight="bold")
+    plt.ylabel(y_label, weight="bold")
 
-    # Utworzenie słupków kolumnowych dla poszczególnych wyników
-    bars = plt.bar(methods, results)
-    bars[0].set_color("#D14960")
-    bars[1].set_color("#7DC481")
-    bars[2].set_color("#2C84C7")
+    # Jeśli typ wykresu to 'kolumnowy'
+    if type == "bar":
 
-    # Jeśli użytkownik chce pokazać sygnatury wartości poszczególnych kolumn
-    if show_signatures:
-        # Pętla dla każdego z wyników, w której ustawiane są sygnatury wartości
-        for i in range(3):
-            plt.text(i, results[i], results[i], fontsize="10", ha="center", va="bottom")
+        # Utworzenie tablicy  rezultatów
+        if data_precision == 0:
+            results = [int(jacobi_data), int(gauss_seidel_data), int(sor_data)]
+        else:
+            results = [
+                round(float(jacobi_data), data_precision),
+                round(float(gauss_seidel_data), data_precision),
+                round(float(sor_data), data_precision),
+            ]
 
-    # Zapisanie pliku wykresu pod wskazanym adresem
-    plt.savefig(f"{dir}/{name}.png")
+        # Utworzenie kolumn dla poszczególnych wyników
+        bars = plt.bar(data_labels, results)
+        bars[0].set_color(colors[0])
+        bars[1].set_color(colors[1])
+        bars[2].set_color(colors[2])
+
+        # Jeśli użytkownik chce pokazać sygnatury wartości poszczególnych kolumn
+        if show_signatures:
+            # Pętla dla każdego z wyników, w której ustawiane są sygnatury wartości
+            for i in range(3):
+                plt.text(i, results[i], results[i], fontsize="10", ha="center", va="bottom")
+
+    # Jeśli typ wykresu to 'liniowy'
+    elif type == "linear":
+
+        # Utworzenie trzech serii danych
+        plt.plot(x_values, jacobi_data, color=colors[0], label=data_labels[0])
+        plt.plot(x_values, gauss_seidel_data, color=colors[1], label=data_labels[1])
+        plt.plot(x_values, sor_data, color=colors[2], label=data_labels[2])
+
+        # Utworzenie punktów serii danych
+        plt.scatter(x_values, jacobi_data, s=50, color=colors[0])
+        plt.scatter(x_values, gauss_seidel_data, s=50, color=colors[1])
+        plt.scatter(x_values, sor_data, s=50, color=colors[2])
+
+        # Wyświetlenie legendy
+        plt.legend()
+
+    # Ewentualne wyświetlenie siatki wykresu
+    if show_grid:
+        plt.grid()

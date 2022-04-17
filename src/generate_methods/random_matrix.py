@@ -1,7 +1,7 @@
 # Autor: Łukasz Miłoś
 # Data: 2021 - 2022
 
-# Plik zawierający metodę generującą macierz o losowych wartościach
+# Plik zawiera metodę generującą macierz o losowych wartościach
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
@@ -9,8 +9,6 @@
 import numpy as np
 from .diagonal_amplifier import strengthen_diagonal
 
-# Metoda generuje macierz o podanym rozmiarze i o losowych wartościach
-# Macierz jest dodatkowo wzmocniona, aby konieczny warunek zbieżności dla przybliżonych metod stacjonarnych był spełniony
 
 """
     Wejście:
@@ -20,9 +18,10 @@ from .diagonal_amplifier import strengthen_diagonal
         - matrix (np.ndarray) - macierz losowa
 """
 
-
+# Metoda generuje macierz o podanym rozmiarze i o losowych wartościach
+# Macierz jest dodatkowo wzmocniona, aby konieczny warunek zbieżności dla przybliżonych metod stacjonarnych był spełniony
 def random_matrix(size: int) -> np.ndarray:
-    
+
     # Wygenerowanie losowej macierzy kwadratowej o rozmiarze 'n x n'
     matrix = np.random.rand(size, size)
 

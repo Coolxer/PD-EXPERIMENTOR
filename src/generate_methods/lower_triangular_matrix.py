@@ -1,7 +1,7 @@
 # Autor: Łukasz Miłoś
 # Data: 2021 - 2022
 
-# Plik zawierający metodę generującą macierz dolnotrójkątną
+# Plik zawiera metodę generującą macierz dolnotrójkątną
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 

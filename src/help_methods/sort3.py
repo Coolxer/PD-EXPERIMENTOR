@@ -1,7 +1,7 @@
 # Autor: Łukasz Miłoś
 # Data: 2021 - 2022
 
-# Plik zawierający metodę sortowanie 3 list równolegle
+# Plik zawiera metodę sortowania 3 list równolegle
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 

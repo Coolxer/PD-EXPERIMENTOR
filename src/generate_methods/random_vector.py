@@ -1,7 +1,7 @@
 # Autor: Łukasz Miłoś
 # Data: 2021 - 2022
 
-# Plik zawierający metodę generującą wektor o losowych wartościach
+# Plik zawiera metodę generującą wektor o losowych wartościach
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 

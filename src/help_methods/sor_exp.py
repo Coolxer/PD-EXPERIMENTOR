@@ -1,7 +1,7 @@
 # Autor: Łukasz Miłoś
 # Data: 2021 - 2022
 
-# Plik zawierający metodę wykonującą mnogą liczbę eksperymentów przy pomocy metody SOR.
+# Plik zawiera metodę wykonującą mnogą liczbę eksperymentów przy pomocy metody SOR.
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
@@ -11,8 +11,6 @@ import numpy as np
 from ...equiter.src.sor.method import sor
 
 from .sort3 import sort3
-
-# -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
 """
     Wejście:
@@ -47,7 +45,7 @@ def sor_exp(
 
     # Pętla iterująca po wartościach parametru 'w'
     for w in w_vector:
-        print(f"    SOR: w: {w}")
+        print(f"    - dla parametru 'w': {w}")
 
         # Obliczenie rozwiązania metodą SOR z aktualną wartością parametru 'w'
         solution, iteration, time = sor(A, b, max_iterations, tolerance, w)

@@ -1,7 +1,7 @@
 # Autor: Łukasz Miłoś
 # Data: 2021 - 2022
 
-# Plik zawierający metodę wzmacniającą główną przekątną macierzy
+# Plik zawiera metodę wzmacniającą główną przekątną macierzy
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
