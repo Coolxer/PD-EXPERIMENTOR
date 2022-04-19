@@ -17,7 +17,7 @@ from .sort3 import sort3
         - A (np.ndarray) - macierz główna układu
         - b (np.ndarray) - wektor wyrazów wolnych
         - max_iterations (int) - maksymalna liczba iteracji
-        - tolerance (float) - zadana dokładność wyniku
+        - tolerance (float) - dokładność przybliżonego rozwiązania
         - w_vector (np.ndarray) - wektor wartości parametru 'w'
 
     Wyjście:

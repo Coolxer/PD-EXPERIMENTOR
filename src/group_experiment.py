@@ -20,7 +20,7 @@ from .help_methods.table import draw_table
     Wejście (Parametry):
         - experiment_name (str) - nazwa eksperymentu
 
-        - tolerance (int / float) - zadana dokładność wynikowa
+        - tolerance (float) - zadana dokładność przybliżonego rozwiązania
         - max_iterations (int) - maksymalna liczba iteracji
         - w_values (list) - lista wartości parametru 'w' do przetestowania
 

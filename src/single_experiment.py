@@ -31,7 +31,7 @@ from ..equiter.src.gauss_seidel.method import gauss_seidel
         - matrix_type (str) - typ macierzy głównej
         - matrix_size (int) - rozmiar macierzy głównej (liczba wierszy / kolumn)
 
-        - tolerance (int / float) - zadana dokładność wynikowa
+        - tolerance (float) - dokładność przybliżonego rozwiązania
         - max_iterations (int) - maksymalna liczba iteracji
         - w_values (list) - lista wartości parametru 'w' do przetestowania
         - create_charts (bool) [True] - czy mają zostać utworzone wykresy graficzne (przydatne głównie do pojedynczych eksperymentów)

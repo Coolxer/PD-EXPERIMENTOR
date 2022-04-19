@@ -43,7 +43,7 @@ def get_matrix(type: str, size: int) -> np.ndarray:
     elif type == random:
         matrix = random_matrix(size)
     elif type == sparse:
-        matrix = sparse_matrix(size, 0.25)
+        matrix = sparse_matrix(size)
     elif type == upper_triangular:
         matrix = upper_triangular_matrix(size)
 

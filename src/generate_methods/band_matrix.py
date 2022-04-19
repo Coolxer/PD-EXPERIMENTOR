@@ -29,7 +29,7 @@ def band_matrix(size: int) -> np.ndarray:
     matrix += np.diag(np.random.rand(size - 1), -1)
 
     # Wzmocnienie przekątnej macierzy
-    matrix = strengthen_diagonal(matrix, 0.1)
+    matrix = strengthen_diagonal(matrix)
 
     # Zwrócenie macierzy wstęgowej
     return matrix

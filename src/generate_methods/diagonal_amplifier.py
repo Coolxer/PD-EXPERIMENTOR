@@ -7,11 +7,11 @@
 
 # Import zależności
 import numpy as np
+from random import random
 
 """
     Wejście:
         - input_matrix (np.ndarray) - macierz do wzmocnienia
-        - value (float)  - wartość wzmocnienia głównej przekątnej macierzy
 
     Wyjście:
         - matrix (np.ndarray) - wzmocniona przekątniowo macierz
@@ -19,7 +19,7 @@ import numpy as np
 
 # Metoda służy do wzmacniania głównej przekątnej dowolnej macierzy,  aby był spełniony
 # konieczny  warunek zbieżności dla stacjonarnych metod prrzybliżonych rozwiązywania URL
-def strengthen_diagonal(input_matrix: np.ndarray, value: float) -> np.ndarray:
+def strengthen_diagonal(input_matrix: np.ndarray) -> np.ndarray:
 
     # Utworzenie kopii macierzy wejściowej
     matrix = input_matrix.copy()
@@ -38,7 +38,7 @@ def strengthen_diagonal(input_matrix: np.ndarray, value: float) -> np.ndarray:
         # to element leżący na głównej przekątnej stanowi tę sumę powiększoną o 'value'
         # to sprawia, że macierz staje się diagonalnie dominująca
         if np.abs(matrix[i][i]) <= S[i]:
-            matrix[i][i] = S[i] + value
+            matrix[i][i] = S[i] + random()
 
     # Zwrócenie  macierzy wzmocnionej
     return matrix

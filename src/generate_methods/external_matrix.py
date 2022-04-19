@@ -39,7 +39,7 @@ def external_matrix() -> np.ndarray:
             break
 
     # Wzmocnienie głównej przekątnej macierzy
-    matrix = strengthen_diagonal(matrix, 0.1)
+    matrix = strengthen_diagonal(matrix)
 
     # Zwrócenie macierzy pobranej ze źródeł zewnętrznych, gotowej do dalszego przetwarzania
     return matrix

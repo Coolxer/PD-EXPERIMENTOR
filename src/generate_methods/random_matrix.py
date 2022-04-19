@@ -26,7 +26,7 @@ def random_matrix(size: int) -> np.ndarray:
     matrix = np.random.rand(size, size)
 
     # Wzmocnienie głównej przekątnej macierzy
-    matrix = strengthen_diagonal(matrix, 0.1)
+    matrix = strengthen_diagonal(matrix)
 
     # Zwrócenie macierzy o losowych wartościach
     return matrix

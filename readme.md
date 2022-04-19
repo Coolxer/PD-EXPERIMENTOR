@@ -141,7 +141,7 @@ Użytkownik podaje 6 lub 7 parametrów funkcji badawczej , gdy chce wykonać poj
   - 'upper_triangular': górno-trójkątna
 
 - **_matrix_size_** (int) - rozmiar macierzy wejściowej układu
-- **_tolerance_** (int / float) - dokładność wyniku
+- **_tolerance_** (int / float) - dokładność przybliżonego rezultatu
 - **_max_iterations_** (int) - maksymalna liczba iteracji
 - **_w_values_** (list) - lista wartości parametru 'w' do przetestowania
 - **_create_charts_** (bool) [True] - czy wykresy mają zostać wygenerowane
