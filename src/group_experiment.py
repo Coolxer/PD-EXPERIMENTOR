@@ -50,9 +50,7 @@ def do_group_experiment(
     # Jeśli typ eksperymentu to 'grupowany według typu'
     if matrix_type is not None and sizes is not None:
         for size in sizes:
-            do_single_experiment(
-                f"{experiment_name}/{size}", matrix_type, size, tolerance, max_iterations, w_values, create_charts
-            )
+            do_single_experiment(f"{experiment_name}/{size}", matrix_type, size, tolerance, max_iterations, w_values)
         experiment_description = (
             f"nazwa eksperymentu = {experiment_name}\ntyp eksperymentu = type_grouped\ntyp macierzy A = {matrix_type}"
         )
@@ -60,9 +58,7 @@ def do_group_experiment(
     # Jeśli typ eksperymentu to 'grupowany według rozmiaru'
     elif matrix_size is not None and types is not None:
         for type in types:
-            do_single_experiment(
-                f"{experiment_name}/{type}", type, matrix_size, tolerance, max_iterations, w_values, create_charts
-            )
+            do_single_experiment(f"{experiment_name}/{type}", type, matrix_size, tolerance, max_iterations, w_values)
         experiment_description = f"nazwa eksperymentu = {experiment_name}\ntyp eksperymentu = size_grouped\nrozmiar macierzy A = {matrix_size}"
 
     save_data_to_file(f"{get_data_dir()}/{experiment_name}", "general", experiment_description)

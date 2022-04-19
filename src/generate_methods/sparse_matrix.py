@@ -7,7 +7,7 @@
 
 # Import zależności
 import numpy as np
-from scipy.sparse import random
+import scipy.sparse
 import random
 from .diagonal_amplifier import strengthen_diagonal
 
@@ -24,7 +24,7 @@ from .diagonal_amplifier import strengthen_diagonal
 def sparse_matrix(size: int) -> np.ndarray:
 
     # Wygenerowanie rzadkiej macierzy kwadratowej o rozmiarze 'n x n'
-    matrix = random(size, size, density=random.random(), format="csr").toarray()
+    matrix = scipy.sparse.random(size, size, density=random.random(), format="csr").toarray()
 
     # Wzmocnienie głównej przekątnej macierzy
     matrix = strengthen_diagonal(matrix)
