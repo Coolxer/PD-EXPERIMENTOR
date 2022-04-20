@@ -1,7 +1,7 @@
 # Autor: Łukasz Miłoś
 # Data: 2021 - 2022
 
-# Plik zawiera metodę rysującą wykres porównujący zbieżność metod
+# Plik zawiera metodę rysującą wykres porównujący zbieżność metod i metodę umożliwiającą zapis wykresu do pliku
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
@@ -46,7 +46,7 @@ def draw_chart(
 ) -> NoReturn:
 
     # Utworzenie wykresu o podanym tytule i opisach osi
-    plt.figure(title)
+    fig = plt.figure()
     plt.title(title, weight="bold")
     plt.xlabel(x_label, weight="bold")
     plt.ylabel(y_label, weight="bold")
@@ -80,14 +80,16 @@ def draw_chart(
     elif type == "linear":
 
         # Utworzenie trzech serii danych
-        plt.plot(x_values, jacobi_data, color=colors[0], label=data_labels[0])
-        plt.plot(x_values, gauss_seidel_data, color=colors[1], label=data_labels[1])
-        plt.plot(x_values, sor_data, color=colors[2], label=data_labels[2])
+        plt.plot(x_values, jacobi_data, linestyle=(0, (5, 10)), marker="o", color=colors[0], label=data_labels[0])
+        plt.plot(x_values, gauss_seidel_data, linestyle=(0, (5, 10)), marker="o", color=colors[1], label=data_labels[1])
+        plt.plot(x_values, sor_data, linestyle=(0, (5, 10)), marker="o", color=colors[2], label=data_labels[2])
 
-        # Utworzenie punktów serii danych
-        plt.scatter(x_values, jacobi_data, s=50, color=colors[0])
-        plt.scatter(x_values, gauss_seidel_data, s=50, color=colors[1])
-        plt.scatter(x_values, sor_data, s=50, color=colors[2])
+        # Ustawienie wartości na osi x
+        plt.xticks(x_values)
+
+        # Dopasowanie rozmiaru etykiet typu macierzy
+        if x_label == "typ macierzy":
+            fig.autofmt_xdate()
 
         # Wyświetlenie legendy
         plt.legend()
@@ -95,3 +97,18 @@ def draw_chart(
     # Ewentualne wyświetlenie siatki wykresu
     if show_grid:
         plt.grid()
+
+    # Zamknięcie figury
+    # plt.close(fig)
+
+
+# -------------------------------------------------------------------------------------------------------------------------------------------------- #
+
+"""
+    Wejście:
+        - file (str) - ścieżka zapisu pliku graficznego
+"""
+# Metoda zapisuje aktualnie otwartą wykres do wskazanego pliku
+def save_chart_to_file(file: str) -> NoReturn:
+    plt.savefig(file, bbox_inches="tight")
+    plt.close()

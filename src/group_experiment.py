@@ -7,12 +7,11 @@
 
 # Import zależności
 import os
-import matplotlib.pyplot as plt
 
 from .help_methods.dir import get_data_dir
 from .help_methods.file import save_data_to_file
 from .single_experiment import do_single_experiment
-from .help_methods.chart import draw_chart
+from .help_methods.chart import draw_chart, save_chart_to_file
 from .help_methods.table import draw_table
 
 
@@ -134,6 +133,7 @@ def make_group_charts_and_tables(experiment_name):
         x_label = "rozmiar macierzy"
 
     # Jeśli typ eksperymentu dotyczy grupowania według rozmiaru to sortowanie odbywa się za pomocą łańcuchów znakowych
+    # Dodatkowo nadawane są własne nazwy (spolszczone)
     elif experiment_type.strip() == "size_grouped":
         exp_dir_group = sorted(exp_dir_group)
         x_label = "typ macierzy"
@@ -162,6 +162,10 @@ def make_group_charts_and_tables(experiment_name):
             print("Wymagane pliki do stworzenia wykresów nie istnieją!")
             return
 
+    # Jeśli typ eksperymentu dotyczy grupowania według rozmiaru to nazwy macierzy zostają spolszczone
+    if experiment_type.strip() == "size_grouped":
+        exp_dir_group = translate_matrix_names(exp_dir_group)
+
     # Narysowanie wykresu liczby iteracji
     draw_chart(
         "linear",
@@ -176,7 +180,7 @@ def make_group_charts_and_tables(experiment_name):
     )
 
     # Zapisanie wykresu liczby iteracji w pliku
-    plt.savefig(f"{exp_dir}/iterations_chart.png")
+    save_chart_to_file(f"{exp_dir}/iterations_chart.png")
 
     # Narysowanie wykresu czasu obliczeń
     draw_chart(
@@ -192,7 +196,7 @@ def make_group_charts_and_tables(experiment_name):
     )
 
     # Zapisanie wykresu czasu obliczeń w pliku
-    plt.savefig(f"{exp_dir}/times_chart.png")
+    save_chart_to_file(f"{exp_dir}/times_chart.png")
 
     # Utworzenie tabeli wyników dot. liczby wyk. iteracji
     draw_table(
@@ -215,3 +219,36 @@ def make_group_charts_and_tables(experiment_name):
         gauss_seidel_times,
         sor_times,
     )
+
+
+# -------------------------------------------------------------------------------------------------------------------------------------------------- #
+
+"""
+    Wejście:
+        - eng_matrix_names (str): kluczowe nazwy macierzy w j. angielskim
+
+    Wyjście:
+        - pl_matrix_names (str): nazwy macierzy w języku polskim
+"""
+
+# Macierz zamienia kluczowe nazwy macierzy na poprawne nazwy w j. polskim
+def translate_matrix_names(eng_matrix_names: list) -> list:
+    pl_matrix_names = []
+
+    for name in eng_matrix_names:
+        if name == "band":
+            pl_matrix_names.append("wstęgowa")
+        elif name == "diagonal":
+            pl_matrix_names.append("diagonalna")
+        elif name == "lower_triangular":
+            pl_matrix_names.append("dolno-trójkątna")
+        elif name == "random":
+            pl_matrix_names.append("losowa")
+        elif name == "sparse":
+            pl_matrix_names.append("rzadka")
+        elif name == "upper_triangular":
+            pl_matrix_names.append("górno-trójkątna")
+        else:
+            continue
+
+    return pl_matrix_names

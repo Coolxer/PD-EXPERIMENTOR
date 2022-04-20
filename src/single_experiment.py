@@ -9,14 +9,13 @@
 import os
 import shutil
 from typing import NoReturn
-import matplotlib.pyplot as plt
 
 # Import funkcji pomocniczych
 from .help_methods.dir import get_data_dir
 from .help_methods.file import save_data_to_file, save_matrix_to_file
 from .help_methods.vector import get_vector
 from .help_methods.sor_exp import sor_exp
-from .help_methods.chart import draw_chart
+from .help_methods.chart import draw_chart, save_chart_to_file
 
 # Import elementów związanych z macierzami
 from .help_methods.matrix import get_matrix
@@ -178,17 +177,14 @@ def do_single_experiment(
         0,
     )
     # Zapisanie wykresu iteracji
-    plt.savefig(f"{results_dir_img}/iterations.png")
+    save_chart_to_file(f"{results_dir_img}/iterations.png")
 
     print("Generowanie wykresu zbieżności według wskaźnika czasu obliczeń ...")
     draw_chart(
         "bar", "Wykres czasu obliczeń", "metoda", "czas obliczeń [s]", jacobi_time, gauss_seidel_time, sor_time, 6
     )
     # Zapisanie wykresu czasu
-    plt.savefig(f"{results_dir_img}/times.png")
-
-    # Zamknięcie okień graficznych
-    plt.close("all")
+    save_chart_to_file(f"{results_dir_img}/times.png")
 
     print(f"\nEksperyment {experiment_name} zakończony sukcesem!")
     print("#############################################################")
