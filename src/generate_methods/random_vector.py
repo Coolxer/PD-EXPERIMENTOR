@@ -1,7 +1,7 @@
 # Autor: Łukasz Miłoś
 # Data: 2021 - 2022
 
-# Plik zawiera metodę generującą wektor o losowych wartościach
+# Plik zawiera metodę generującą wektor
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
@@ -19,8 +19,8 @@ import numpy as np
 # Metoda generuje wektor o podanym rozmiarze
 def random_vector(size: int) -> np.ndarray:
 
-    # Wygenerowanie wektora  o losowych wartościach
+    # Wygenerowanie wektora  o losowych wartościach z zakresu [0, 1]
     vector = np.random.rand(size)
 
-    # Zwrócenie wektora o losowych wartościach
+    # Zwrócenie wektora 
     return vector

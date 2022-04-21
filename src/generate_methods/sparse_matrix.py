@@ -23,8 +23,8 @@ from .diagonal_amplifier import strengthen_diagonal
 # Macierz jest dodatkowo wzmocniona, aby konieczny warunek zbieżności dla przybliżonych metod stacjonarnych był spełniony
 def sparse_matrix(size: int) -> np.ndarray:
 
-    # Wygenerowanie rzadkiej macierzy kwadratowej o rozmiarze 'n x n'
-    matrix = scipy.sparse.random(size, size, density=random.random(), format="csr").toarray()
+    # Wygenerowanie rzadkiej macierzy kwadratowej o rozmiarze 'n x n' i wypełnieniu w przedziale [0, 0.2]
+    matrix = scipy.sparse.random(size, size, density=random.uniform(0, 0.2), format="csr").toarray()
 
     # Wzmocnienie głównej przekątnej macierzy
     matrix = strengthen_diagonal(matrix)

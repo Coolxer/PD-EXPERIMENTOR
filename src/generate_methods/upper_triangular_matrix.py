@@ -1,13 +1,13 @@
 # Autor: Łukasz Miłoś
 # Data: 2021 - 2022
 
-# Plik zawiera metodę generującą macierz górnotrójkątną
+# Plik zawiera metodę generującą macierz górno-trójkątną
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
 # Import zależności
 import numpy as np
-from .random_matrix import random_matrix
+from .full_matrix import full_matrix
 
 """
     Wejście:
@@ -17,11 +17,11 @@ from .random_matrix import random_matrix
         - matrix (np.ndarray) - macierz górno-trójkątna
 """
 
-# Metoda generuje macierz górno-trójkątną na podstawie macierzy wygenerowanej w sposób losowy
+# Metoda generuje macierz górno-trójkątną na podstawie macierzy wygenerowanej w sposób losowy (wartości z zakresu [0, 1])
 def upper_triangular_matrix(size: int) -> np.ndarray:
 
     # Wygenerowanie losowej macierzy kwadratowej o rozmiarze 'n x n'
-    matrix = random_matrix(size)
+    matrix = full_matrix(size)
 
     # Utworzenie macierzy górno-trójkątnej na podstawie wcześniej wygenerowanej macierzy
     matrix = np.triu(matrix)

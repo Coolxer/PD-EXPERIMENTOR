@@ -135,10 +135,8 @@ Użytkownik podaje 6 lub 7 parametrów funkcji badawczej , gdy chce wykonać poj
   - 'band': wstęgowa (pasmowa) o szerokości 3
   - 'diagonal': diagonalna, wygenerowana w sposób losowy
   - 'external': zewnętrzna, pobrana ze źródeł zewnętrznych
-  - 'lower_triangular': dolno-trójkątna
-  - 'random': pełna wygenerowana w sposób losowy
-  - 'sparse': rzadka, wygenerowana przy pomocy zewnętrznej biblioteki
-  - 'upper_triangular': górno-trójkątna
+  - 'full': pełna wygenerowana w sposób losowy
+  - 'sparse': rzadka, wygenerowana w sposób losowy
 
 - **_matrix_size_** (int) - rozmiar macierzy wejściowej układu
 - **_tolerance_** (int / float) - dokładność przybliżonego rezultatu
@@ -204,7 +202,7 @@ Warto zwrócić uwagę także na tworzenie dodatkowych tabel dla grupowych dośw
 
 Zasada działania tych metod jest bardzo prosta. Metoda służąca do wykonywania grupowych eksperymentów ma podobne parametry, co metoda służąca do jednostkowych doświadczeń. Natomiast metoda do generacji wykresów grupowych jako argument przyjmuje tylko nazwę eksperymentu. Zainteresowanych odsyłam do kodu źródłowego po więcej szczegółów.
 
-Poniżej przykładowe wygenerowane wykresy dla pewnego eksperymentu grupowanego według typu macierzy losowej. Badane rozmiary macierzy wejściowej to 100, 200, 500, 1000, 2000, 5000, 10000:
+Poniżej przykładowe wygenerowane wykresy dla pewnego eksperymentu grupowanego według typu macierzy pełnej. Badane rozmiary macierzy wejściowej to 100, 200, 500, 1000, 2000, 5000, 10000:
 ![title](md_images/group_iterations_chart.png)
 
 ![title](md_images/group_times_chart.png)

@@ -130,7 +130,7 @@ def make_group_charts_and_tables(experiment_name):
     # Jeśli typ eksperymentu dotyczy grupowania według typu to sortowanie odbywa się za pomocą wartości liczbowych
     if experiment_type.strip() == "type_grouped":
         exp_dir_group = sorted(list(map(lambda x: int(x), exp_dir_group)))
-        x_label = "rozmiar macierzy"
+        x_label = "stopień macierzy"
 
     # Jeśli typ eksperymentu dotyczy grupowania według rozmiaru to sortowanie odbywa się za pomocą łańcuchów znakowych
     # Dodatkowo nadawane są własne nazwy (spolszczone)
@@ -169,9 +169,9 @@ def make_group_charts_and_tables(experiment_name):
     # Narysowanie wykresu liczby iteracji
     draw_chart(
         "linear",
-        "Wykres liczby wykonanych iteracji",
+        "Liczba wykonanych iteracji",
         x_label,
-        "liczba iteracji [szt.]",
+        "liczba iteracji",
         jacobi_iterations,
         gauss_seidel_iterations,
         sor_iterations,
@@ -185,7 +185,7 @@ def make_group_charts_and_tables(experiment_name):
     # Narysowanie wykresu czasu obliczeń
     draw_chart(
         "linear",
-        "Wykres czasu obliczeń",
+        "Czas obliczeń",
         x_label,
         "czas [s]",
         jacobi_times,
@@ -240,10 +240,10 @@ def translate_matrix_names(eng_matrix_names: list) -> list:
             pl_matrix_names.append("wstęgowa")
         elif name == "diagonal":
             pl_matrix_names.append("diagonalna")
+        elif name == "full":
+            pl_matrix_names.append("pełna")
         elif name == "lower_triangular":
             pl_matrix_names.append("dolno-trójkątna")
-        elif name == "random":
-            pl_matrix_names.append("losowa")
         elif name == "sparse":
             pl_matrix_names.append("rzadka")
         elif name == "upper_triangular":

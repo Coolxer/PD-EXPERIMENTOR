@@ -8,13 +8,13 @@
 # Import zależności
 import numpy as np
 
-from ..generate_methods.sparse_matrix import sparse_matrix
-from ..generate_methods.random_matrix import random_matrix
-from ..generate_methods.diagonal_matrix import diagonal_matrix
 from ..generate_methods.band_matrix import band_matrix
-from ..generate_methods.lower_triangular_matrix import lower_triangular_matrix
-from ..generate_methods.upper_triangular_matrix import upper_triangular_matrix
+from ..generate_methods.diagonal_matrix import diagonal_matrix
 from ..generate_methods.external_matrix import external_matrix
+from ..generate_methods.full_matrix import full_matrix
+from ..generate_methods.lower_triangular_matrix import lower_triangular_matrix
+from ..generate_methods.sparse_matrix import sparse_matrix
+from ..generate_methods.upper_triangular_matrix import upper_triangular_matrix
 
 from .types import *
 
@@ -38,10 +38,10 @@ def get_matrix(type: str, size: int) -> np.ndarray:
         matrix = diagonal_matrix(size)
     elif type == external:
         matrix = external_matrix()
+    elif type == full:
+        matrix = full_matrix(size)
     elif type == lower_triangular:
         matrix = lower_triangular_matrix(size)
-    elif type == random:
-        matrix = random_matrix(size)
     elif type == sparse:
         matrix = sparse_matrix(size)
     elif type == upper_triangular:

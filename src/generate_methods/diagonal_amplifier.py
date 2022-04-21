@@ -7,7 +7,6 @@
 
 # Import zależności
 import numpy as np
-from random import random
 
 """
     Wejście:
@@ -35,10 +34,10 @@ def strengthen_diagonal(input_matrix: np.ndarray) -> np.ndarray:
     for i in range(np.shape(matrix)[0]):
         # Jeśli wartość absolutna elementu leżącego na głównej przekątnej
         # jest mniejsza bądź równa sumie wartości absolutnych w tym wierszu
-        # to element leżący na głównej przekątnej stanowi tę sumę powiększoną o 'value'
+        # to element leżący na głównej przekątnej stanowi tę sumę pomnożoną przez 10
         # to sprawia, że macierz staje się diagonalnie dominująca
         if np.abs(matrix[i][i]) <= S[i]:
-            matrix[i][i] = S[i] + random()
+            matrix[i][i] = S[i] * 10
 
     # Zwrócenie  macierzy wzmocnionej
     return matrix

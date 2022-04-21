@@ -25,7 +25,7 @@ def diagonal_matrix(size: int) -> np.ndarray:
 
     # Pętla iterująca po wierszach macierzy
     for i in range(np.shape(matrix)[0]):
-        # Wylosowanie wartości elementów macierzy leżących na głównej przekątnej
+        # Wylosowanie wartości z zakresu [0, 1] elementów macierzy leżących na głównej przekątnej
         matrix[i][i] = random()
 
     # Zwrócenie macierzy diagonalnej

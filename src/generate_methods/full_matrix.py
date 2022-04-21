@@ -1,7 +1,7 @@
 # Autor: Łukasz Miłoś
 # Data: 2021 - 2022
 
-# Plik zawiera metodę generującą macierz o losowych wartościach
+# Plik zawiera metodę generującą macierz pełną
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
@@ -18,15 +18,15 @@ from .diagonal_amplifier import strengthen_diagonal
         - matrix (np.ndarray) - macierz losowa
 """
 
-# Metoda generuje macierz o podanym rozmiarze i o losowych wartościach
+# Metoda generuje macierz pełną o podanym rozmiarze i o losowych wartościach z zakresu [0, 1]
 # Macierz jest dodatkowo wzmocniona, aby konieczny warunek zbieżności dla przybliżonych metod stacjonarnych był spełniony
-def random_matrix(size: int) -> np.ndarray:
+def full_matrix(size: int) -> np.ndarray:
 
-    # Wygenerowanie losowej macierzy kwadratowej o rozmiarze 'n x n'
+    # Wygenerowanie pełnej macierzy kwadratowej o rozmiarze 'n x n'
     matrix = np.random.rand(size, size)
 
     # Wzmocnienie głównej przekątnej macierzy
     matrix = strengthen_diagonal(matrix)
 
-    # Zwrócenie macierzy o losowych wartościach
+    # Zwrócenie macierzy pełnej
     return matrix

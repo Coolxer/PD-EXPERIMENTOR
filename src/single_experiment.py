@@ -168,9 +168,9 @@ def do_single_experiment(
     print("Generowanie wykresu zbieżności według wskaźnika liczby wyk. iteracji ...")
     draw_chart(
         "bar",
-        "Wykres liczby wykonanych iteracji",
+        "Liczba wykonanych iteracji",
         "metoda",
-        "liczba iteracji [szt.]",
+        "liczba iteracji",
         jacobi_iterations,
         gauss_seidel_iterations,
         sor_iterations,
@@ -180,9 +180,7 @@ def do_single_experiment(
     save_chart_to_file(f"{results_dir_img}/iterations.png")
 
     print("Generowanie wykresu zbieżności według wskaźnika czasu obliczeń ...")
-    draw_chart(
-        "bar", "Wykres czasu obliczeń", "metoda", "czas obliczeń [s]", jacobi_time, gauss_seidel_time, sor_time, 6
-    )
+    draw_chart("bar", "Czas obliczeń", "metoda", "czas obliczeń [s]", jacobi_time, gauss_seidel_time, sor_time, 6)
     # Zapisanie wykresu czasu
     save_chart_to_file(f"{results_dir_img}/times.png")
 
