@@ -24,10 +24,10 @@ from .help_methods.table import draw_table
         - w_values (list) - lista wartości parametru 'w' do przetestowania
 
         - matrix_type (str) [None] - typ macierzy głównej (podane tylko w przypadku eksperymentu grupowanego według typu)
-        - sizes(list) [None] - lista rozmiarów układu w doświadczeniu  (podane tylko w przypadku eksperymentu grupowanego według typu)
+        - orders(list) [None] - lista stopni macierzy w doświadczeniu  (podane tylko w przypadku eksperymentu grupowanego według typu)
         
-        - matrix_size (int) [None] - rozmiar macierzy głównej (liczba wierszy / kolumn) (podane tylko w przypadku eksperymentu grupowanego według rozmiaru)
-        - types (list) [None] - lista typów układu w doświadczeniu  (podane tylko w przypadku eksperymentu grupowanego według rozmiaru)
+        - matrix_order (int) [None] - stopień macierzy głównej (podane tylko w przypadku eksperymentu grupowanego według stopnia macierzy)
+        - types (list) [None] - lista typów macierzy w doświadczeniu (podane tylko w przypadku eksperymentu grupowanego według stopnia macierzy)
 
         - create_charts (bool) [False] - czy mają zostać utworzone wykresy graficzne (przydatne gdy eksperyment grupowy wykonywany jest w całości lub jest to jego koniec)
 """
@@ -39,26 +39,26 @@ def do_group_experiment(
     max_iterations: int,
     w_values: list,
     matrix_type: str = None,
-    sizes: list = None,
-    matrix_size: int = None,
+    orders: list = None,
+    matrix_order: int = None,
     types: list = None,
     create_charts: bool = False,
 ):
     experiment_description = None
 
     # Jeśli typ eksperymentu to 'grupowany według typu'
-    if matrix_type is not None and sizes is not None:
-        for size in sizes:
-            do_single_experiment(f"{experiment_name}/{size}", matrix_type, size, tolerance, max_iterations, w_values)
+    if matrix_type is not None and orders is not None:
+        for order in orders:
+            do_single_experiment(f"{experiment_name}/{order}", matrix_type, order, tolerance, max_iterations, w_values)
         experiment_description = (
             f"nazwa eksperymentu = {experiment_name}\ntyp eksperymentu = type_grouped\ntyp macierzy A = {matrix_type}"
         )
 
-    # Jeśli typ eksperymentu to 'grupowany według rozmiaru'
-    elif matrix_size is not None and types is not None:
+    # Jeśli typ eksperymentu to 'grupowany według stopnia'
+    elif matrix_order is not None and types is not None:
         for type in types:
-            do_single_experiment(f"{experiment_name}/{type}", type, matrix_size, tolerance, max_iterations, w_values)
-        experiment_description = f"nazwa eksperymentu = {experiment_name}\ntyp eksperymentu = size_grouped\nrozmiar macierzy A = {matrix_size}"
+            do_single_experiment(f"{experiment_name}/{type}", type, matrix_order, tolerance, max_iterations, w_values)
+        experiment_description = f"nazwa eksperymentu = {experiment_name}\ntyp eksperymentu = order_grouped\stopień macierzy A = {matrix_order}"
 
     save_data_to_file(f"{get_data_dir()}/{experiment_name}", "general", experiment_description)
 
@@ -132,9 +132,9 @@ def make_group_charts_and_tables(experiment_name):
         exp_dir_group = sorted(list(map(lambda x: int(x), exp_dir_group)))
         x_label = "stopień macierzy"
 
-    # Jeśli typ eksperymentu dotyczy grupowania według rozmiaru to sortowanie odbywa się za pomocą łańcuchów znakowych
+    # Jeśli typ eksperymentu dotyczy grupowania według stopnia to sortowanie odbywa się za pomocą łańcuchów znakowych
     # Dodatkowo nadawane są własne nazwy (spolszczone)
-    elif experiment_type.strip() == "size_grouped":
+    elif experiment_type.strip() == "order_grouped":
         exp_dir_group = sorted(exp_dir_group)
         x_label = "typ macierzy"
 
@@ -162,8 +162,8 @@ def make_group_charts_and_tables(experiment_name):
             print("Wymagane pliki do stworzenia wykresów nie istnieją!")
             return
 
-    # Jeśli typ eksperymentu dotyczy grupowania według rozmiaru to nazwy macierzy zostają spolszczone
-    if experiment_type.strip() == "size_grouped":
+    # Jeśli typ eksperymentu dotyczy grupowania według stopnia to nazwy macierzy zostają spolszczone
+    if experiment_type.strip() == "order_grouped":
         exp_dir_group = translate_matrix_names(exp_dir_group)
 
     # Narysowanie wykresu liczby iteracji

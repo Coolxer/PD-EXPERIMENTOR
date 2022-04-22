@@ -11,17 +11,17 @@ from random import random
 
 """
     Wejście:
-        - size (int) - rozmiar macierzy (liczba wierszy / kolumn)
+        - order (int) - stopień macierzy
 
     Wyjście:
         - matrix (np.ndarray) - macierz diagonalna
 """
 
-# Metoda generuje macierz diagonalną o podanym rozmiarze
-def diagonal_matrix(size: int) -> np.ndarray:
+# Metoda generuje macierz diagonalną o podanym stopniu
+def diagonal_matrix(order: int) -> np.ndarray:
 
-    # Wygenerowanie macierzy o rozmiarze 'n x n' składającej się z samych 0
-    matrix = np.zeros((size, size))
+    # Wygenerowanie kwadratowej macierzy stopnia 'order' składającej się z samych 0
+    matrix = np.zeros((order, order))
 
     # Pętla iterująca po wierszach macierzy
     for i in range(np.shape(matrix)[0]):

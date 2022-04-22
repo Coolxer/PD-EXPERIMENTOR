@@ -22,29 +22,29 @@ from .types import *
 """
     Wejście:
         - type (str) - typ macierzy
-        - size (int) - rozmiar macierzy
+        - order (int) - stopień macierzy
 
     Wyjście:
         - matrix (np.ndarray) - macierz
 """
 
 # Metoda mapuje nazwy macierzy i  zwraca macierz o wybranym typie
-def get_matrix(type: str, size: int) -> np.ndarray:
+def get_matrix(type: str, order: int) -> np.ndarray:
     matrix = None
 
     if type == band:
-        matrix = band_matrix(size)
+        matrix = band_matrix(order)
     elif type == diagonal:
-        matrix = diagonal_matrix(size)
+        matrix = diagonal_matrix(order)
     elif type == external:
         matrix = external_matrix()
     elif type == full:
-        matrix = full_matrix(size)
+        matrix = full_matrix(order)
     elif type == lower_triangular:
-        matrix = lower_triangular_matrix(size)
+        matrix = lower_triangular_matrix(order)
     elif type == sparse:
-        matrix = sparse_matrix(size)
+        matrix = sparse_matrix(order)
     elif type == upper_triangular:
-        matrix = upper_triangular_matrix(size)
+        matrix = upper_triangular_matrix(order)
 
     return matrix

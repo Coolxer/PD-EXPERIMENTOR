@@ -26,7 +26,7 @@ Najważniejsze cechy środowiska:
 
 System pozwala m.in. na porównanie zbieżności poszczególnych metod iteracyjnych względem badanego układu równań. Możliwość generowania szerokiego spektrum macierzy wejściowych, a co za tym idzie układów, pozwala na przetestowanie skuteczności metod względem różnych typów macierzy wejściowych.
 
-Wartą uwagi jest możliwość grupowania eksperymentów według typu macierzy wejściowej lub jej rozmiaru.
+Wartą uwagi jest możliwość grupowania eksperymentów według typu macierzy wejściowej lub jej stopnia.
 
 ---
 
@@ -84,12 +84,12 @@ import experimentor as exp
 
 experiment_name = "my_experiment_001"
 matrix_type = exp.matrix_type.random
-matrix_size = 1000
+matrix_order = 1000
 tolerance = 0.0001
 max_iterations = 2000
 w_values = [1.1, 1.3, 1.5]
 
-exp.do_single_experiment(experiment_name, matrix_type, matrix_size, tolerance, max_iterations, w_values)
+exp.do_single_experiment(experiment_name, matrix_type, matrix_order, tolerance, max_iterations, w_values)
 ```
 
 Efektem wykonania powyższego kodu będzie wyświetlenie następujących informacji w konsoli / terminalu:
@@ -138,7 +138,7 @@ Użytkownik podaje 6 lub 7 parametrów funkcji badawczej , gdy chce wykonać poj
   - 'full': pełna wygenerowana w sposób losowy
   - 'sparse': rzadka, wygenerowana w sposób losowy
 
-- **_matrix_size_** (int) - rozmiar macierzy wejściowej układu
+- **_matrix_order_** (int) - stopień macierzy wejściowej układu
 - **_tolerance_** (int / float) - dokładność przybliżonego rezultatu
 - **_max_iterations_** (int) - maksymalna liczba iteracji
 - **_w_values_** (list) - lista wartości parametru 'w' do przetestowania
@@ -148,7 +148,7 @@ Z perspektywy użytkownika ważne jest to, że w katalogu **_data_**, wewnątrz 
 
 #### Konfiguracja
 
-Odpowiednia macierz zostanie wygenerowana, podobnie jak wektor wyrazów wolnych, o ile nie istnieje (plik może już istnieć w katalogu **_data_** o nazwie **_b\_[matrix_size]_**). Wektor wyrazów wolnych może być bowiem dzielony pomiędzy różne eksperymenty, w celu zbadania innych zależności. Wszelkie dane konfiguracyjne zostaną zapisane wewnątrz katalogu doświadczenia, ale w specjalnie przygotowanym katalogu config, czyli:
+Odpowiednia macierz zostanie wygenerowana, podobnie jak wektor wyrazów wolnych, o ile nie istnieje (plik może już istnieć w katalogu **_data_** o nazwie **_b\_[matrix_order]_**). Wektor wyrazów wolnych może być bowiem dzielony pomiędzy różne eksperymenty, w celu zbadania innych zależności. Wszelkie dane konfiguracyjne zostaną zapisane wewnątrz katalogu doświadczenia, ale w specjalnie przygotowanym katalogu config, czyli:
 
 ```console
       experimentor/data/[experiment_name]/config
@@ -191,8 +191,8 @@ W przypadku wyników graficznych powstaje folder **_img_**, a wewnątrz niego tw
 
 Do środowiska dodano także możliwość tworzenia grupowych doświadczeń (metoda **do_group_experiment** ), tzn.:
 
-- grupowanych według typu macierzy wejściowej A (stały typ, zmienny rozmiar macierzy)
-- grupowanych według rozmiaru macierzy wejściowej A (stały rozmiar, zmienny typ macierzy)
+- grupowanych według typu macierzy wejściowej A (stały typ, zmienny stopień macierzy)
+- grupowanych według stopnia macierzy wejściowej A (stały stopień, zmienny typ macierzy)
 
 Użytkownik decyduje jakie wartości parametrów chce przetestować, a co jest bardzo istotne ma także możliwość dzielenia doświadczenia na różne etapy, tzn. w jednej chwilii nie musi testować całego zakresu parametrów, ponieważ może dopisać kolejne wyniki do już istniejących. Jest to szczególnie przydatne w przypadku czasochłonnych obliczeń.
 
@@ -202,7 +202,7 @@ Warto zwrócić uwagę także na tworzenie dodatkowych tabel dla grupowych dośw
 
 Zasada działania tych metod jest bardzo prosta. Metoda służąca do wykonywania grupowych eksperymentów ma podobne parametry, co metoda służąca do jednostkowych doświadczeń. Natomiast metoda do generacji wykresów grupowych jako argument przyjmuje tylko nazwę eksperymentu. Zainteresowanych odsyłam do kodu źródłowego po więcej szczegółów.
 
-Poniżej przykładowe wygenerowane wykresy dla pewnego eksperymentu grupowanego według typu macierzy pełnej. Badane rozmiary macierzy wejściowej to 100, 200, 500, 1000, 2000, 5000, 10000:
+Poniżej przykładowe wygenerowane wykresy dla pewnego eksperymentu grupowanego według typu macierzy pełnej. Badane stopnie macierzy wejściowej to 100, 200, 500, 1000, 2000, 5000, 10000:
 ![title](md_images/group_iterations_chart.png)
 
 ![title](md_images/group_times_chart.png)

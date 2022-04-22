@@ -12,18 +12,18 @@ from .diagonal_amplifier import strengthen_diagonal
 
 """
     Wejście:
-        - size (int) - rozmiar macierzy (liczba wierszy / kolumn)
+        - order (int) - stopień macierzy
 
     Wyjście:
         - matrix (np.ndarray) - macierz losowa
 """
 
-# Metoda generuje macierz pełną o podanym rozmiarze i o losowych wartościach z zakresu [0, 1]
+# Metoda generuje macierz pełną o podanym stopniu i o losowych wartościach z zakresu [0, 1]
 # Macierz jest dodatkowo wzmocniona, aby konieczny warunek zbieżności dla przybliżonych metod stacjonarnych był spełniony
-def full_matrix(size: int) -> np.ndarray:
+def full_matrix(order: int) -> np.ndarray:
 
-    # Wygenerowanie pełnej macierzy kwadratowej o rozmiarze 'n x n'
-    matrix = np.random.rand(size, size)
+    # Wygenerowanie pełnej macierzy kwadratowej o stopniu 'order'
+    matrix = np.random.rand(order, order)
 
     # Wzmocnienie głównej przekątnej macierzy
     matrix = strengthen_diagonal(matrix)

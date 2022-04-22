@@ -28,7 +28,7 @@ from ..equiter.src.gauss_seidel.method import gauss_seidel
     Wejście (Parametry):
         - experiment_name (str) - nazwa eksperymentu
         - matrix_type (str) - typ macierzy głównej
-        - matrix_size (int) - rozmiar macierzy głównej (liczba wierszy / kolumn)
+        - matrix_order (int) - stopień macierzy głównej
 
         - tolerance (float) - dokładność przybliżonego rozwiązania
         - max_iterations (int) - maksymalna liczba iteracji
@@ -40,7 +40,7 @@ from ..equiter.src.gauss_seidel.method import gauss_seidel
 def do_single_experiment(
     experiment_name: str,
     matrix_type: str,
-    matrix_size: int,
+    matrix_order: int,
     tolerance: float,
     max_iterations: int,
     w_values: list,
@@ -57,11 +57,11 @@ def do_single_experiment(
 
     # Pobranie macierzy wejściowej układu
     print("Generowanie macierzy głównej ...")
-    A = get_matrix(matrix_type, matrix_size)
+    A = get_matrix(matrix_type, matrix_order)
 
     # Ustawienie wektora wyrazów wolnych
     print("Generowanie / Wczytywanie wektora wyrazów wolnych ...")
-    b, was_b_loaded = get_vector(f"{data_dir}/b_{matrix_size}.txt", matrix_size)
+    b, was_b_loaded = get_vector(f"{data_dir}/b_{matrix_order}.txt", matrix_order)
 
     # ------------------------------------------------------- Sekcja rozwiązywania ------------------------------------------------------- #
 
@@ -118,7 +118,7 @@ def do_single_experiment(
     save_data_to_file(
         config_dir,
         "general",
-        f"nazwa eksperymentu = {experiment_name}\ntyp eksperymentu = single\ntyp macierzy A =  {matrix_type}\nrozmiar macierzy A = {matrix_size}",
+        f"nazwa eksperymentu = {experiment_name}\ntyp eksperymentu = single\ntyp macierzy A =  {matrix_type}\stopień macierzy A = {matrix_order}",
     )
 
     print("Zapisywanie macierzy głównej ...")
@@ -128,7 +128,7 @@ def do_single_experiment(
     # Jeśli wektor został wygenerowany to należy go zapisać do pliku
     if not was_b_loaded:
         print("Zapisywanie wektora wyrazów wolnych ...")
-        save_matrix_to_file(f"{data_dir}", f"b_{matrix_size}", b)
+        save_matrix_to_file(f"{data_dir}", f"b_{matrix_order}", b)
 
     print("Zapisywanie pozostałych parametrów (tolerancji, maks. liczby iteracji) ...")
     save_data_to_file(

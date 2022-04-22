@@ -13,7 +13,7 @@ from .diagonal_amplifier import strengthen_diagonal
 
 """
     Wejście:
-        - size (int) - rozmiar macierzy (liczba wierszy / kolumn)
+        - order (int) - stopień macierzy
 
     Wyjście:
         - matrix (np.ndarray) - macierz rzadka
@@ -21,10 +21,10 @@ from .diagonal_amplifier import strengthen_diagonal
 
 # Metoda generuje macierz rzadką, korzystając z biblioteki scipy
 # Macierz jest dodatkowo wzmocniona, aby konieczny warunek zbieżności dla przybliżonych metod stacjonarnych był spełniony
-def sparse_matrix(size: int) -> np.ndarray:
+def sparse_matrix(order: int) -> np.ndarray:
 
-    # Wygenerowanie rzadkiej macierzy kwadratowej o rozmiarze 'n x n' i wypełnieniu w przedziale [0, 0.2]
-    matrix = scipy.sparse.random(size, size, density=random.uniform(0, 0.2), format="csr").toarray()
+    # Wygenerowanie rzadkiej macierzy kwadratowej o stopniu 'order' i wypełnieniu w przedziale [0, 0.2]
+    matrix = scipy.sparse.random(order, order, density=random.uniform(0, 0.2), format="csr").toarray()
 
     # Wzmocnienie głównej przekątnej macierzy
     matrix = strengthen_diagonal(matrix)

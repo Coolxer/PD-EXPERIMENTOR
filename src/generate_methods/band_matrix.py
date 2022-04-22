@@ -11,22 +11,22 @@ from .diagonal_amplifier import strengthen_diagonal
 
 """
     Wejście:
-        - size (int) - rozmiar macierzy (liczba wierszy / kolumn)
+        - order (int) - stopień macierzy
 
     Wyjście:
         - matrix (np.ndarray) - macierz wstęgowa
 """
 
-# Metoda generuje macierz wstęgową o podanym rozmiarze i stałej szerokości pasma 3,
+# Metoda generuje macierz wstęgową o podanym stopniu i stałej szerokości pasma 3,
 # Macierz jest dodatkowo wzmocniona, aby konieczny warunek zbieżności dla przybliżonych metod stacjonarnych był spełniony.
-def band_matrix(size: int) -> np.ndarray:
+def band_matrix(order: int) -> np.ndarray:
 
-    # Utworzenie macierzy wypełnionej zerami o rozmiarze 'n x n'
-    matrix = np.zeros((size, size))
+    # Utworzenie kwadratowej macierzy wypełnionej zerami o stopniu 'order'
+    matrix = np.zeros((order, order))
 
     # Utworzenie wstęgi wokół głównej przekątnej
-    matrix += np.diag(np.random.rand(size - 1), 1)
-    matrix += np.diag(np.random.rand(size - 1), -1)
+    matrix += np.diag(np.random.rand(order - 1), 1)
+    matrix += np.diag(np.random.rand(order - 1), -1)
 
     # Wzmocnienie przekątnej macierzy
     matrix = strengthen_diagonal(matrix)
