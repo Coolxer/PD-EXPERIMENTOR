@@ -83,7 +83,7 @@ W celu zapoznania się z biblioteką zalecane jest uruchomienie poniższego przy
 import experimentor as exp
 
 experiment_name = "my_experiment_001"
-matrix_type = exp.matrix_type.random
+matrix_type = exp.random
 matrix_order = 1000
 tolerance = 0.0001
 max_iterations = 2000
