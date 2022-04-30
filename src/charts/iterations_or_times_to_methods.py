@@ -5,6 +5,7 @@
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
+import math
 from typing import NoReturn
 import matplotlib.pyplot as plt
 from .defines import *
@@ -20,12 +21,17 @@ def draw_iterations_or_times_to_methods(
     )
     plt.xlabel(X_LABEL_METHOD, weight="bold")
 
+    if indicator == Y_ITERATIONS_INDICATOR:
+        yticks = range(0, max(jacobi_data, gauss_seidel_data, sor_data))
+        yticks = range(min(yticks), math.ceil(max(yticks)) + 1)
+        plt.yticks(yticks)
+
     data = [jacobi_data, gauss_seidel_data, sor_data]
     bars = plt.bar(DATA_LABELS_METHODS, data, width=BAR_WIDTH_IN_SINGLE_SERIE)
 
     i = 0
     for bar in bars:
-        bar.set_color(METHOD_COLORS[i])
+        bar.set_color(COLORS_ITERATIONS_METHODS[i] if indicator == Y_ITERATIONS_INDICATOR else COLORS_TIMES_METHODS[i])
 
         if SHOW_SIGNATURES:
             plt.annotate(

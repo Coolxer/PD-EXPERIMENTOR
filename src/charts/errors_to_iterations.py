@@ -5,6 +5,7 @@
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
+import math
 from typing import NoReturn
 import matplotlib.pyplot as plt
 from .defines import *
@@ -15,9 +16,10 @@ def draw_errors_to_iterations(jacobi_errors: list, gauss_seidel_errors: list, so
     plt.figure()
     plt.ylabel(Y_LABEL_ERROR, weight="bold")
     plt.xlabel(X_LABEL_ITERATIONS, weight="bold")
-    plt.xticks(
-        range(0, max(len(jacobi_errors), len(gauss_seidel_errors), len(sor_errors)))
-    )  # tutaj musi to być trochę inaczej zrobione, bo jest za dużo elementów
+
+    xticks = range(0, max(len(jacobi_errors), len(gauss_seidel_errors), len(sor_errors)))
+    xticks = range(min(xticks), math.ceil(max(xticks)) + 1)
+    plt.xticks(xticks)
 
     data = [jacobi_errors, gauss_seidel_errors, sor_errors]
 
@@ -29,7 +31,8 @@ def draw_errors_to_iterations(jacobi_errors: list, gauss_seidel_errors: list, so
             iterations,
             row,
             linestyle="solid",
-            color=METHOD_COLORS[i],
+            linewidth=2,
+            color=COLORS_ERRORS_METHODS[i],
             label=DATA_LABELS_METHODS[i],
         )
 

@@ -5,6 +5,7 @@
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
+import math
 from typing import NoReturn
 import matplotlib.pyplot as plt
 from .defines import *
@@ -20,11 +21,17 @@ def draw_iterations_or_times_to_SOR_only(indicator: str, sor_data: list, ws: lis
     plt.xlabel(X_LABEL_W_PARAMETER, weight="bold")
     plt.xticks(ws)
 
+    if indicator == Y_ITERATIONS_INDICATOR:
+        maximal = max(sor_data)
+        step = math.ceil(maximal / NUMBER_OF_TICKS)
+        yticks = list(range(0, maximal + step, step))
+        plt.yticks(yticks)
+
     bars = plt.bar(ws, sor_data, width=BAR_WIDTH_IN_MULTIPLE_SERIES)
 
     i = 0
     for bar in bars:
-        bar.set_color(W_COLORS[i])
+        bar.set_color(COLORS_ITERATIONS_W[i] if indicator == Y_ITERATIONS_INDICATOR else COLORS_TIMES_W[i])
 
         if SHOW_SIGNATURES:
             plt.annotate(

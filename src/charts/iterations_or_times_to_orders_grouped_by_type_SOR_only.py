@@ -5,6 +5,7 @@
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
+import math
 from typing import NoReturn
 import numpy as np
 import matplotlib.pyplot as plt
@@ -22,6 +23,12 @@ def draw_iterations_or_times_to_orders_grouped_by_type_SOR_only(
     plt.xlabel(X_LABEL_ORDER, weight="bold")
     plt.xticks([r + BAR_WIDTH_IN_MULTIPLE_SERIES for r in range(len(orders))], orders)
 
+    if indicator == Y_ITERATIONS_INDICATOR:
+        maximal = max(max(n) for n in sor_data)
+        step = math.ceil(maximal / NUMBER_OF_TICKS)
+        yticks = list(range(0, maximal + step, step))
+        plt.yticks(yticks)
+
     positions = np.arange(len(orders))
 
     i = 0
@@ -29,7 +36,7 @@ def draw_iterations_or_times_to_orders_grouped_by_type_SOR_only(
         plt.bar(
             positions,
             sor_data[i],
-            color=W_COLORS[i],
+            color=COLORS_ITERATIONS_W[i] if indicator == Y_ITERATIONS_INDICATOR else COLORS_TIMES_W[i],
             width=BAR_WIDTH_IN_MULTIPLE_SERIES,
             label=f"ω = {w}",
         )
