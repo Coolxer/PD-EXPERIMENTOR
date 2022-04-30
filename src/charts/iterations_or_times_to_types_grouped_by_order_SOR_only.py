@@ -25,8 +25,9 @@ def draw_iterations_or_times_to_types_grouped_by_order_SOR_only(
     plt.xticks([r + BAR_WIDTH_IN_MULTIPLE_SERIES for r in range(len(types))], types)
 
     if indicator == Y_ITERATIONS_INDICATOR:
-        yticks = range(0, max(max(n) for n in sor_data))
-        yticks = range(min(yticks), math.ceil(max(yticks)) + 1)
+        maximal = max(max(n) for n in sor_data)
+        step = math.ceil(maximal / NUMBER_OF_TICKS)
+        yticks = list(range(0, maximal + step, step))
         plt.yticks(yticks)
 
     positions = np.arange(len(types))
