@@ -7,6 +7,9 @@
 
 # Import zależności
 from .src.help_methods.types import *
+
 from .src.single_experiment import do_single_experiment
-from .src.group_experiment import do_group_experiment, make_group_charts_and_tables
-from .src.update_charts import update_charts
+
+from .src.group_by_order_experiment import do_group_by_order_experiment
+from .src.group_by_type_experiment import do_group_by_type_experiment
+from .src.tolerance_experiment import do_tolerance_experiment

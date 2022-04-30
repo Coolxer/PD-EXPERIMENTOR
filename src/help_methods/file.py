@@ -4,6 +4,7 @@
 # Plik zawiera:
 #   - metodę zapisujacą dane tekstowe do pliku tekstowego
 #   - metodę zapisującą macierz do pliku tekstowego
+#   - metodę zapisującą wykres jako plik graficzny
 #   - metodę umożliwiającą wybór macierzy pliku .mat (matlab)
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
@@ -13,6 +14,7 @@ from typing import NoReturn
 from tkinter import *
 from tkinter.filedialog import askopenfilename
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 """
@@ -51,6 +53,18 @@ def save_data_to_file(dir: str, name: str, data: str) -> NoReturn:
 def save_matrix_to_file(dir: str, name: str, matrix: np.ndarray) -> NoReturn:
     # Zapisanie macierzy / wektora do pliku tekstowego
     np.savetxt(f"{dir}/{name}.txt", matrix)
+
+
+# -------------------------------------------------------------------------------------------------------------------------------------------------- #
+
+"""
+    Wejście:
+        - file (str) - ścieżka zapisu pliku graficznego
+"""
+# Metoda zapisuje aktualnie otwarty wykres do wskazanego pliku
+def save_chart_to_file(file: str) -> NoReturn:
+    plt.savefig(file, bbox_inches="tight")
+    plt.close()
 
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
