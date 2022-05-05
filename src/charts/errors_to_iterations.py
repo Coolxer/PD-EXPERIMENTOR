@@ -5,9 +5,11 @@
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
-import math
+from math import ceil
 from typing import NoReturn
+import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.ticker import StrMethodFormatter
 from .defines import *
 
 
@@ -17,9 +19,17 @@ def draw_errors_to_iterations(jacobi_errors: list, gauss_seidel_errors: list, so
     plt.ylabel(Y_LABEL_ERROR, weight="bold")
     plt.xlabel(X_LABEL_ITERATIONS, weight="bold")
 
-    xticks = range(0, max(len(jacobi_errors), len(gauss_seidel_errors), len(sor_errors)))
-    xticks = range(min(xticks), math.ceil(max(xticks)) + 1)
+    maximum_x = max(len(jacobi_errors), len(gauss_seidel_errors), len(sor_errors))
+    step_x = ceil(maximum_x / NUMBER_OF_TICKS)
+    xticks = np.arange(0, ceil(maximum_x + step_x), step_x)
     plt.xticks(xticks)
+
+    maximum_y = max(max(jacobi_errors), max(gauss_seidel_errors), max(sor_errors))
+    step_y = maximum_y / NUMBER_OF_TICKS
+    yticks = np.arange(0, ceil(maximum_y + step_y), step_y)
+    plt.yticks(yticks)
+
+    plt.gca().yaxis.set_major_formatter(StrMethodFormatter("{x:,.4f}"))
 
     data = [jacobi_errors, gauss_seidel_errors, sor_errors]
 

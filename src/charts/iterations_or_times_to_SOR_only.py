@@ -5,9 +5,11 @@
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
-import math
+from math import ceil
 from typing import NoReturn
+import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.ticker import StrMethodFormatter
 from .defines import *
 
 
@@ -21,11 +23,13 @@ def draw_iterations_or_times_to_SOR_only(indicator: str, sor_data: list, ws: lis
     plt.xlabel(X_LABEL_W_PARAMETER, weight="bold")
     plt.xticks(ws)
 
-    if indicator == Y_ITERATIONS_INDICATOR:
-        maximal = max(sor_data)
-        step = math.ceil(maximal / NUMBER_OF_TICKS)
-        yticks = list(range(0, maximal + step, step))
-        plt.yticks(yticks)
+    maximum = max(sor_data)
+    step = ceil(maximum / NUMBER_OF_TICKS) if indicator == Y_ITERATIONS_INDICATOR else (maximum / NUMBER_OF_TICKS)
+    yticks = np.arange(0, ceil(maximum + step), step)
+    plt.yticks(yticks)
+
+    if indicator == Y_TIMES_INDICATOR:
+        plt.gca().yaxis.set_major_formatter(StrMethodFormatter("{x:,.4f}"))
 
     bars = plt.bar(ws, sor_data, width=BAR_WIDTH_IN_MULTIPLE_SERIES)
 

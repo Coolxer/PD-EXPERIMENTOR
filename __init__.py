@@ -7,6 +7,7 @@
 
 # Import zależności
 from .src.help_methods.types import *
+from .src.help_methods.file import open_chart_file
 
 from .src.single_experiment import do_single_experiment
 

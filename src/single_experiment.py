@@ -85,7 +85,7 @@ def do_single_experiment(
         return
 
     print("Rozwiązywanie układu metodą SOR ...")
-    sor_solutions, sor_iterations, sor_times, ws, sor_errors, w_with_iterations, w_with_times = sor_exp(
+    sor_solutions, sor_iterations, sor_times, ws, sor_errors, w_with_iterations, w_with_times, w_with_errors = sor_exp(
         A, b, max_iterations, tolerance, w_values
     )
 
@@ -119,6 +119,9 @@ def do_single_experiment(
     # Tworzenie katalogu dla wykresów
     results_dir_img = f"{results_dir}/img"
     os.mkdir(results_dir_img)
+
+    os.mkdir(f"{results_dir_img}/fig")
+    os.mkdir(f"{results_dir_img}/svg")
 
     # ---------------------------------------------------- Sekcja zapisu parametrów --------------------------------------------------- #
 
@@ -158,6 +161,14 @@ def do_single_experiment(
     )
     save_data_to_file(results_dir_txt, "sor_times", w_with_times)
 
+    print("Zapisywanie błędów ...")
+    save_data_to_file(
+        results_dir_txt,
+        "errors",
+        f"jacobi = {jacobi_errors}\ngauss_seidel = {gauss_seidel_errors}\nsor = {sor_errors[0]}",
+    )
+    save_data_to_file(results_dir_txt, "sor_errors", w_with_errors)
+
     print("Zapisywanie szczegółowych wyników ...")
     save_matrix_to_file(results_dir_txt_solution, "jacobi", jacobi_solution)
     save_matrix_to_file(results_dir_txt_solution, "gauss_seidel", gauss_seidel_solution)
@@ -167,27 +178,27 @@ def do_single_experiment(
 
     print("Rysowanie wykresu liczby wyk. iteracji dla wszystkich metod ...")
     draw_iterations_to_methods(jacobi_iterations, gauss_seidel_iterations, sor_iterations[0])
-    save_chart_to_file(f"{results_dir_img}/iterations.png")
+    save_chart_to_file(results_dir_img, "iterations")
 
     print("Rysowanie wykresu czasu obliczeń dla wszystkich metod...")
     draw_times_to_methods(jacobi_time, gauss_seidel_time, sor_times[0])
-    save_chart_to_file(f"{results_dir_img}/times.png")
+    save_chart_to_file(results_dir_img, "times")
 
     print("Rysowanie wykresu liczby wyk. iteracji tylko dla metody SOR ...")
     draw_iterations_to_SOR_only(sor_iterations, ws)
-    save_chart_to_file(f"{results_dir_img}/sor_iterations.png")
+    save_chart_to_file(results_dir_img, "sor_iterations")
 
     print("Rysowanie wykresu czasu obliczeń tylko dla metody SOR...")
     draw_times_to_SOR_only(sor_times, ws)
-    save_chart_to_file(f"{results_dir_img}/sor_times.png")
+    save_chart_to_file(results_dir_img, "sor_times")
 
     print("Rysowanie wykresu błędu agregowanego dla wszystkich metod...")
     draw_errors_to_iterations(jacobi_errors, gauss_seidel_errors, sor_errors[0])
-    save_chart_to_file(f"{results_dir_img}/errors.png")
+    save_chart_to_file(results_dir_img, "errors")
 
     print("Rysowanie wykresu błędu agregowanego tylko dla metody SOR...")
     draw_errors_to_iterations_SOR_only(sor_errors, ws)
-    save_chart_to_file(f"{results_dir_img}/sor_errors.png")
+    save_chart_to_file(results_dir_img, "sor_errors")
 
     print(f"\nEksperyment {experiment_name} zakończony sukcesem!")
     print("#############################################################")

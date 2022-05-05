@@ -5,10 +5,11 @@
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
-import math
+from math import ceil
 from typing import NoReturn
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.ticker import StrMethodFormatter
 from .defines import *
 
 
@@ -24,10 +25,13 @@ def draw_iterations_or_times_to_tolerances(
     plt.xlabel(X_LABEL_TOLERANCE, weight="bold")
     plt.xticks([r + BAR_WIDTH_IN_MULTIPLE_SERIES for r in range(len(tolerances))], tolerances)
 
-    if indicator == Y_ITERATIONS_INDICATOR:
-        yticks = range(0, max(max(jacobi_data), max(gauss_seidel_data), max(sor_data)))
-        yticks = range(min(yticks), math.ceil(max(yticks)) + 1)
-        plt.yticks(yticks)
+    maximum = max(max(jacobi_data), max(gauss_seidel_data), max(sor_data))
+    step = ceil(maximum / NUMBER_OF_TICKS) if indicator == Y_ITERATIONS_INDICATOR else (maximum / NUMBER_OF_TICKS)
+    yticks = np.arange(0, ceil(maximum + step), step)
+    plt.yticks(yticks)
+
+    if indicator == Y_TIMES_INDICATOR:
+        plt.gca().yaxis.set_major_formatter(StrMethodFormatter("{x:,.4f}"))
 
     data = [jacobi_data, gauss_seidel_data, sor_data]
     positions = np.arange(len(tolerances))

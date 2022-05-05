@@ -5,10 +5,11 @@
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
-import math
+from math import ceil
 from typing import NoReturn
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.ticker import StrMethodFormatter
 from .defines import *
 
 
@@ -24,11 +25,13 @@ def draw_iterations_or_times_to_types_grouped_by_order_SOR_only(
     plt.xlabel(X_LABEL_TYPE, weight="bold")
     plt.xticks([r + BAR_WIDTH_IN_MULTIPLE_SERIES for r in range(len(types))], types)
 
-    if indicator == Y_ITERATIONS_INDICATOR:
-        maximal = max(max(n) for n in sor_data)
-        step = math.ceil(maximal / NUMBER_OF_TICKS)
-        yticks = list(range(0, maximal + step, step))
-        plt.yticks(yticks)
+    maximum = max(max(n) for n in sor_data)
+    step = ceil(maximum / NUMBER_OF_TICKS) if indicator == Y_ITERATIONS_INDICATOR else (maximum / NUMBER_OF_TICKS)
+    yticks = np.arange(0, ceil(maximum + step), step)
+    plt.yticks(yticks)
+
+    if indicator == Y_TIMES_INDICATOR:
+        plt.gca().yaxis.set_major_formatter(StrMethodFormatter("{x:,.4f}"))
 
     positions = np.arange(len(types))
 

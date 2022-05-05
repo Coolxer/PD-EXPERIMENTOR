@@ -27,9 +27,10 @@ from .sort5 import sort5
         - ws (list) - wartości parametru 'w'
         - errors (list) - błędy na poszczególnych etapach iteracji
         - w_with_iterations (str) - ciąg zawierający listę wartości 'w' i powiązane z nimi wyniki iteracji
-        -  w_with_times (str) - ciąg zawierający listę wartości 'w' i powiązane z nimi wyniki czasowe
+        - w_with_times (str) - ciąg zawierający listę wartości 'w' i powiązane z nimi wyniki czasowe
+        - w_with_errors(str) - ciąg zawierający listę wartości 'w' i powiązane z nimi błędy
 
-        Jeśli pojawi się błąd to metoda przerywa działanie i zwraca (None, None, None, None)
+        Jeśli pojawi się błąd to metoda przerywa działanie i zwraca (None, None, None, None, None, None, None, None)
 """
 
 # Metoda SOR wymaga większej uwagi, ponieważ posiada dodatkowy parametr 'w'
@@ -51,6 +52,7 @@ def sor_exp(
 
     w_with_iterations = ""
     w_with_times = ""
+    w_with_errors = ""
 
     # Pętla iterująca po wartościach parametru 'w'
     for w in w_vector:
@@ -61,7 +63,7 @@ def sor_exp(
 
         # Jeśli rozwiązanie dało błąd to należy przerwać dalsze obliczenia,
         if solution is None:
-            return None, None, None, None
+            return None, None, None, None, None, None, None, None
 
         # Dodanie rezultatów cząstkowych do list wyników
         solutions.append(solution)
@@ -70,8 +72,10 @@ def sor_exp(
         w_values.append(w)
         errors.append(error)
 
+        # Utworzenie łańcuchów znaków wiążących wartości parametru 'w' z wynikami iteracji i czasu
         w_with_iterations += f"{w} = {iteration}\n"
         w_with_times += f"{w} = {time}\n"
+        w_with_errors += f"{w} = {error}\n"
 
     # Badania różnych wartości parametrów w mają na celu wyłonienie jednej konfiguracji
     # Do wyboru możliwe były 3 perspektywy (najgorsza, średnia, najlepsza)
@@ -82,4 +86,13 @@ def sor_exp(
     )
 
     # Zwrócenie rezultatów
-    return solutions_sorted, iterations_sorted, times_sorted, w_sorted, errors_sorted, w_with_iterations, w_with_times
+    return (
+        solutions_sorted,
+        iterations_sorted,
+        times_sorted,
+        w_sorted,
+        errors_sorted,
+        w_with_iterations,
+        w_with_times,
+        w_with_errors,
+    )

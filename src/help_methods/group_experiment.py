@@ -63,9 +63,7 @@ def do_group_experiment(experiment_dir, experiment_type) -> Tuple[list, list, li
     exp_dir_group = [i for i in exp_dir_group if i not in dirs_to_remove]
 
     # Odpowiednie sortowanie listy w zależności od typu eksperymentu
-    if experiment_type == "tolerance":
-        exp_dir_group = sorted(list(map(lambda x: float(x), exp_dir_group)))
-    elif experiment_type == "order":
+    if experiment_type in ["tolerance", "order"]:
         exp_dir_group = sorted(exp_dir_group)
     elif experiment_type == "type":
         exp_dir_group = sorted(list(map(lambda x: int(x), exp_dir_group)))
@@ -86,6 +84,7 @@ def do_group_experiment(experiment_dir, experiment_type) -> Tuple[list, list, li
             sor_iterations.append(int(iterations_file.readline().split(" = ")[1]))
             iterations_file.close()
 
+            # Odczytanie danych dot. iteracji m. SOR dla różnych parametrów 'w' z pliku i zapisanie ich do poszczególnych tablic
             sor_iterations_file = open(f"{exp_txt_results_dir}/sor_iterations.txt", "r")
             sor_iterations_only_row = []
             for line in sor_iterations_file.readlines():
@@ -96,12 +95,14 @@ def do_group_experiment(experiment_dir, experiment_type) -> Tuple[list, list, li
             sor_iterations_only.append(sor_iterations_only_row)
             sor_iterations_file.close()
 
+            # Odczytanie danych dot. czasu z pliku i zapisanie ich do poszczególnych tablic
             times_file = open(f"{exp_txt_results_dir}/times.txt", "r")
             jacobi_times.append(float(times_file.readline().split(" = ")[1]))
             gauss_seidel_times.append(float(times_file.readline().split(" = ")[1]))
             sor_times.append(float(times_file.readline().split(" = ")[1]))
             times_file.close()
 
+            # Odczytanie danych dot. czasu m. SOR dla różnych parametrów 'w' z pliku i zapisanie ich do poszczególnych tablic
             sor_times_files = open(f"{exp_txt_results_dir}/sor_times.txt", "r")
             sor_times_only_row = []
             for line in sor_times_files.readlines():
@@ -116,6 +117,7 @@ def do_group_experiment(experiment_dir, experiment_type) -> Tuple[list, list, li
         if not w_prepared:
             w_prepared = True
 
+    # Odwrócenie tablic wynikowych, celem dopasowania do rysowania wykresu
     sor_iterations_only = np.transpose(np.array(sor_iterations_only)).tolist()
     sor_times_only = np.transpose(np.array(sor_times_only)).tolist()
 

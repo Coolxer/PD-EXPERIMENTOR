@@ -5,9 +5,11 @@
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
-import math
+from math import ceil
 from typing import NoReturn
+import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.ticker import StrMethodFormatter
 from .defines import *
 
 
@@ -21,10 +23,13 @@ def draw_iterations_or_times_to_methods(
     )
     plt.xlabel(X_LABEL_METHOD, weight="bold")
 
-    if indicator == Y_ITERATIONS_INDICATOR:
-        yticks = range(0, max(jacobi_data, gauss_seidel_data, sor_data))
-        yticks = range(min(yticks), math.ceil(max(yticks)) + 1)
-        plt.yticks(yticks)
+    maximum = max(jacobi_data, gauss_seidel_data, sor_data)
+    step = ceil(maximum / NUMBER_OF_TICKS) if indicator == Y_ITERATIONS_INDICATOR else (maximum / NUMBER_OF_TICKS)
+    yticks = np.arange(0, ceil(maximum + step), step)
+    plt.yticks(yticks)
+
+    if indicator == Y_TIMES_INDICATOR:
+        plt.gca().yaxis.set_major_formatter(StrMethodFormatter("{x:,.4f}"))
 
     data = [jacobi_data, gauss_seidel_data, sor_data]
     bars = plt.bar(DATA_LABELS_METHODS, data, width=BAR_WIDTH_IN_SINGLE_SERIE)

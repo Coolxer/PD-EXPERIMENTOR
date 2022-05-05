@@ -5,6 +5,7 @@
 #   - metodę zapisujacą dane tekstowe do pliku tekstowego
 #   - metodę zapisującą macierz do pliku tekstowego
 #   - metodę zapisującą wykres jako plik graficzny
+#   - metodę otwierającą wykres
 #   - metodę umożliwiającą wybór macierzy pliku .mat (matlab)
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
@@ -13,8 +14,10 @@
 from typing import NoReturn
 from tkinter import *
 from tkinter.filedialog import askopenfilename
+
 import numpy as np
 import matplotlib.pyplot as plt
+import pickle
 
 
 """
@@ -59,12 +62,26 @@ def save_matrix_to_file(dir: str, name: str, matrix: np.ndarray) -> NoReturn:
 
 """
     Wejście:
-        - file (str) - ścieżka zapisu pliku graficznego
+        - dir (str) - ścieżka zapisu
+        - name (str) - nazwa pliku
 """
 # Metoda zapisuje aktualnie otwarty wykres do wskazanego pliku
-def save_chart_to_file(file: str) -> NoReturn:
-    plt.savefig(file, bbox_inches="tight")
+def save_chart_to_file(dir: str, name: str) -> NoReturn:
+    pickle.dump(plt.gcf(), open(f"{dir}/fig/{name}.pickle", "wb"))
+    plt.savefig(f"{dir}/svg/{name}.svg", bbox_inches="tight")
     plt.close()
+
+
+# -------------------------------------------------------------------------------------------------------------------------------------------------- #
+
+"""
+    Wejście:
+        - file (str) - ścieżkapliku
+"""
+# Metoda wczytuje i wyświetla wykres
+def open_chart_file(file: str) -> NoReturn:
+    pickle.load(open(f"{file}.pickle", "rb"))
+    plt.show()
 
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #

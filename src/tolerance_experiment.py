@@ -5,9 +5,11 @@
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
+import os
 from typing import NoReturn
 from .help_methods.dir import get_data_dir
 from .help_methods.file import save_data_to_file, save_chart_to_file
+from .help_methods.table import draw_table
 
 from .single_experiment import do_single_experiment
 from .help_methods.group_experiment import do_group_experiment
@@ -17,6 +19,7 @@ from .charts.iterations_or_times_to_tolerances_SOR_only import (
     draw_iterations_to_tolerances_SOR_only,
     draw_times_to_tolerances_SOR_only,
 )
+from .charts.defines import *
 
 """
     Wejście (Parametry):
@@ -37,7 +40,7 @@ def do_tolerance_experiment(
 
     for tolerance in tolerances:
         do_single_experiment(
-            f"{experiment_name}/{tolerance}", matrix_type, matrix_order, max_iterations, tolerance, w_values
+            f"{experiment_name}/{tolerance}", matrix_type, matrix_order, max_iterations, float(tolerance), w_values
         )
 
     exp_dir = f"{get_data_dir()}/{experiment_name}"
@@ -57,14 +60,40 @@ def do_tolerance_experiment(
         sor_times_only,
     ) = do_group_experiment(exp_dir, "tolerance")
 
+    # Utworzenie katalogów do przechowywania figur, wykresów i tabel
+    os.mkdir(f"{exp_dir}/#res#")
+    os.mkdir(f"{exp_dir}/#res#/svg")
+    os.mkdir(f"{exp_dir}/#res#/fig")
+    os.mkdir(f"{exp_dir}/#res#/tab")
+
+    # Rysowanie wykresów
     draw_iterations_to_tolerances(jacobi_iterations, gauss_seidel_iterations, sor_iterations, tolerances)
-    save_chart_to_file(f"{exp_dir}/tolerance_iterations.png")
+    save_chart_to_file(f"{exp_dir}/#res#", "tolerance_iterations")
 
     draw_times_to_tolerances(jacobi_times, gauss_seidel_times, sor_times, tolerances)
-    save_chart_to_file(f"{exp_dir}/tolerance_times.png")
+    save_chart_to_file(f"{exp_dir}/#res#", "tolerance_times")
 
     draw_iterations_to_tolerances_SOR_only(sor_iterations_only, tolerances, ws)
-    save_chart_to_file(f"{exp_dir}/tolerance_iterations_SOR_only.png")
+    save_chart_to_file(f"{exp_dir}/#res#", "tolerance_iterations_SOR_only")
 
     draw_times_to_tolerances_SOR_only(sor_times_only, tolerances, ws)
-    save_chart_to_file(f"{exp_dir}/tolerance_times_SOR_only.png")
+    save_chart_to_file(f"{exp_dir}/#res#", "tolerance_times_SOR_only")
+
+    # Tworzenie tabel
+    draw_table(
+        f"{exp_dir}/#res#/tab/tolerance_iterations",
+        DATA_LABELS_METHODS,
+        tolerances,
+        [jacobi_iterations, gauss_seidel_iterations, sor_iterations],
+    )
+
+    draw_table(
+        f"{exp_dir}/#res#/tab/tolerance_times",
+        DATA_LABELS_METHODS,
+        tolerances,
+        [jacobi_times, gauss_seidel_times, sor_times],
+    )
+
+    draw_table(f"{exp_dir}/#res#/tab/tolerance_iterations_SOR_only", ws, tolerances, sor_iterations_only)
+
+    draw_table(f"{exp_dir}/#res#/tab/tolerance_times_SOR_only", ws, tolerances, sor_times_only)

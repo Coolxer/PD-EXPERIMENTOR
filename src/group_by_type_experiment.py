@@ -1,14 +1,16 @@
 # Autor: Łukasz Miłoś
 # Data: 2021 - 2022
 
-# Plik zawiera metodę umożliwiającą tworzenie grupowych eksperymentów według typu
+# Plik zawiera metodę umożliwiającą tworzenie grupowych eksperymentów grupowanych według typu macierzy
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------- #
 
 # Import zależności
+import os
 from typing import NoReturn
 from .help_methods.dir import get_data_dir
 from .help_methods.file import save_data_to_file, save_chart_to_file
+from .help_methods.table import draw_table
 
 from .single_experiment import do_single_experiment
 from .help_methods.group_experiment import do_group_experiment
@@ -21,6 +23,7 @@ from .charts.iterations_or_times_to_orders_grouped_by_type_SOR_only import (
     draw_iterations_to_orders_grouped_by_type_SOR_only,
     draw_times_to_orders_grouped_by_type_SOR_only,
 )
+from .charts.defines import *
 
 
 """
@@ -65,14 +68,40 @@ def do_group_by_type_experiment(
         sor_times_only,
     ) = do_group_experiment(exp_dir, "type")
 
+    # Utworzenie katalogów do przechowywania figur, wykresów i tabel
+    os.mkdir(f"{exp_dir}/#res#")
+    os.mkdir(f"{exp_dir}/#res#/svg")
+    os.mkdir(f"{exp_dir}/#res#/fig")
+    os.mkdir(f"{exp_dir}/#res#/tab")
+
+    # Rysowanie wykresów
     draw_iterations_to_orders_grouped_by_type(jacobi_iterations, gauss_seidel_iterations, sor_iterations, orders)
-    save_chart_to_file(f"{exp_dir}/group_by_type_iterations.png")
+    save_chart_to_file(f"{exp_dir}/#res#", "group_by_type_iterations")
 
     draw_times_to_orders_grouped_by_type(jacobi_times, gauss_seidel_times, sor_times, orders)
-    save_chart_to_file(f"{exp_dir}/group_by_type_times.png")
+    save_chart_to_file(f"{exp_dir}/#res#", "group_by_type_times")
 
     draw_iterations_to_orders_grouped_by_type_SOR_only(sor_iterations_only, orders, ws)
-    save_chart_to_file(f"{exp_dir}/group_by_type_iterations_SOR_only.png")
+    save_chart_to_file(f"{exp_dir}/#res#", "group_by_type_iterations_SOR_only")
 
     draw_times_to_orders_grouped_by_type_SOR_only(sor_times_only, orders, ws)
-    save_chart_to_file(f"{exp_dir}/group_by_order_times_SOR_only.png")
+    save_chart_to_file(f"{exp_dir}/#res#", "group_by_type_times_SOR_only")
+
+    # Tworzenie tabel
+    draw_table(
+        f"{exp_dir}/#res#/tab/group_by_type_iterations",
+        DATA_LABELS_METHODS,
+        orders,
+        [jacobi_iterations, gauss_seidel_iterations, sor_iterations],
+    )
+
+    draw_table(
+        f"{exp_dir}/#res#/tab/group_by_type_times",
+        DATA_LABELS_METHODS,
+        orders,
+        [jacobi_times, gauss_seidel_times, sor_times],
+    )
+
+    draw_table(f"{exp_dir}/#res#/tab/group_by_type_iterations_SOR_only", ws, orders, sor_iterations_only)
+
+    draw_table(f"{exp_dir}/#res#/tab/group_by_type_times_SOR_only", ws, orders, sor_times_only)
