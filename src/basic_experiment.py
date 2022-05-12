@@ -64,7 +64,7 @@ def do_basic_experiment(
     data_dir = get_data_dir()
 
     # Pobranie macierzy wejściowej układu
-    print("Generowanie macierzy głównej ...")
+    print("\nGenerowanie macierzy głównej ...")
     A = get_matrix(matrix_type, experiment_size)
 
     # Ustawienie wektora wyrazów wolnych
@@ -206,7 +206,7 @@ def do_basic_experiment(
     save_data_to_file(
         config_dir,
         "description",
-        f"nazwa eksperymentu = {experiment_name}\ntyp eksperymentu = podstawowy\nwektor b = {'obliczony' if calculate_b_vector else 'wygenerowany'}\ntyp macierzy =  {matrix_type}\nrozmiar URL = {size}\nmaksymalna liczba iteracji = {max_iterations}\ndokładność = {tolerance}\nw= {w_values}\nnajlepszy wynik dla 'w' =  {ws[0]}",
+        f"nazwa eksperymentu = {experiment_name}\ntyp eksperymentu = podstawowy\nwektor b = {'obliczony' if calculate_b_vector else 'wygenerowany'}\ntyp macierzy =  {matrix_type}\nrozmiar URL = {experiment_size}\nmaksymalna liczba iteracji = {max_iterations}\ndokładność = {tolerance}\nw= {w_values}\nnajlepszy wynik dla 'w' =  {ws[0]}",
     )
 
     # Rezygnacja z zapisu macierzy 'A' i wektora wyrazów wolnych 'b'

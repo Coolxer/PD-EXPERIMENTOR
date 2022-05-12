@@ -4,10 +4,7 @@
 
 _Realizacja w ramach pracy dyplomowej "Analiza i realizacja wybranych algorytmów przybliżonego rozwiązywania układów równań liniowych" KRK/13/4028_
 
-**\*Autor:** Łukasz Miłoś 161883 \
-**\*Promotor:** dr inż. prof. PRz Mariusz Borkowski \
-**\*Uczelnia:** Politechnika Rzeszowska im. Ignacego Łukasiewicza \
-**\*Jednostka organizacyjna:** Katedra Elektrotechniki i Podstaw Informatyki (ET)
+**\*Autor:** Łukasz Miłoś 161883
 
 ---
 
@@ -17,16 +14,14 @@ _Realizacja w ramach pracy dyplomowej "Analiza i realizacja wybranych algorytmó
 
 Najważniejsze cechy środowiska:
 
-- umożliwia generowanie różnego typu macierzy i wektorów o różnej wielkości
+- umożliwia generowanie rozmaitych URL poprzez tworzenie różnego typu macierzy i wektorów o różnej wielkości
 - automatycznie rozwiązuje układ równań stacjonarnymi metodami iteracyjnymi
 - tworzy pliki wynikowe w postaci tekstowej
-- tworzy wykresy graficzne porównujące zbieżność według wskaźnika liczby wykonanych iteracji i czasu obliczeń
+- tworzy wykresy graficzne porównujące zbieżność według wskaźnika liczby wykonanych iteracji i czasu obliczeń oraz błędu agregowanego na każdym etapie
 - umożliwia wykonywanie zarówno pojedynczych jak i grupowych eksperymentów
 - zapewnia pełną automatyzację procesu badawczego i prostą obsługę
 
-System pozwala m.in. na porównanie zbieżności poszczególnych metod iteracyjnych względem badanego układu równań. Możliwość generowania szerokiego spektrum macierzy wejściowych, a co za tym idzie układów, pozwala na przetestowanie skuteczności metod względem różnych typów macierzy wejściowych.
-
-Wartą uwagi jest możliwość grupowania eksperymentów według typu macierzy wejściowej lub jej stopnia.
+Wartą uwagi jest możliwość grupowania eksperymentów według rozmiaru układu, typu macierzy wejściowej, zadanej tolerancji, wartości wektora x0.
 
 ---
 
@@ -75,6 +70,8 @@ import experimentor as exp
 
 ## Jak to działa?
 
+Poniżej zaprezentowano jedynie urywek możliwości środowiska badawczego.
+
 ### Przykład
 
 W celu zapoznania się z biblioteką zalecane jest uruchomienie poniższego przykładu
@@ -83,13 +80,13 @@ W celu zapoznania się z biblioteką zalecane jest uruchomienie poniższego przy
 import experimentor as exp
 
 experiment_name = "my_experiment_001"
+size = 1000
 matrix_type = exp.random
-matrix_order = 1000
 tolerance = 0.0001
 max_iterations = 2000
 w_values = [1.1, 1.3, 1.5]
 
-exp.do_single_experiment(experiment_name, matrix_type, matrix_order, tolerance, max_iterations, w_values)
+exp.do_single_experiment(experiment_name, size, matrix_type, tolerance, max_iterations, w_values)
 ```
 
 Efektem wykonania powyższego kodu będzie wyświetlenie następujących informacji w konsoli / terminalu:
@@ -97,6 +94,7 @@ Efektem wykonania powyższego kodu będzie wyświetlenie następujących informa
 ```console
 #############################################################
 ######### Eksperyment:  my_experiment_001 ###########
+
 Generowanie macierzy głównej ...
 Generowanie / Obliczanie / Wczytywanie wektora wyrazów wolnych ...
 Rozwiązywanie układu metodą Jacobiego ...
@@ -108,6 +106,7 @@ Rozwiązywanie układu metodą SOR ...
 Zapisywanie informacji o eksperymencie ...
 Zapisywanie liczby wyk. iteracji ...
 Zapisywanie czasu obliczeń ...
+Zapisywanie błędów ...
 Zapisywanie szczegółowych wyników ...
 Rysowanie wykresu liczby wyk. iteracji dla wszystkich metod ...
 Rysowanie wykresu czasu obliczeń dla wszystkich metod...
@@ -116,104 +115,10 @@ Rysowanie wykresu czasu obliczeń tylko dla metody SOR...
 Rysowanie wykresu błędu agregowanego dla wszystkich metod...
 Rysowanie wykresu błędu agregowanego tylko dla metody SOR...
 
+
 Eksperyment my_experiment_001 zakończony sukcesem!
 #############################################################
 ```
-
-A także wyświetlenie następujących wykresów:
-![title](md_images/single_iterations.png)
-
-![title](md_images/single_times.png)
-
-### Omówienie działania
-
-#### Wstęp
-
-Użytkownik podaje 6 lub 7 parametrów funkcji badawczej , gdy chce wykonać pojedynczy eksperyment:
-
-- **_experiment_name_** (str) - nazwę eksperymentu (czyli nazwę katalogu głównego z konfiguracją i wynikami)
-- **_matrix_type_** (wybór opcji) - typ macierzy wejściowej układu:
-
-  - 'band': wstęgowa (pasmowa) o szerokości 3
-  - 'diagonal': diagonalna, wygenerowana w sposób losowy
-  - 'external': zewnętrzna, pobrana ze źródeł zewnętrznych
-  - 'full': pełna wygenerowana w sposób losowy
-  - 'sparse': rzadka, wygenerowana w sposób losowy
-
-- **_matrix_order_** (int) - stopień macierzy wejściowej układu
-- **_tolerance_** (int / float) - dokładność przybliżonego rezultatu
-- **_max_iterations_** (int) - maksymalna liczba iteracji
-- **_w_values_** (list) - lista wartości parametru 'w' do przetestowania
-- **_create_charts_** (bool) [True] - czy wykresy mają zostać wygenerowane
-
-Z perspektywy użytkownika ważne jest to, że w katalogu **_data_**, wewnątrz środowiska, zostanie utworzony katalog o nazwie eksperymentu, czyli **_name_**.
-
-#### Konfiguracja
-
-Odpowiednia macierz zostanie wygenerowana, podobnie jak wektor wyrazów wolnych, o ile nie istnieje (plik może już istnieć w katalogu **_data_** o nazwie **_b\_[matrix_order]_**). Wektor wyrazów wolnych może być bowiem dzielony pomiędzy różne eksperymenty, w celu zbadania innych zależności. Wszelkie dane konfiguracyjne zostaną zapisane wewnątrz katalogu doświadczenia, ale w specjalnie przygotowanym katalogu config, czyli:
-
-```console
-      experimentor/data/[experiment_name]/config
-```
-
-Pliki konfiguracyjne tworzone w ramach katalogu **_config_** to:
-
-- **_A.txt_** - plik zawierający macierz wejściową układu
-- **_general.txt_** - plik zawierający nazwę eksperymentu, typ macierzy i rozmiar układu
-- **_parameters.txt_** - plik zawierający dane konfiguracyjne metod, takie jak dokładność obliczeń, maksymalna liczba iteracji, parametr relaksacji
-
-#### Obliczenia
-
-Następnie wykonywane są obliczenia za pomocą stacjonarnych metod przybliżonych rozwiązywania URL, przy pomocy biblioteki [equiter](https://github.com/Coolxer/PD-EQUITER-LIBRARY).
-
-#### Wyniki
-
-Wyniki obliczeń zapisywane są wewnątrz katalogu **_results_** o ścieżce:
-
-```console
-      experimentor/data/[experiment_name]/results
-```
-
-Wyniki można podzielić na tekstowe i graficzne.
-
-W przypadku wyników tekstowych powstaje folder **_txt_**, a wewnątrz niego tworzone są następujące elementy:
-
-- plik **_iterations.txt_** zawierający liczbę wykonanych iteracji niezbędnych do rozwiązania danego układu przez poszczególne metody
-- plik **_times.txt_** zawierający czas obliczeń poszczególnych metod
-- katalog **_solution_** wewnątrz, którego zostały utworzone pliki tekstowe zawierające wektor rozwiązań układu, osobno dla każdej z metod (jacobi.txt, gauss_seidel.txt, sor.txt)
-
-W przypadku wyników graficznych powstaje folder **_img_**, a wewnątrz niego tworzone są następujące elementy:
-
-- **_iterations.png_** - wykres porównujący liczbę wykonanych iteracji przez poszczególne metody dla danego układu
-- **_times.png_** - wykres porównujący czas obliczeń poszczególnych metod dla danego układu
-
----
-
-### Eksperymenty grupowe
-
-Do środowiska dodano także możliwość tworzenia grupowych doświadczeń (metoda **do_group_experiment** ), tzn.:
-
-- grupowanych według typu macierzy wejściowej A (stały typ, zmienny stopień macierzy)
-- grupowanych według stopnia macierzy wejściowej A (stały stopień, zmienny typ macierzy)
-
-Użytkownik decyduje jakie wartości parametrów chce przetestować, a co jest bardzo istotne ma także możliwość dzielenia doświadczenia na różne etapy, tzn. w jednej chwilii nie musi testować całego zakresu parametrów, ponieważ może dopisać kolejne wyniki do już istniejących. Jest to szczególnie przydatne w przypadku czasochłonnych obliczeń.
-
-W związku z możliwością podziału eksperymentu na kilka etapów, wykresy mogą być generowane nie tylko bezpośrednio podczas eksperymentu, ale także już po jego zakończeniu, ponieważ dostępna jest do tego specjalna metoda **make_group_charts_and_tables**.
-
-Warto zwrócić uwagę także na tworzenie dodatkowych tabel dla grupowych doświadczeń w celu czytelniejszej prezentacji danych.
-
-Zasada działania tych metod jest bardzo prosta. Metoda służąca do wykonywania grupowych eksperymentów ma podobne parametry, co metoda służąca do jednostkowych doświadczeń. Natomiast metoda do generacji wykresów grupowych jako argument przyjmuje tylko nazwę eksperymentu. Zainteresowanych odsyłam do kodu źródłowego po więcej szczegółów.
-
-Poniżej przykładowe wygenerowane wykresy dla pewnego eksperymentu grupowanego według typu macierzy pełnej. Badane stopnie macierzy wejściowej to 100, 200, 500, 1000, 2000, 5000, 10000:
-![title](md_images/group_iterations_chart.png)
-
-![title](md_images/group_times_chart.png)
-
-oraz tabelami wartości na tych wykresach:
-
-![title](md_images/group_iterations_table.png)
-
-![title](md_images/group_times_table.png)
 
 ## Dodatkowe informacje
 
