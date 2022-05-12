@@ -19,6 +19,7 @@ from .sort5 import sort5
         - max_iterations (int) - maksymalna liczba iteracji
         - tolerance (float) - dokładność przybliżonego rozwiązania
         - w_vector (np.ndarray) - wektor wartości parametru 'w'
+        - x0 (np.ndarray) - początkowy wektor przybliżonego rozwiązania
 
     Wyjście:
         - solutions (list)) - przybliżone wektory rozwiązań
@@ -36,11 +37,7 @@ from .sort5 import sort5
 # Metoda SOR wymaga większej uwagi, ponieważ posiada dodatkowy parametr 'w'
 # Rozwiązanie poszukiwane jest z różną wartością tego parametru, a jako wynik przyjęty zostaje najlepszy rezultat
 def sor_exp(
-    A: np.ndarray,
-    b: np.ndarray,
-    max_iterations: int,
-    tolerance: float,
-    w_vector: np.ndarray,
+    A: np.ndarray, b: np.ndarray, max_iterations: int, tolerance: float, w_vector: np.ndarray, x0: np.ndarray
 ) -> Tuple[list, list, list, list, list, str, str]:
 
     # Deklaracja list przechowujących wyniki cząstkowych eksperymentów metody SOR i wartości parametru 'w'
@@ -59,7 +56,7 @@ def sor_exp(
         print(f"    - dla parametru 'w': {w}")
 
         # Obliczenie rozwiązania metodą SOR z aktualną wartością parametru 'w'
-        solution, iteration, time, error = sor(A, b, max_iterations, tolerance, w)
+        solution, iteration, time, error = sor(A, b, max_iterations, tolerance, w, x0)
 
         # Jeśli rozwiązanie dało błąd to należy przerwać dalsze obliczenia,
         if solution is None:

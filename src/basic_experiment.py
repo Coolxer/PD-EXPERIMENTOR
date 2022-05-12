@@ -9,6 +9,7 @@
 import os
 import shutil
 from typing import NoReturn
+import numpy as np
 
 # Import zmodyfikowanych metod z modułu @equiter (modyfikacja polegająca głównie na możliwości śledzenia w czasie rzeczywsitym)
 from .tracking_methods.jacobi import jacobi
@@ -31,25 +32,27 @@ from .charts.errors_to_iterations_SOR_only import draw_errors_to_iterations_SOR_
 """
     Wejście (Parametry):
         - experiment_name (str) - nazwa eksperymentu
+        - size (int) - rozmiar URL
         - matrix_type (str) - typ macierzy głównej
-        - matrix_order (int) - stopień macierzy głównej
 
         - max_iterations (int) - maksymalna liczba iteracji
         - tolerance (float) - dokładność przybliżonego rozwiązania
         - w_values (list) - lista wartości parametru 'w' do przetestowania
 
+        - x0 (np.ndarray) [None] - początkowy wektor przybliżeń
         - calculate_b_vector(bool) [False] - czy wektor wyrazów wolnych b ma zostać obliczony na podstawie Ax (gdzie x = [1, 1, 1, 1]). W przeciwnym wypadku jest on generowany.
 """
 
 # Metoda służąca do prowadzenia klasyczynych pojedynczych eksperymentów
-def do_single_experiment(
+def do_basic_experiment(
     experiment_name: str,
+    size: int,
     matrix_type: str,
-    matrix_order: int,
     max_iterations: int,
     tolerance: float,
     w_values: list,
-    calculate_b_vector: bool = False,
+    x0: np.ndarray = None,
+    calculate_b_vector: bool = True,
 ) -> NoReturn:
 
     print("\n#############################################################")
@@ -62,23 +65,23 @@ def do_single_experiment(
 
     # Pobranie macierzy wejściowej układu
     print("Generowanie macierzy głównej ...")
-    A = get_matrix(matrix_type, matrix_order)
+    A = get_matrix(matrix_type, size)
 
     # Ustawienie wektora wyrazów wolnych
     print("Generowanie / Obliczanie / Wczytywanie wektora wyrazów wolnych ...")
-    b, was_b_loaded = get_vector(f"{data_dir}/b_{matrix_order}.txt", matrix_order, A if calculate_b_vector else None)
+    b, was_b_loaded = get_vector(f"{data_dir}/b_{size}.txt", size, A if calculate_b_vector else None)
 
     # ------------------------------------------------------- Sekcja rozwiązywania ------------------------------------------------------- #
 
     print("Rozwiązywanie układu metodą Jacobiego ...")
-    jacobi_solution, jacobi_iterations, jacobi_time, jacobi_errors = jacobi(A, b, max_iterations, tolerance)
+    jacobi_solution, jacobi_iterations, jacobi_time, jacobi_errors = jacobi(A, b, max_iterations, tolerance, x0)
 
     if jacobi_solution is None:
         return
 
     print("Rozwiązywanie układu metodą Gaussa-Seidela ...")
     gauss_seidel_solution, gauss_seidel_iterations, gauss_seidel_time, gauss_seidel_errors = gauss_seidel(
-        A, b, max_iterations, tolerance
+        A, b, max_iterations, tolerance, x0
     )
 
     if gauss_seidel_solution is None:
@@ -86,7 +89,7 @@ def do_single_experiment(
 
     print("Rozwiązywanie układu metodą SOR ...")
     sor_solutions, sor_iterations, sor_times, ws, sor_errors, w_with_iterations, w_with_times, w_with_errors = sor_exp(
-        A, b, max_iterations, tolerance, w_values
+        A, b, max_iterations, tolerance, w_values, x0
     )
 
     if sor_solutions is None:
@@ -129,7 +132,7 @@ def do_single_experiment(
     save_data_to_file(
         config_dir,
         "description",
-        f"nazwa eksperymentu = {experiment_name}\ntyp eksperymentu = klasyczny pojedynczy\ntyp macierzy A =  {matrix_type}\nstopień macierzy A = {matrix_order}\nwektor b = {'obliczony' if calculate_b_vector else 'wygenerowany'}\nmaksymalna liczba iteracji = {max_iterations}\ndokładność = {tolerance}\nbadane wartości parametru 'w' = {w_values}\nnajlepszy wynik dla 'w' =  {ws[0]}",
+        f"nazwa eksperymentu = {experiment_name}\ntyp eksperymentu = podstawowy\nwektor b = {'obliczony' if calculate_b_vector else 'wygenerowany'}\ntyp macierzy =  {matrix_type}\nrozmiar URL = {size}\nmaksymalna liczba iteracji = {max_iterations}\ndokładność = {tolerance}\nw= {w_values}\nnajlepszy wynik dla 'w' =  {ws[0]}",
     )
 
     # Rezygnacja z zapisu macierzy 'A' i wektora wyrazów wolnych 'b'
@@ -140,8 +143,9 @@ def do_single_experiment(
     # Sprawdzenie czy wektor b został wczytany czy wygenerowany
     # Jeśli wektor został wygenerowany to należy go zapisać do pliku
     # if not was_b_loaded:
+
     #    print("Zapisywanie wektora wyrazów wolnych ...")
-    #    save_matrix_to_file(f"{data_dir}", f"b_{matrix_order}", b)
+    #    save_matrix_to_file(f"{data_dir}", f"b_{size}", b)
 
     # ------------------------------------------------------- Sekcja zapisu wyników ------------------------------------------------------ #
 

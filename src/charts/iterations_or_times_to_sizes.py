@@ -13,8 +13,8 @@ from matplotlib.ticker import StrMethodFormatter
 from .defines import *
 
 
-def draw_iterations_or_times_to_orders_grouped_by_type(
-    indicator: str, jacobi_data: list, gauss_seidel_data: list, sor_data: list, orders: list
+def draw_iterations_or_times_to_sizes(
+    indicator: str, jacobi_data: list, gauss_seidel_data: list, sor_data: list, sizes: list
 ) -> NoReturn:
 
     plt.figure()
@@ -22,8 +22,8 @@ def draw_iterations_or_times_to_orders_grouped_by_type(
         Y_LABEL_ITERATIONS if indicator == Y_ITERATIONS_INDICATOR else Y_LABEL_TIMES,
         weight="bold",
     )
-    plt.xlabel(X_LABEL_ORDER, weight="bold")
-    plt.xticks([r + BAR_WIDTH_IN_MULTIPLE_SERIES for r in range(len(orders))], orders)
+    plt.xlabel(X_LABEL_SIZE, weight="bold")
+    plt.xticks([r + BAR_WIDTH_IN_MULTIPLE_SERIES for r in range(len(sizes))], sizes)
 
     maximum = max(max(jacobi_data), max(gauss_seidel_data), max(sor_data))
     step = ceil(maximum / NUMBER_OF_TICKS) if indicator == Y_ITERATIONS_INDICATOR else (maximum / NUMBER_OF_TICKS)
@@ -34,7 +34,7 @@ def draw_iterations_or_times_to_orders_grouped_by_type(
         plt.gca().yaxis.set_major_formatter(StrMethodFormatter("{x:,.4f}"))
 
     data = [jacobi_data, gauss_seidel_data, sor_data]
-    positions = np.arange(len(orders))
+    positions = np.arange(len(sizes))
 
     i = 0
     for method in DATA_LABELS_METHODS:
@@ -55,17 +55,13 @@ def draw_iterations_or_times_to_orders_grouped_by_type(
         plt.grid()
 
 
-def draw_iterations_to_orders_grouped_by_type(
-    jacobi_iterations: list, gauss_seidel_iterations: list, sor_iterations: list, orders: list
+def draw_iterations_to_sizes(
+    jacobi_iterations: list, gauss_seidel_iterations: list, sor_iterations: list, sizes: list
 ) -> NoReturn:
-    draw_iterations_or_times_to_orders_grouped_by_type(
-        Y_ITERATIONS_INDICATOR, jacobi_iterations, gauss_seidel_iterations, sor_iterations, orders
+    draw_iterations_or_times_to_sizes(
+        Y_ITERATIONS_INDICATOR, jacobi_iterations, gauss_seidel_iterations, sor_iterations, sizes
     )
 
 
-def draw_times_to_orders_grouped_by_type(
-    jacobi_times: list, gauss_seidel_times: list, sor_times: list, orders: list
-) -> NoReturn:
-    draw_iterations_or_times_to_orders_grouped_by_type(
-        Y_TIMES_INDICATOR, jacobi_times, gauss_seidel_times, sor_times, orders
-    )
+def draw_times_to_sizes(jacobi_times: list, gauss_seidel_times: list, sor_times: list, sizes: list) -> NoReturn:
+    draw_iterations_or_times_to_sizes(Y_TIMES_INDICATOR, jacobi_times, gauss_seidel_times, sor_times, sizes)

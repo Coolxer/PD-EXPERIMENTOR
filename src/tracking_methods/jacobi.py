@@ -23,7 +23,7 @@ def jacobi(
     start_time, x, valid = common(A, b, max_iterations, tolerance, x0)
 
     if not valid:
-        return None, None, None
+        return None, None, None, None
 
     D = np.diag(np.diag(A))
 

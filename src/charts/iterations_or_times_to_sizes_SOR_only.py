@@ -13,16 +13,14 @@ from matplotlib.ticker import StrMethodFormatter
 from .defines import *
 
 
-def draw_iterations_or_times_to_orders_grouped_by_type_SOR_only(
-    indicator: str, sor_data: list, orders: list, ws: list
-) -> NoReturn:
+def draw_iterations_or_times_to_sizes_SOR_only(indicator: str, sor_data: list, sizes: list, ws: list) -> NoReturn:
     plt.figure()
     plt.ylabel(
         Y_LABEL_ITERATIONS if indicator == Y_ITERATIONS_INDICATOR else Y_LABEL_TIMES,
         weight="bold",
     )
-    plt.xlabel(X_LABEL_ORDER, weight="bold")
-    plt.xticks([r + BAR_WIDTH_IN_MULTIPLE_SERIES for r in range(len(orders))], orders)
+    plt.xlabel(X_LABEL_SIZE, weight="bold")
+    plt.xticks([r + BAR_WIDTH_IN_MULTIPLE_SERIES for r in range(len(sizes))], sizes)
 
     maximum = max(max(n) for n in sor_data)
     step = ceil(maximum / NUMBER_OF_TICKS) if indicator == Y_ITERATIONS_INDICATOR else (maximum / NUMBER_OF_TICKS)
@@ -32,7 +30,7 @@ def draw_iterations_or_times_to_orders_grouped_by_type_SOR_only(
     if indicator == Y_TIMES_INDICATOR:
         plt.gca().yaxis.set_major_formatter(StrMethodFormatter("{x:,.4f}"))
 
-    positions = np.arange(len(orders))
+    positions = np.arange(len(sizes))
 
     i = 0
     for w in ws:
@@ -54,9 +52,9 @@ def draw_iterations_or_times_to_orders_grouped_by_type_SOR_only(
         plt.grid()
 
 
-def draw_iterations_to_orders_grouped_by_type_SOR_only(sor_iterations: list, orders: list, ws: list) -> NoReturn:
-    draw_iterations_or_times_to_orders_grouped_by_type_SOR_only(Y_ITERATIONS_INDICATOR, sor_iterations, orders, ws)
+def draw_iterations_to_sizes_SOR_only(sor_iterations: list, sizes: list, ws: list) -> NoReturn:
+    draw_iterations_or_times_to_sizes_SOR_only(Y_ITERATIONS_INDICATOR, sor_iterations, sizes, ws)
 
 
-def draw_times_to_orders_grouped_by_type_SOR_only(sor_times: list, orders: list, ws: list) -> NoReturn:
-    draw_iterations_or_times_to_orders_grouped_by_type_SOR_only(Y_TIMES_INDICATOR, sor_times, orders, ws)
+def draw_times_to_sizes_SOR_only(sor_times: list, sizes: list, ws: list) -> NoReturn:
+    draw_iterations_or_times_to_sizes_SOR_only(Y_TIMES_INDICATOR, sor_times, sizes, ws)

@@ -9,8 +9,8 @@
 from .src.help_methods.types import *
 from .src.help_methods.file import open_chart_file
 
-from .src.single_experiment import do_single_experiment
-
-from .src.group_by_order_experiment import do_group_by_order_experiment
-from .src.group_by_type_experiment import do_group_by_type_experiment
-from .src.tolerance_experiment import do_tolerance_experiment
+from .src.basic_experiment import do_basic_experiment
+from .src.variable_size_experiment import do_variable_size_experiment
+from .src.variable_type_experiment import do_variable_type_experiment
+from .src.variable_tolerance_experiment import do_variable_tolerance_experiment
+from .src.variable_x0_experiment import do_variable_x0_experiment
