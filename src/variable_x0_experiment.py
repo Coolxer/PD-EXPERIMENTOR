@@ -86,7 +86,7 @@ def do_variable_x0_experiment(
     draw_iterations_to_x0s_SOR_only(sor_iterations_only, x0_signatures, ws)
     save_chart_to_file(f"{exp_dir}/#res#", "terations_SOR_only")
 
-    draw_iterations_to_x0s_SOR_only(sor_times_only, x0_signatures, ws)
+    draw_times_to_x0s_SOR_only(sor_times_only, x0_signatures, ws)
     save_chart_to_file(f"{exp_dir}/#res#", "times_SOR_only")
 
     # Tworzenie tabel

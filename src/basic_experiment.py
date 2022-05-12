@@ -32,7 +32,7 @@ from .charts.errors_to_iterations_SOR_only import draw_errors_to_iterations_SOR_
 """
     Wejście (Parametry):
         - experiment_name (str) - nazwa eksperymentu
-        - size (int) - rozmiar URL
+        - experiment_size (int) - rozmiar URL
         - matrix_type (str) - typ macierzy głównej
 
         - max_iterations (int) - maksymalna liczba iteracji
@@ -43,10 +43,10 @@ from .charts.errors_to_iterations_SOR_only import draw_errors_to_iterations_SOR_
         - calculate_b_vector(bool) [False] - czy wektor wyrazów wolnych b ma zostać obliczony na podstawie Ax (gdzie x = [1, 1, 1, 1]). W przeciwnym wypadku jest on generowany.
 """
 
-# Metoda służąca do prowadzenia klasyczynych pojedynczych eksperymentów
+# Metoda służąca do prowadzenia klasyczynych bazowych eksperymentów
 def do_basic_experiment(
     experiment_name: str,
-    size: int,
+    experiment_size: int,
     matrix_type: str,
     max_iterations: int,
     tolerance: float,
@@ -65,27 +65,101 @@ def do_basic_experiment(
 
     # Pobranie macierzy wejściowej układu
     print("Generowanie macierzy głównej ...")
-    A = get_matrix(matrix_type, size)
+    A = get_matrix(matrix_type, experiment_size)
 
     # Ustawienie wektora wyrazów wolnych
     print("Generowanie / Obliczanie / Wczytywanie wektora wyrazów wolnych ...")
-    b, was_b_loaded = get_vector(f"{data_dir}/b_{size}.txt", size, A if calculate_b_vector else None)
+    b, was_b_loaded = get_vector(
+        f"{data_dir}/b_{experiment_size}.txt", experiment_size, A if calculate_b_vector else None
+    )
 
     # ------------------------------------------------------- Sekcja rozwiązywania ------------------------------------------------------- #
 
-    print("Rozwiązywanie układu metodą Jacobiego ...")
-    jacobi_solution, jacobi_iterations, jacobi_time, jacobi_errors = jacobi(A, b, max_iterations, tolerance, x0)
+    # Przygotowanie danych do powtarzania eksperymentów (w celu wyciągnięcia średniej i uniknięcia przypadkowości)
+    experiment_repeats = 3
 
-    if jacobi_solution is None:
-        return
+    solutions = [[], [], []]
+    iterations = [0, 0, 0]
+    times = [0, 0, 0]
+    errors = [[], [], []]
+
+    print("Rozwiązywanie układu metodą Jacobiego ...")
+    for i in range(experiment_repeats):
+        jacobi_solution, jacobi_iterations, jacobi_time, jacobi_errors = jacobi(A, b, max_iterations, tolerance, x0)
+
+        if jacobi_solution is None:
+            print("Błąd rozwiązania metodą Jacobiego")
+            return
+
+        # Dodanie wyników powtarzających się eksperymentów do tablic
+        solutions[i] = jacobi_solution
+        iterations[i] = jacobi_iterations
+        times[i] = jacobi_time
+        errors[i] = jacobi_errors
+
+    # Obliczenie średnich z wyników iteracji i czasu
+    jacobi_iterations = round(sum(iterations) / experiment_repeats)
+    jacobi_time = round(sum(times) / experiment_repeats, 6)
+
+    # Obliczenie średniego rezultatu
+    jacobi_solution = []
+    for i in range(len(solutions[0])):
+        jacobi_solution.append(0)
+
+        for j in range(experiment_repeats):
+            jacobi_solution[i] += solutions[j][i]
+
+        jacobi_solution[i] /= experiment_repeats
+
+    # Obliczenie średniego błędu
+    jacobi_errors = []
+    for i in range(min(list(map(lambda x: len(x), errors)))):
+        jacobi_errors.append(0)
+
+        for j in range(experiment_repeats):
+            jacobi_errors[i] += errors[j][i]
+
+        jacobi_errors[i] /= experiment_repeats
 
     print("Rozwiązywanie układu metodą Gaussa-Seidela ...")
-    gauss_seidel_solution, gauss_seidel_iterations, gauss_seidel_time, gauss_seidel_errors = gauss_seidel(
-        A, b, max_iterations, tolerance, x0
-    )
+    for i in range(experiment_repeats):
+        gauss_seidel_solution, gauss_seidel_iterations, gauss_seidel_time, gauss_seidel_errors = gauss_seidel(
+            A, b, max_iterations, tolerance, x0
+        )
 
-    if gauss_seidel_solution is None:
-        return
+        if gauss_seidel_solution is None:
+            print("Błąd rozwiązania metodą Gaussa-Seidela")
+            return
+
+        # Dodanie wyników powtarzających się eksperymentów do tablic
+        solutions[i] = gauss_seidel_solution
+        iterations[i] = gauss_seidel_iterations
+        times[i] = gauss_seidel_time
+        errors[i] = gauss_seidel_errors
+
+    # Obliczenie średnich z wyników iteracji i czasu
+    gauss_seidel_iterations = round(sum(iterations) / experiment_repeats)
+    gauss_seidel_time = round(sum(times) / experiment_repeats, 6)
+
+    # Obliczenie średniego rezultatu
+    gauss_seidel_solution = []
+    for i in range(len(solutions[0])):
+        gauss_seidel_solution.append(0)
+
+        for j in range(experiment_repeats):
+            gauss_seidel_solution[i] += solutions[j][i]
+
+        gauss_seidel_solution[i] /= experiment_repeats
+
+    # Obliczenie średniego błędu
+    gauss_seidel_errors = []
+    for i in range(min(list(map(lambda x: len(x), errors)))):
+        gauss_seidel_errors.append(0)
+
+        for j in range(experiment_repeats):
+            gauss_seidel_errors[i] += errors[j][i]
+
+        gauss_seidel_errors[i] /= experiment_repeats
 
     print("Rozwiązywanie układu metodą SOR ...")
     sor_solutions, sor_iterations, sor_times, ws, sor_errors, w_with_iterations, w_with_times, w_with_errors = sor_exp(

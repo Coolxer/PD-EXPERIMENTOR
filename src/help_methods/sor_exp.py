@@ -51,16 +51,57 @@ def sor_exp(
     w_with_times = ""
     w_with_errors = ""
 
+    experiment_repeats = 3
+
     # Pętla iterująca po wartościach parametru 'w'
     for w in w_vector:
         print(f"    - dla parametru 'w': {w}")
 
-        # Obliczenie rozwiązania metodą SOR z aktualną wartością parametru 'w'
-        solution, iteration, time, error = sor(A, b, max_iterations, tolerance, w, x0)
+        # Przygotowanie do powtarzania eksperymentów
+        ss = []
+        it = []
+        ts = []
+        es = []
 
-        # Jeśli rozwiązanie dało błąd to należy przerwać dalsze obliczenia,
-        if solution is None:
-            return None, None, None, None, None, None, None, None
+        for i in range(experiment_repeats):
+
+            # Obliczenie rozwiązania metodą SOR z aktualną wartością parametru 'w'
+            solution, iteration, time, error = sor(A, b, max_iterations, tolerance, w, x0)
+
+            # Jeśli rozwiązanie dało błąd to należy przerwać dalsze obliczenia,
+            if solution is None:
+                print("Błąd rozwiązania metodą SOR")
+                return None, None, None, None, None, None, None, None
+
+            # Dodanie do tablic wyników powtarzanych eksperymentów
+            ss.append(solution)
+            it.append(iteration)
+            ts.append(time)
+            es.append(error)
+
+        # Obliczenie średnich wyników iteracji i czasu
+        iteration = round(sum(it) / experiment_repeats)
+        time = round(sum(ts) / experiment_repeats, 6)
+
+        # Obliczenie średnich rezultatów
+        solution = []
+        for i in range(len(ss[0])):
+            solution.append(0)
+
+            for j in range(experiment_repeats):
+                solution[i] += ss[j][i]
+
+            solution[i] /= experiment_repeats
+
+        # Obliczenie średnich błędów
+        error = []
+        for i in range(min(list(map(lambda x: len(x), es)))):
+            error.append(0)
+
+            for j in range(experiment_repeats):
+                error[i] += es[j][i]
+
+            error[i] /= experiment_repeats
 
         # Dodanie rezultatów cząstkowych do list wyników
         solutions.append(solution)
