@@ -198,7 +198,7 @@ def do_basic_experiment(
     os.mkdir(results_dir_img)
 
     os.mkdir(f"{results_dir_img}/fig")
-    os.mkdir(f"{results_dir_img}/svg")
+    os.mkdir(f"{results_dir_img}/eps")
 
     # ---------------------------------------------------- Sekcja zapisu parametrów --------------------------------------------------- #
 

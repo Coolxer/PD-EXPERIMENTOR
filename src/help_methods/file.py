@@ -68,7 +68,7 @@ def save_matrix_to_file(dir: str, name: str, matrix: np.ndarray) -> NoReturn:
 # Metoda zapisuje aktualnie otwarty wykres do wskazanego pliku
 def save_chart_to_file(dir: str, name: str) -> NoReturn:
     pickle.dump(plt.gcf(), open(f"{dir}/fig/{name}.pickle", "wb"))
-    plt.savefig(f"{dir}/svg/{name}.svg", bbox_inches="tight")
+    plt.savefig(f"{dir}/eps/{name}.eps", bbox_inches="tight")
     plt.close()
 
 

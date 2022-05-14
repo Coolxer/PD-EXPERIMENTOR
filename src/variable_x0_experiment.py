@@ -70,7 +70,7 @@ def do_variable_x0_experiment(
 
     # Utworzenie katalogów do przechowywania figur, wykresów i tabel
     os.mkdir(f"{exp_dir}/#res#")
-    os.mkdir(f"{exp_dir}/#res#/svg")
+    os.mkdir(f"{exp_dir}/#res#/eps")
     os.mkdir(f"{exp_dir}/#res#/fig")
     os.mkdir(f"{exp_dir}/#res#/tab")
 
