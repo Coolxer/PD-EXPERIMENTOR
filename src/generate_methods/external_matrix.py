@@ -30,13 +30,25 @@ def external_matrix() -> np.ndarray:
     # Deklaracja zmiennej do przechowania macierzy
     matrix = None
 
+    i = 0
+
     # Pętla iterująca po obiekcie wczytanym z pliku aż do napotkania interesującego fragmentu
     for item in data["Problem"].item(0):
+
+        if i == 2:
+            matrix = item.toarray()
+            break
+
+        i = i + 1
+
+        """"
         # Jeśli znaleziono stosowny fragment obiektu to następuje pobranie macierzy
-        if str(type(item)) == "<class 'scipy.sparse.csc.csc_matrix'>":
+        if str(type(item)) == "<class 'scipy.sparse.csc.csc_matrix'>" or str(type(item)) == "<class 'numpy.float64'>":
+
             # Pobranie macierzy i przerwanie dalszych przeszukiwań obiektu
             matrix = item.toarray()
             break
+        """
 
     # Wzmocnienie głównej przekątnej macierzy
     matrix = strengthen_diagonal(matrix)
