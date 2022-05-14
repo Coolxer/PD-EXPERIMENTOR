@@ -102,7 +102,7 @@ def choose_matlab_file() -> str:
 
     # Utworzenie okna służącego do wyboru pliku macierzy
     file = askopenfilename(
-        filetypes=(("Matlab files", "mat"),),
+        filetypes=(("Matlab files", ".mat"),),
         title="Wybierz macierz pobraną z kolekcji macierzy rzadkich",
     )
 
