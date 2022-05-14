@@ -71,8 +71,10 @@ def do_variable_type_experiment(
 
     # Utworzenie katalogów do przechowywania figur, wykresów i tabel
     os.mkdir(f"{exp_dir}/#res#")
-    os.mkdir(f"{exp_dir}/#res#/eps")
     os.mkdir(f"{exp_dir}/#res#/fig")
+    os.mkdir(f"{exp_dir}/#res#/png")
+    os.mkdir(f"{exp_dir}/#res#/svg")
+    os.mkdir(f"{exp_dir}/#res#/pdf")
     os.mkdir(f"{exp_dir}/#res#/tab")
 
     # Rysowanie wykresów
