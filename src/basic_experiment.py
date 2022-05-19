@@ -162,9 +162,17 @@ def do_basic_experiment(
         gauss_seidel_errors[i] /= experiment_repeats
 
     print("Rozwiązywanie układu metodą SOR ...")
-    sor_solutions, sor_iterations, sor_times, ws, sor_errors, w_with_iterations, w_with_times, w_with_errors = sor_exp(
-        A, b, max_iterations, tolerance, w_values, x0
-    )
+    (
+        sor_solutions,
+        sor_iterations,
+        sor_times,
+        ws,
+        sor_errors,
+        w_with_iterations,
+        w_with_times,
+        w_with_errors,
+        sor_index,
+    ) = sor_exp(A, b, max_iterations, tolerance, w_values, x0)
 
     if sor_solutions is None:
         return
@@ -208,7 +216,7 @@ def do_basic_experiment(
     save_data_to_file(
         config_dir,
         "description",
-        f"nazwa eksperymentu = {experiment_name}\ntyp eksperymentu = podstawowy\nwektor b = {'obliczony' if calculate_b_vector else 'wygenerowany'}\ntyp macierzy =  {matrix_type}\nrozmiar URL = {experiment_size}\nmaksymalna liczba iteracji = {max_iterations}\ndokładność = {tolerance}\nw= {w_values}\nnajlepszy wynik dla 'w' =  {ws[0]}",
+        f"nazwa eksperymentu = {experiment_name}\ntyp eksperymentu = podstawowy\nwektor b = {'obliczony' if calculate_b_vector else 'wygenerowany'}\ntyp macierzy =  {matrix_type}\nrozmiar URL = {experiment_size}\nmaksymalna liczba iteracji = {max_iterations}\ndokładność = {tolerance}\nw= {w_values}\nnajlepszy wynik dla 'w' =  {ws[sor_index]}",
     )
 
     # Rezygnacja z zapisu macierzy 'A' i wektora wyrazów wolnych 'b'
@@ -229,7 +237,7 @@ def do_basic_experiment(
     save_data_to_file(
         results_dir_txt,
         "iterations",
-        f"jacobi = {jacobi_iterations}\ngauss_seidel = {gauss_seidel_iterations}\nsor = {sor_iterations[0]}",
+        f"jacobi = {jacobi_iterations}\ngauss_seidel = {gauss_seidel_iterations}\nsor = {sor_iterations[sor_index]}",
     )
     save_data_to_file(results_dir_txt, "sor_iterations", w_with_iterations)
 
@@ -237,7 +245,7 @@ def do_basic_experiment(
     save_data_to_file(
         results_dir_txt,
         "times",
-        f"jacobi = {jacobi_time}\ngauss_seidel = {gauss_seidel_time}\nsor = {sor_times[0]}",
+        f"jacobi = {jacobi_time}\ngauss_seidel = {gauss_seidel_time}\nsor = {sor_times[sor_index]}",
     )
     save_data_to_file(results_dir_txt, "sor_times", w_with_times)
 
@@ -245,23 +253,23 @@ def do_basic_experiment(
     save_data_to_file(
         results_dir_txt,
         "errors",
-        f"jacobi = {jacobi_errors}\ngauss_seidel = {gauss_seidel_errors}\nsor = {sor_errors[0]}",
+        f"jacobi = {jacobi_errors}\ngauss_seidel = {gauss_seidel_errors}\nsor = {sor_errors[sor_index]}",
     )
     save_data_to_file(results_dir_txt, "sor_errors", w_with_errors)
 
     print("Zapisywanie szczegółowych wyników ...")
     save_matrix_to_file(results_dir_txt_solution, "jacobi", jacobi_solution)
     save_matrix_to_file(results_dir_txt_solution, "gauss_seidel", gauss_seidel_solution)
-    save_matrix_to_file(results_dir_txt_solution, "sor", sor_solutions[0])
+    save_matrix_to_file(results_dir_txt_solution, "sor", sor_solutions[sor_index])
 
     # --------------------------------------------------- Sekcja tworzenia wykresów -------------------------------------------------- #
 
     print("Rysowanie wykresu liczby wyk. iteracji dla wszystkich metod ...")
-    draw_iterations_to_methods(jacobi_iterations, gauss_seidel_iterations, sor_iterations[0])
+    draw_iterations_to_methods(jacobi_iterations, gauss_seidel_iterations, sor_iterations[sor_index])
     save_chart_to_file(results_dir_img, "iterations")
 
     print("Rysowanie wykresu czasu obliczeń dla wszystkich metod...")
-    draw_times_to_methods(jacobi_time, gauss_seidel_time, sor_times[0])
+    draw_times_to_methods(jacobi_time, gauss_seidel_time, sor_times[sor_index])
     save_chart_to_file(results_dir_img, "times")
 
     print("Rysowanie wykresu liczby wyk. iteracji tylko dla metody SOR ...")
@@ -273,7 +281,7 @@ def do_basic_experiment(
     save_chart_to_file(results_dir_img, "sor_times")
 
     print("Rysowanie wykresu błędu agregowanego dla wszystkich metod...")
-    draw_errors_to_iterations(jacobi_errors, gauss_seidel_errors, sor_errors[0])
+    draw_errors_to_iterations(jacobi_errors, gauss_seidel_errors, sor_errors[sor_index])
     save_chart_to_file(results_dir_img, "errors")
 
     print("Rysowanie wykresu błędu agregowanego tylko dla metody SOR...")

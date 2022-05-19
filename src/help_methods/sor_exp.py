@@ -10,8 +10,6 @@ from typing import Tuple
 import numpy as np
 from ..tracking_methods.sor import sor
 
-from .sort5 import sort5
-
 """
     Wejście:
         - A (np.ndarray) - macierz główna układu
@@ -30,6 +28,7 @@ from .sort5 import sort5
         - w_with_iterations (str) - ciąg zawierający listę wartości 'w' i powiązane z nimi wyniki iteracji
         - w_with_times (str) - ciąg zawierający listę wartości 'w' i powiązane z nimi wyniki czasowe
         - w_with_errors(str) - ciąg zawierający listę wartości 'w' i powiązane z nimi błędy
+        - index (int) - indeks najlepszych rezultatów
 
         Jeśli pojawi się błąd to metoda przerywa działanie i zwraca (None, None, None, None, None, None, None, None)
 """
@@ -115,22 +114,15 @@ def sor_exp(
         w_with_times += f"{w} = {time}\n"
         w_with_errors += f"{w} = {error}\n"
 
-    # Badania różnych wartości parametrów w mają na celu wyłonienie jednej konfiguracji
-    # Do wyboru możliwe były 3 perspektywy (najgorsza, średnia, najlepsza)
-    # Zdecydowano się wybrać najlepszą perspektywę (najlepsza zbieżność według liczby iteracji)
-    # Ta perspektywa wydaje się być najbardziej odpowiednia, ponieważ metody Jacobiego i Gaussa-Seidela również dążą do doskonałości
-    iterations_sorted, times_sorted, solutions_sorted, w_sorted, errors_sorted = sort5(
-        iterations, times, solutions, w_values, errors
-    )
-
     # Zwrócenie rezultatów
     return (
-        solutions_sorted,
-        iterations_sorted,
-        times_sorted,
-        w_sorted,
-        errors_sorted,
+        solutions,
+        iterations,
+        times,
+        w_values,
+        errors,
         w_with_iterations,
         w_with_times,
         w_with_errors,
+        iterations.index(min(iterations)),
     )
