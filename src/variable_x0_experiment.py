@@ -8,6 +8,8 @@
 import os
 from typing import NoReturn
 from .help_methods.dir import get_data_dir
+from .help_methods.matrix import get_matrix
+from .help_methods.vector import get_vector
 from .help_methods.file import save_data_to_file, save_chart_to_file
 from .help_methods.table import draw_table
 
@@ -45,10 +47,18 @@ def do_variable_x0_experiment(
     x0s: list,
 ) -> NoReturn:
 
+    print("\nGenerowanie macierzy głównej ...")
+    A = get_matrix(matrix_type, size)
+
+    print("Generowanie / Obliczanie / Wczytywanie wektora wyrazów wolnych ...")
+    b, _ = get_vector("", size, A)
+
     x0_signatures = []
 
     for x0 in x0s:
-        do_basic_experiment(f"{experiment_name}/{x0[0]}", size, matrix_type, max_iterations, tolerance, w_values, x0)
+        do_basic_experiment(
+            f"{experiment_name}/{x0[0]}", size, matrix_type, max_iterations, tolerance, w_values, A, b, x0
+        )
         x0_signatures.append(x0[0])
 
     exp_dir = f"{get_data_dir()}/{experiment_name}"

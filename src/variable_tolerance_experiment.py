@@ -8,6 +8,8 @@
 import os
 from typing import NoReturn
 from .help_methods.dir import get_data_dir
+from .help_methods.matrix import get_matrix
+from .help_methods.vector import get_vector
 from .help_methods.file import save_data_to_file, save_chart_to_file
 from .help_methods.table import draw_table
 
@@ -38,9 +40,15 @@ def do_variable_tolerance_experiment(
     experiment_name: str, size: int, matrix_type: str, max_iterations: int, tolerances: list, w_values: list
 ) -> NoReturn:
 
+    print("\nGenerowanie macierzy głównej ...")
+    A = get_matrix(matrix_type, size)
+
+    print("Generowanie / Obliczanie / Wczytywanie wektora wyrazów wolnych ...")
+    b, _ = get_vector("", size, A)
+
     for tolerance in tolerances:
         do_basic_experiment(
-            f"{experiment_name}/{tolerance}", size, matrix_type, max_iterations, float(tolerance), w_values
+            f"{experiment_name}/{tolerance}", size, matrix_type, max_iterations, float(tolerance), w_values, A, b
         )
 
     exp_dir = f"{get_data_dir()}/{experiment_name}"

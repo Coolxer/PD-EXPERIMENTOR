@@ -18,9 +18,9 @@ from .tracking_methods.gauss_seidel import gauss_seidel
 # Import funkcji pomocniczych
 from .help_methods.dir import get_data_dir
 from .help_methods.file import save_data_to_file, save_matrix_to_file, save_chart_to_file
+from .help_methods.matrix import get_matrix
 from .help_methods.vector import get_vector
 from .help_methods.sor_exp import sor_exp
-from .help_methods.matrix import get_matrix
 
 # Import metod rysujących wykresy
 from .charts.iterations_or_times_to_methods import draw_iterations_to_methods, draw_times_to_methods
@@ -39,7 +39,10 @@ from .charts.errors_to_iterations_SOR_only import draw_errors_to_iterations_SOR_
         - tolerance (float) - dokładność przybliżonego rozwiązania
         - w_values (list) - lista wartości parametru 'w' do przetestowania
 
+        - A (np.ndarray) [None] - macierz główna układu (pomocne w grupowych eksperymentach)
+        - b (np.ndarray) [None] - wektor wyrazów wolnych (pomocne w grupowych eksperymentach)
         - x0 (np.ndarray) [None] - początkowy wektor przybliżeń
+
         - calculate_b_vector(bool) [False] - czy wektor wyrazów wolnych b ma zostać obliczony na podstawie Ax (gdzie x = [1, 1, 1, 1]). W przeciwnym wypadku jest on generowany.
 """
 
@@ -51,6 +54,8 @@ def do_basic_experiment(
     max_iterations: int,
     tolerance: float,
     w_values: list,
+    A: np.ndarray = None,
+    b: np.ndarray = None,
     x0: np.ndarray = None,
     calculate_b_vector: bool = True,
 ) -> NoReturn:
@@ -63,15 +68,17 @@ def do_basic_experiment(
     # Uzyskanie katalogu głównego eksperymentpw
     data_dir = get_data_dir()
 
-    # Pobranie macierzy wejściowej układu
-    print("\nGenerowanie macierzy głównej ...")
-    A = get_matrix(matrix_type, experiment_size)
+    if A is None:
+        # Pobranie macierzy wejściowej układu
+        print("\nGenerowanie macierzy głównej ...")
+        A = get_matrix(matrix_type, experiment_size)
 
-    # Ustawienie wektora wyrazów wolnych
-    print("Generowanie / Obliczanie / Wczytywanie wektora wyrazów wolnych ...")
-    b, was_b_loaded = get_vector(
-        f"{data_dir}/b_{experiment_size}.txt", experiment_size, A if calculate_b_vector else None
-    )
+    if b is None:
+        # Ustawienie wektora wyrazów wolnych
+        print("Generowanie / Obliczanie / Wczytywanie wektora wyrazów wolnych ...")
+        b, was_b_loaded = get_vector(
+            f"{data_dir}/b_{experiment_size}.txt", experiment_size, A if calculate_b_vector else None
+        )
 
     # ------------------------------------------------------- Sekcja rozwiązywania ------------------------------------------------------- #
 
