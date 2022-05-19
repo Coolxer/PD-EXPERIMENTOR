@@ -35,7 +35,7 @@ def draw_errors_to_iterations_SOR_only(sor_errors: list, ws: list) -> NoReturn:
     for row in sor_errors:
         iterations = list(range(0, len(row)))
 
-        plt.plot(
+        plt.semilogy(
             iterations,
             row,
             linestyle="solid",

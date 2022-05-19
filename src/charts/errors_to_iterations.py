@@ -37,7 +37,7 @@ def draw_errors_to_iterations(jacobi_errors: list, gauss_seidel_errors: list, so
     for row in data:
         iterations = list(range(0, len(row)))
 
-        plt.plot(
+        plt.semilogy(
             iterations,
             row,
             linestyle="solid",
