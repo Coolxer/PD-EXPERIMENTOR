@@ -35,9 +35,7 @@ def jacobi(
 
     for iteration in range(max_iterations):
 
-        x_old = x.copy()
-
-        x = np.dot(D_inv, b - np.dot(L_plus_U, x_old))
+        x = np.dot(D_inv, b - np.dot(L_plus_U, x))
 
         error = np.linalg.norm(np.dot(A, x) - b) / np.linalg.norm(b)
         errors.append(error)

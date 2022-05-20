@@ -42,9 +42,7 @@ def sor(
 
     for iteration in range(max_iterations):
 
-        x_old = x.copy()
-
-        x = np.dot(D_plus_wL_inv, (wb - np.dot(wU_plus_w_min_1_dot_D, x_old)))
+        x = np.dot(D_plus_wL_inv, (wb - np.dot(wU_plus_w_min_1_dot_D, x)))
 
         error = np.linalg.norm(np.dot(A, x) - b) / np.linalg.norm(b)
         errors.append(error)
