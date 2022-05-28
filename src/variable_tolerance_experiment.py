@@ -8,8 +8,6 @@
 import os
 from typing import NoReturn
 from .help_methods.dir import get_data_dir
-from .help_methods.matrix import get_matrix
-from .help_methods.vector import get_vector
 from .help_methods.file import save_data_to_file, save_chart_to_file
 from .help_methods.table import draw_table
 
@@ -17,10 +15,11 @@ from .basic_experiment import do_basic_experiment
 from .help_methods.group_experiment import do_group_experiment
 
 from .charts.iterations_or_times_to_tolerances import draw_iterations_to_tolerances, draw_times_to_tolerances
-from .charts.iterations_or_times_to_tolerances_SOR_only import (
-    draw_iterations_to_tolerances_SOR_only,
-    draw_times_to_tolerances_SOR_only,
-)
+
+# from .charts.iterations_or_times_to_tolerances_SOR_only import (
+#     draw_iterations_to_tolerances_SOR_only,
+#     draw_times_to_tolerances_SOR_only,
+# )
 from .charts.defines import *
 
 """
@@ -40,15 +39,15 @@ def do_variable_tolerance_experiment(
     experiment_name: str, size: int, matrix_type: str, max_iterations: int, tolerances: list, w_values: list
 ) -> NoReturn:
 
-    print("\nGenerowanie macierzy głównej ...")
-    A = get_matrix(matrix_type, size)
-
-    print("Generowanie / Obliczanie / Wczytywanie wektora wyrazów wolnych ...")
-    b, _ = get_vector("", size, A)
-
     for tolerance in tolerances:
         do_basic_experiment(
-            f"{experiment_name}/{tolerance}", size, matrix_type, max_iterations, float(tolerance), w_values, A, b
+            f"{experiment_name}/{tolerance}",
+            size,
+            matrix_type,
+            max_iterations,
+            float(tolerance),
+            w_values,
+            loadURL=True,
         )
 
     exp_dir = f"{get_data_dir()}/{experiment_name}"
@@ -83,11 +82,11 @@ def do_variable_tolerance_experiment(
     draw_times_to_tolerances(jacobi_times, gauss_seidel_times, sor_times, tolerances)
     save_chart_to_file(f"{exp_dir}/#res#", "times")
 
-    draw_iterations_to_tolerances_SOR_only(sor_iterations_only, tolerances, ws)
-    save_chart_to_file(f"{exp_dir}/#res#", "iterations_SOR_only")
+    # draw_iterations_to_tolerances_SOR_only(sor_iterations_only, tolerances, ws)
+    # save_chart_to_file(f"{exp_dir}/#res#", "iterations_SOR_only")
 
-    draw_times_to_tolerances_SOR_only(sor_times_only, tolerances, ws)
-    save_chart_to_file(f"{exp_dir}/#res#", "times_SOR_only")
+    # draw_times_to_tolerances_SOR_only(sor_times_only, tolerances, ws)
+    # save_chart_to_file(f"{exp_dir}/#res#", "times_SOR_only")
 
     # Tworzenie tabel
     draw_table(
@@ -104,6 +103,6 @@ def do_variable_tolerance_experiment(
         [jacobi_times, gauss_seidel_times, sor_times],
     )
 
-    draw_table(f"{exp_dir}/#res#/tab/iterations_SOR_only", ws, tolerances, sor_iterations_only)
+    # draw_table(f"{exp_dir}/#res#/tab/iterations_SOR_only", ws, tolerances, sor_iterations_only)
 
-    draw_table(f"{exp_dir}/#res#/tab/times_SOR_only", ws, tolerances, sor_times_only)
+    # draw_table(f"{exp_dir}/#res#/tab/times_SOR_only", ws, tolerances, sor_times_only)

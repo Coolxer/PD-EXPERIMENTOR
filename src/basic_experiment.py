@@ -26,7 +26,8 @@ from .help_methods.sor_exp import sor_exp
 from .charts.iterations_or_times_to_methods import draw_iterations_to_methods, draw_times_to_methods
 from .charts.iterations_or_times_to_SOR_only import draw_iterations_to_SOR_only, draw_times_to_SOR_only
 from .charts.errors_to_iterations import draw_errors_to_iterations
-from .charts.errors_to_iterations_SOR_only import draw_errors_to_iterations_SOR_only
+
+# from .charts.errors_to_iterations_SOR_only import draw_errors_to_iterations_SOR_only
 
 
 """
@@ -38,12 +39,9 @@ from .charts.errors_to_iterations_SOR_only import draw_errors_to_iterations_SOR_
         - max_iterations (int) - maksymalna liczba iteracji
         - tolerance (float) - dokładność przybliżonego rozwiązania
         - w_values (list) - lista wartości parametru 'w' do przetestowania
-
-        - A (np.ndarray) [None] - macierz główna układu (pomocne w grupowych eksperymentach)
-        - b (np.ndarray) [None] - wektor wyrazów wolnych (pomocne w grupowych eksperymentach)
         - x0 (np.ndarray) [None] - początkowy wektor przybliżeń
 
-        - calculate_b_vector(bool) [False] - czy wektor wyrazów wolnych b ma zostać obliczony na podstawie Ax (gdzie x = [1, 1, 1, 1]). W przeciwnym wypadku jest on generowany.
+        - loadURL (bool) [False] - czy macierz i wektor mają zostać zaczerpnięte z plików?
 """
 
 # Metoda służąca do prowadzenia klasyczynych bazowych eksperymentów
@@ -54,10 +52,9 @@ def do_basic_experiment(
     max_iterations: int,
     tolerance: float,
     w_values: list,
-    A: np.ndarray = None,
-    b: np.ndarray = None,
     x0: np.ndarray = None,
-    calculate_b_vector: bool = True,
+    loadURL: bool = False,
+    sparse_density: float = 0.05,
 ) -> NoReturn:
 
     print("\n#############################################################")
@@ -68,17 +65,13 @@ def do_basic_experiment(
     # Uzyskanie katalogu głównego eksperymentpw
     data_dir = get_data_dir()
 
-    if A is None:
-        # Pobranie macierzy wejściowej układu
-        print("\nGenerowanie macierzy głównej ...")
-        A = get_matrix(matrix_type, experiment_size)
+    # Pobranie macierzy wejściowej układu
+    print("\nGenerowanie macierzy głównej ...")
+    A = get_matrix(matrix_type, experiment_size, loadURL, sparse_density)
 
-    if b is None:
-        # Ustawienie wektora wyrazów wolnych
-        print("Generowanie / Obliczanie / Wczytywanie wektora wyrazów wolnych ...")
-        b, was_b_loaded = get_vector(
-            f"{data_dir}/b_{experiment_size}.txt", experiment_size, A if calculate_b_vector else None
-        )
+    # Ustawienie wektora wyrazów wolnych
+    print("Generowanie / Obliczanie / Wczytywanie wektora wyrazów wolnych ...")
+    b = get_vector(experiment_size, A if not loadURL else None)
 
     # ------------------------------------------------------- Sekcja rozwiązywania ------------------------------------------------------- #
 
@@ -223,17 +216,13 @@ def do_basic_experiment(
     save_data_to_file(
         config_dir,
         "description",
-        f"nazwa eksperymentu = {experiment_name}\ntyp eksperymentu = podstawowy\nwektor b = {'obliczony' if calculate_b_vector else 'wygenerowany'}\ntyp macierzy =  {matrix_type}\nrozmiar URL = {experiment_size}\nmaksymalna liczba iteracji = {max_iterations}\ndokładność = {tolerance}\nw= {w_values}\nnajlepszy wynik dla 'w' =  {ws[sor_index]}",
+        f"nazwa eksperymentu = {experiment_name}\ntyp eksperymentu = podstawowy\ntyp macierzy =  {matrix_type}\nrozmiar URL = {experiment_size}\nmaksymalna liczba iteracji = {max_iterations}\ndokładność = {tolerance}\nw= {w_values}\nnajlepszy wynik dla 'w' =  {ws[sor_index]}",
     )
 
     # Rezygnacja z zapisu macierzy 'A' i wektora wyrazów wolnych 'b'
 
     # print("Zapisywanie macierzy głównej ...")
     # save_matrix_to_file(config_dir, "A", A)
-
-    # Sprawdzenie czy wektor b został wczytany czy wygenerowany
-    # Jeśli wektor został wygenerowany to należy go zapisać do pliku
-    # if not was_b_loaded:
 
     #    print("Zapisywanie wektora wyrazów wolnych ...")
     #    save_matrix_to_file(f"{data_dir}", f"b_{size}", b)
@@ -291,9 +280,9 @@ def do_basic_experiment(
     draw_errors_to_iterations(jacobi_errors, gauss_seidel_errors, sor_errors[sor_index])
     save_chart_to_file(results_dir_img, "errors")
 
-    print("Rysowanie wykresu błędu agregowanego tylko dla metody SOR...")
-    draw_errors_to_iterations_SOR_only(sor_errors, ws)
-    save_chart_to_file(results_dir_img, "sor_errors")
+    # print("Rysowanie wykresu błędu agregowanego tylko dla metody SOR...")
+    # draw_errors_to_iterations_SOR_only(sor_errors, ws)
+    # save_chart_to_file(results_dir_img, "sor_errors")
 
     print(f"\nEksperyment {experiment_name} zakończony sukcesem!")
     print("#############################################################")

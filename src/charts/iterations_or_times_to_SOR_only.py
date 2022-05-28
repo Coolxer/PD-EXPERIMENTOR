@@ -21,7 +21,6 @@ def draw_iterations_or_times_to_SOR_only(indicator: str, sor_data: list, ws: lis
         weight="bold",
     )
     plt.xlabel(X_LABEL_W_PARAMETER, weight="bold")
-    plt.xticks(ws)
 
     maximum = max(sor_data)
     step = ceil(maximum / NUMBER_OF_TICKS) if indicator == Y_ITERATIONS_INDICATOR else (maximum / NUMBER_OF_TICKS)
@@ -31,26 +30,12 @@ def draw_iterations_or_times_to_SOR_only(indicator: str, sor_data: list, ws: lis
     if indicator == Y_TIMES_INDICATOR:
         plt.gca().yaxis.set_major_formatter(StrMethodFormatter("{x:,.4f}"))
 
-    bars = plt.bar(ws, sor_data, width=BAR_WIDTH_IN_MULTIPLE_SERIES)
-
-    i = 0
-    for bar in bars:
-        bar.set_color(COLORS_ITERATIONS_W[i] if indicator == Y_ITERATIONS_INDICATOR else COLORS_TIMES_W[i])
-
-        if SHOW_SIGNATURES:
-            plt.annotate(
-                int(bar.get_height())
-                if indicator == Y_ITERATIONS_INDICATOR
-                else format(round(bar.get_height(), TIME_PRECISION), f".{TIME_PRECISION}f"),
-                (bar.get_x() + bar.get_width() / 2, bar.get_height()),
-                ha="center",
-                va="center",
-                size=10,
-                xytext=(0, 4),
-                textcoords="offset points",
-            )
-
-        i = i + 1
+    plt.plot(
+        ws,
+        sor_data,
+        linestyle="solid",
+        color=COLORS_ITERATIONS_METHODS[1] if indicator == Y_ITERATIONS_INDICATOR else COLORS_TIMES_METHODS[1],
+    )
 
     if SHOW_GRID:
         plt.grid()

@@ -12,6 +12,7 @@
 X_LABEL_METHOD = "metoda"
 X_LABEL_SIZE = "rozmiar URL"
 X_LABEL_TYPE = "typ macierzy"
+X_LABEL_DENSITY = "poziom wypełnienia macierzy rzadkiej"
 X_LABEL_ITERATIONS = "numer iteracji"
 X_LABEL_TOLERANCE = "zadana dokładność"
 X_LABEL_W_PARAMETER = "ω"

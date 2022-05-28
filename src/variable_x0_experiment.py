@@ -8,8 +8,6 @@
 import os
 from typing import NoReturn
 from .help_methods.dir import get_data_dir
-from .help_methods.matrix import get_matrix
-from .help_methods.vector import get_vector
 from .help_methods.file import save_data_to_file, save_chart_to_file
 from .help_methods.table import draw_table
 
@@ -17,10 +15,11 @@ from .basic_experiment import do_basic_experiment
 from .help_methods.group_experiment import do_group_experiment
 
 from .charts.iterations_or_times_to_x0s import draw_iterations_to_x0s, draw_times_to_x0s
-from .charts.iterations_or_times_to_x0s_SOR_only import (
-    draw_iterations_to_x0s_SOR_only,
-    draw_times_to_x0s_SOR_only,
-)
+
+# from .charts.iterations_or_times_to_x0s_SOR_only import (
+#     draw_iterations_to_x0s_SOR_only,
+#     draw_times_to_x0s_SOR_only,
+# )
 from .charts.defines import *
 
 """
@@ -47,17 +46,11 @@ def do_variable_x0_experiment(
     x0s: list,
 ) -> NoReturn:
 
-    print("\nGenerowanie macierzy głównej ...")
-    A = get_matrix(matrix_type, size)
-
-    print("Generowanie / Obliczanie / Wczytywanie wektora wyrazów wolnych ...")
-    b, _ = get_vector("", size, A)
-
     x0_signatures = []
 
     for x0 in x0s:
         do_basic_experiment(
-            f"{experiment_name}/{x0[0]}", size, matrix_type, max_iterations, tolerance, w_values, A, b, x0
+            f"{experiment_name}/{x0[0]}", size, matrix_type, max_iterations, tolerance, w_values, x0, loadURL=True
         )
         x0_signatures.append(x0[0])
 
@@ -76,7 +69,7 @@ def do_variable_x0_experiment(
         gauss_seidel_times,
         sor_times,
         sor_times_only,
-    ) = do_group_experiment(exp_dir, "tolerance")
+    ) = do_group_experiment(exp_dir, "type")
 
     # Utworzenie katalogów do przechowywania figur, wykresów i tabel
     os.mkdir(f"{exp_dir}/#res#")
@@ -95,11 +88,11 @@ def do_variable_x0_experiment(
     draw_times_to_x0s(jacobi_times, gauss_seidel_times, sor_times, x0_signatures)
     save_chart_to_file(f"{exp_dir}/#res#", "times")
 
-    draw_iterations_to_x0s_SOR_only(sor_iterations_only, x0_signatures, ws)
-    save_chart_to_file(f"{exp_dir}/#res#", "terations_SOR_only")
+    # draw_iterations_to_x0s_SOR_only(sor_iterations_only, x0_signatures, ws)
+    # save_chart_to_file(f"{exp_dir}/#res#", "terations_SOR_only")
 
-    draw_times_to_x0s_SOR_only(sor_times_only, x0_signatures, ws)
-    save_chart_to_file(f"{exp_dir}/#res#", "times_SOR_only")
+    # draw_times_to_x0s_SOR_only(sor_times_only, x0_signatures, ws)
+    # save_chart_to_file(f"{exp_dir}/#res#", "times_SOR_only")
 
     # Tworzenie tabel
     draw_table(
@@ -116,6 +109,6 @@ def do_variable_x0_experiment(
         [jacobi_times, gauss_seidel_times, sor_times],
     )
 
-    draw_table(f"{exp_dir}/#res#/tab/iterations_SOR_only", ws, x0_signatures, sor_iterations_only)
+    # draw_table(f"{exp_dir}/#res#/tab/iterations_SOR_only", ws, x0_signatures, sor_iterations_only)
 
-    draw_table(f"{exp_dir}/#res#/tab/times_SOR_only", ws, x0_signatures, sor_times_only)
+    # draw_table(f"{exp_dir}/#res#/tab/times_SOR_only", ws, x0_signatures, sor_times_only)

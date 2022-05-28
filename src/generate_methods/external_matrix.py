@@ -7,7 +7,9 @@
 
 # Import zależności
 import numpy as np
+import scipy.sparse
 from scipy.io import loadmat
+import h5py
 from .diagonal_amplifier import strengthen_diagonal
 
 from ..help_methods.file import choose_matlab_file
@@ -26,29 +28,25 @@ def external_matrix() -> np.ndarray:
 
     # Załadowanie wybranego pliku matlab
     data = loadmat(file)
+    # data = h5py.File(file, "r")
 
     # Deklaracja zmiennej do przechowania macierzy
     matrix = None
 
     i = 0
 
-    # Pętla iterująca po obiekcie wczytanym z pliku aż do napotkania interesującego fragmentu
+    # mat 7.3
+    # matrix = list(data["Problem"]["A"]["data"])
+
+    # # Pętla iterująca po obiekcie wczytanym z pliku aż do napotkania interesującego fragmentu
     for item in data["Problem"].item(0):
 
-        if i == 2:
-            matrix = item.toarray()
-            break
-
-        i = i + 1
-
-        """"
         # Jeśli znaleziono stosowny fragment obiektu to następuje pobranie macierzy
-        if str(type(item)) == "<class 'scipy.sparse.csc.csc_matrix'>" or str(type(item)) == "<class 'numpy.float64'>":
+        if isinstance(item, scipy.sparse.csc_matrix) or isinstance(item, scipy.sparse.csr_matrix):
 
             # Pobranie macierzy i przerwanie dalszych przeszukiwań obiektu
             matrix = item.toarray()
             break
-        """
 
     # Wzmocnienie głównej przekątnej macierzy
     matrix = strengthen_diagonal(matrix)

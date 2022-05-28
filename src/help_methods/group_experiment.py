@@ -67,6 +67,8 @@ def do_group_experiment(experiment_dir, experiment_type) -> Tuple[list, list, li
         exp_dir_group = sorted(exp_dir_group)
     elif experiment_type == "type":
         exp_dir_group = sorted(list(map(lambda x: int(x), exp_dir_group)))
+    elif experiment_type == "density":
+        exp_dir_group = sorted(list(map(lambda x: float(x), exp_dir_group)))
 
     w_prepared = False
 

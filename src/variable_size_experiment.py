@@ -19,10 +19,11 @@ from .charts.iterations_or_times_to_sizes import (
     draw_iterations_to_sizes,
     draw_times_to_sizes,
 )
-from .charts.iterations_or_times_to_sizes_SOR_only import (
-    draw_iterations_to_sizes_SOR_only,
-    draw_times_to_sizes_SOR_only,
-)
+
+# from .charts.iterations_or_times_to_sizes_SOR_only import (
+#     draw_iterations_to_sizes_SOR_only,
+#     draw_times_to_sizes_SOR_only,
+# )
 from .charts.defines import *
 
 
@@ -49,7 +50,15 @@ def do_variable_size_experiment(
 ) -> NoReturn:
 
     for size in sizes:
-        do_basic_experiment(f"{experiment_name}/{size}", size, matrix_type, max_iterations, tolerance, w_values)
+        do_basic_experiment(
+            f"{experiment_name}/{size}",
+            size,
+            matrix_type,
+            max_iterations,
+            tolerance,
+            w_values,
+            loadURL=False,
+        )
 
     exp_dir = f"{get_data_dir()}/{experiment_name}"
 
@@ -83,11 +92,11 @@ def do_variable_size_experiment(
     draw_times_to_sizes(jacobi_times, gauss_seidel_times, sor_times, sizes)
     save_chart_to_file(f"{exp_dir}/#res#", "times")
 
-    draw_iterations_to_sizes_SOR_only(sor_iterations_only, sizes, ws)
-    save_chart_to_file(f"{exp_dir}/#res#", "iterations_SOR_only")
+    # draw_iterations_to_sizes_SOR_only(sor_iterations_only, sizes, ws)
+    # save_chart_to_file(f"{exp_dir}/#res#", "iterations_SOR_only")
 
-    draw_times_to_sizes_SOR_only(sor_times_only, sizes, ws)
-    save_chart_to_file(f"{exp_dir}/#res#", "times_SOR_only")
+    # draw_times_to_sizes_SOR_only(sor_times_only, sizes, ws)
+    # save_chart_to_file(f"{exp_dir}/#res#", "times_SOR_only")
 
     # Tworzenie tabel
     draw_table(
@@ -104,6 +113,6 @@ def do_variable_size_experiment(
         [jacobi_times, gauss_seidel_times, sor_times],
     )
 
-    draw_table(f"{exp_dir}/#res#/tab/iterations_SOR_only", ws, sizes, sor_iterations_only)
+    # draw_table(f"{exp_dir}/#res#/tab/iterations_SOR_only", ws, sizes, sor_iterations_only)
 
-    draw_table(f"{exp_dir}/#res#/tab/times_SOR_only", ws, sizes, sor_times_only)
+    # draw_table(f"{exp_dir}/#res#/tab/times_SOR_only", ws, sizes, sor_times_only)

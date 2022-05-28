@@ -81,12 +81,12 @@ import experimentor as exp
 
 experiment_name = "my_experiment_001"
 size = 1000
-matrix_type = exp.random
-tolerance = 0.0001
+matrix_type = exp.sparse
 max_iterations = 2000
+tolerance = 0.0001
 w_values = [1.1, 1.3, 1.5]
 
-exp.do_single_experiment(experiment_name, size, matrix_type, tolerance, max_iterations, w_values)
+exp.do_single_experiment(experiment_name, size, matrix_type, max_iterations, tolerance, w_values)
 ```
 
 Efektem wykonania powyższego kodu będzie wyświetlenie następujących informacji w konsoli / terminalu:
